@@ -67,7 +67,8 @@ public class OffsetInstanceEditorPanel extends javax.swing.JPanel {
         jcbx180DegreeRotation.setSelected(false);
         
         if (offset != null) {
-            jtxtBaseName.setText(offset.getOffsetID());
+//            this.s(offset.getOffsetID());
+            jtxtBaseName.setText(offset.getNameBase());
             jspinInstance.setValue(offset.getInstance());
             jcbx180DegreeRotation.setSelected(offset.isRotate180Degrees());
         }

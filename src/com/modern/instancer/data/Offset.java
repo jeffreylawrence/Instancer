@@ -72,7 +72,7 @@ public class Offset implements Comparable {
      * @return the offsetID
      */
     public String getOffsetID() {
-        return String.format("%s%d", nameBase, getInstance());
+        return String.format("%s%d", getNameBase(), getInstance());
     }
 
     /**
@@ -81,7 +81,7 @@ public class Offset implements Comparable {
     public final void setOffsetID(String offsetID) {
         //parse the input offsetID and store the bits...
         if (offsetID.startsWith(G54P1_NAME_BASE)) {
-            nameBase = G54P1_NAME_BASE;
+            setNameBase(G54P1_NAME_BASE);
             setInstance((int) Integer.valueOf(offsetID.substring(G54P1_NAME_BASE.length())));
         }
     }
@@ -120,6 +120,21 @@ public class Offset implements Comparable {
     public void setRotate180Degrees(boolean rotate180Degrees) {
         this.rotate180Degrees = rotate180Degrees;
     }
+    
+    /**
+     * @return the nameBase
+     */
+    public String getNameBase() {
+        return nameBase;
+    }
+
+    /**
+     * @param nameBase the nameBase to set
+     */
+    public void setNameBase(String nameBase) {
+        this.nameBase = nameBase;
+    }
+    
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Comparable Interface Methods">
@@ -180,4 +195,5 @@ public class Offset implements Comparable {
         this.instance = instance;
     }
 //</editor-fold>
+
 }

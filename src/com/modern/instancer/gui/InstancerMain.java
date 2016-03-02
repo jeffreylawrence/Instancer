@@ -5,21 +5,34 @@
  */
 package com.modern.instancer.gui;
 
+import java.awt.Frame;
+import javax.swing.JFrame;
+
+
 /**
  *
  * @author kevinlawrence
  */
 public class InstancerMain extends javax.swing.JFrame {
-
     
     TextEditorPanel left, right;
-    
-    
+
     private void internalInit(){
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
         left = new TextEditorPanel();
         right = new TextEditorPanel();
+        
         jsplitpnlTextEditor.setLeftComponent(left);
         jsplitpnlTextEditor.setRightComponent(right);
+        
+        jsplitpnlTextEditor.setDividerLocation(0.5);
+    }
+    
+    @Override
+    public void setVisible(boolean visible){
+        super.setVisible(visible);
+        jsplitpnlTextEditor.setDividerLocation(0.5);
     }
     
     
@@ -27,15 +40,11 @@ public class InstancerMain extends javax.swing.JFrame {
      * Creates new form InstancerMain
      */
     public InstancerMain() {
-//        URL url = new URL("com/xyz/resources/camera.png");
-//Toolkit kit = Toolkit.getDefaultToolkit();
-//Image img = kit.createImage(url);
-//getFrame().setIconImage(img);
-        
-        setIconImage(Library.loadImageFromResource("com/modern/instancer/gui/instancer_icon_250x250.jpg"));
-        
         initComponents();
         internalInit();
+        
+        setIconImage(Library.loadImageFromResource("com/modern/instancer/gui/instancer_icon_250x250.jpg"));
+//        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     }
 
     /**

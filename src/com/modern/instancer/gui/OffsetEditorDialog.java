@@ -7,18 +7,17 @@ package com.modern.instancer.gui;
 
 import com.modern.instancer.data.Offset;
 import com.modern.instancer.data.OffsetListProviderIntf;
-import java.awt.event.WindowEvent;
 
 /**
  *
  * @author kevinlawrence
  */
-public final class OffsetInstanceEditorFrame extends javax.swing.JFrame {
-    
-//<editor-fold defaultstate="collapsed" desc="Properties">
+public final class OffsetEditorDialog extends javax.swing.JDialog {
 
+//<editor-fold defaultstate="collapsed" desc="Properties">
     private Offset offset;
     private OffsetListProviderIntf offsetListProvider;
+    private final OffsetUpdateHandlerIntf updateHandler;
 
     /**
      * @return the offset
@@ -88,16 +87,21 @@ public final class OffsetInstanceEditorFrame extends javax.swing.JFrame {
         }
     }
 //</editor-fold>
-    
-    /**
-     * Creates new form OffsetInstanceEditorFrame
-     */
-    public OffsetInstanceEditorFrame(Offset offset) {
-        initComponents();
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        this.offset = offset;
+    /**
+     * Creates new form OffsetEditorDialog
+     * @param parent
+     * @param modal
+     * @param offset
+     * @param updateHandler
+     */
+    public OffsetEditorDialog(java.awt.Frame parent, boolean modal, Offset offset, OffsetUpdateHandlerIntf updateHandler) {
+        super(parent, modal);
+        initComponents();
         
+        this.offset = offset;
+        this.updateHandler = updateHandler;
+
         updateOffsetListNavigation();
         updateOffsetDisplay();
     }
@@ -113,8 +117,11 @@ public final class OffsetInstanceEditorFrame extends javax.swing.JFrame {
 
         jpnlLogo = new javax.swing.JPanel();
         jlblModernLogo = new javax.swing.JLabel();
-        jpnlOffsetEditor = new javax.swing.JPanel();
-        jpnlOriginalOffset = new javax.swing.JPanel();
+        jpnlControls = new javax.swing.JPanel();
+        jbtnAccept = new javax.swing.JButton();
+        jbtnCancel = new javax.swing.JButton();
+        jpnlOffset = new javax.swing.JPanel();
+        jpnlParentOffset = new javax.swing.JPanel();
         lblOriginalOffset = new javax.swing.JLabel();
         jcbxOriginalOffset = new javax.swing.JComboBox<>();
         jbtnPreviousOriginalOffset = new javax.swing.JButton();
@@ -124,12 +131,8 @@ public final class OffsetInstanceEditorFrame extends javax.swing.JFrame {
         jtxtBaseName = new javax.swing.JTextField();
         jcbx180DegreeRotation = new javax.swing.JCheckBox();
         jspinInstance = new javax.swing.JSpinner();
-        jpnlControls = new javax.swing.JPanel();
-        jbtnAccept = new javax.swing.JButton();
-        jbtnCancel = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Offset Editor");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jpnlLogo.setBackground(new java.awt.Color(0, 153, 255));
 
@@ -140,83 +143,13 @@ public final class OffsetInstanceEditorFrame extends javax.swing.JFrame {
         jpnlLogoLayout.setHorizontalGroup(
             jpnlLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlLogoLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jlblModernLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jlblModernLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(94, 94, 94))
         );
         jpnlLogoLayout.setVerticalGroup(
             jpnlLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpnlLogoLayout.createSequentialGroup()
-                .addComponent(jlblModernLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        lblOriginalOffset.setText("Parent (Main) Offset ID");
-
-        jcbxOriginalOffset.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jbtnPreviousOriginalOffset.setText("<");
-        jbtnPreviousOriginalOffset.setToolTipText("Previous Original Offset");
-
-        jbtnNextOriginalOffset.setText(">");
-        jbtnNextOriginalOffset.setToolTipText("Next Original Offset");
-
-        javax.swing.GroupLayout jpnlOriginalOffsetLayout = new javax.swing.GroupLayout(jpnlOriginalOffset);
-        jpnlOriginalOffset.setLayout(jpnlOriginalOffsetLayout);
-        jpnlOriginalOffsetLayout.setHorizontalGroup(
-            jpnlOriginalOffsetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpnlOriginalOffsetLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblOriginalOffset, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jcbxOriginalOffset, 0, 362, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbtnPreviousOriginalOffset, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbtnNextOriginalOffset, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jpnlOriginalOffsetLayout.setVerticalGroup(
-            jpnlOriginalOffsetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpnlOriginalOffsetLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jpnlOriginalOffsetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblOriginalOffset)
-                    .addComponent(jcbxOriginalOffset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbtnNextOriginalOffset)
-                    .addComponent(jbtnPreviousOriginalOffset))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jpnlOffsetInstance.setForeground(new java.awt.Color(255, 255, 255));
-
-        jlblOffsetInstanceID.setText("Base / Instance ID");
-
-        jcbx180DegreeRotation.setText("180 Rotation?");
-
-        jspinInstance.setModel(new javax.swing.SpinnerNumberModel(1, 1, 300, 1));
-
-        javax.swing.GroupLayout jpnlOffsetInstanceLayout = new javax.swing.GroupLayout(jpnlOffsetInstance);
-        jpnlOffsetInstance.setLayout(jpnlOffsetInstanceLayout);
-        jpnlOffsetInstanceLayout.setHorizontalGroup(
-            jpnlOffsetInstanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpnlOffsetInstanceLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jlblOffsetInstanceID)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
-                .addComponent(jtxtBaseName, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jspinInstance, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jcbx180DegreeRotation, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jpnlOffsetInstanceLayout.setVerticalGroup(
-            jpnlOffsetInstanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpnlOffsetInstanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jlblOffsetInstanceID)
-                .addComponent(jtxtBaseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jcbx180DegreeRotation)
-                .addComponent(jspinInstance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jlblModernLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jbtnAccept.setText("Accept");
@@ -239,50 +172,127 @@ public final class OffsetInstanceEditorFrame extends javax.swing.JFrame {
             jpnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlControlsLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jbtnCancel)
+                .addComponent(jbtnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbtnAccept))
+                .addComponent(jbtnAccept, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jpnlControlsLayout.setVerticalGroup(
             jpnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlControlsLayout.createSequentialGroup()
-                .addGap(0, 12, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jpnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtnAccept)
                     .addComponent(jbtnCancel)))
         );
 
-        javax.swing.GroupLayout jpnlOffsetEditorLayout = new javax.swing.GroupLayout(jpnlOffsetEditor);
-        jpnlOffsetEditor.setLayout(jpnlOffsetEditorLayout);
-        jpnlOffsetEditorLayout.setHorizontalGroup(
-            jpnlOffsetEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpnlOriginalOffset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jpnlOffsetInstance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jpnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        lblOriginalOffset.setText("Parent (Main) Offset ID");
+
+        jcbxOriginalOffset.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jbtnPreviousOriginalOffset.setText("<");
+        jbtnPreviousOriginalOffset.setToolTipText("Previous Original Offset");
+
+        jbtnNextOriginalOffset.setText(">");
+        jbtnNextOriginalOffset.setToolTipText("Next Original Offset");
+
+        javax.swing.GroupLayout jpnlParentOffsetLayout = new javax.swing.GroupLayout(jpnlParentOffset);
+        jpnlParentOffset.setLayout(jpnlParentOffsetLayout);
+        jpnlParentOffsetLayout.setHorizontalGroup(
+            jpnlParentOffsetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnlParentOffsetLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblOriginalOffset, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jcbxOriginalOffset, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jbtnPreviousOriginalOffset, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbtnNextOriginalOffset, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(71, Short.MAX_VALUE))
         );
-        jpnlOffsetEditorLayout.setVerticalGroup(
-            jpnlOffsetEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpnlOffsetEditorLayout.createSequentialGroup()
-                .addComponent(jpnlOriginalOffset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jpnlParentOffsetLayout.setVerticalGroup(
+            jpnlParentOffsetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnlParentOffsetLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jpnlParentOffsetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblOriginalOffset)
+                    .addComponent(jcbxOriginalOffset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnPreviousOriginalOffset)
+                    .addComponent(jbtnNextOriginalOffset)))
+        );
+
+        jpnlOffsetInstance.setForeground(new java.awt.Color(255, 255, 255));
+
+        jlblOffsetInstanceID.setText("Base / Instance ID");
+
+        jcbx180DegreeRotation.setText("180 Rotation?");
+
+        jspinInstance.setModel(new javax.swing.SpinnerNumberModel(1, 1, 300, 1));
+
+        javax.swing.GroupLayout jpnlOffsetInstanceLayout = new javax.swing.GroupLayout(jpnlOffsetInstance);
+        jpnlOffsetInstance.setLayout(jpnlOffsetInstanceLayout);
+        jpnlOffsetInstanceLayout.setHorizontalGroup(
+            jpnlOffsetInstanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnlOffsetInstanceLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlblOffsetInstanceID)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jtxtBaseName, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jspinInstance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jcbx180DegreeRotation)
+                .addGap(124, 124, 124))
+        );
+        jpnlOffsetInstanceLayout.setVerticalGroup(
+            jpnlOffsetInstanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnlOffsetInstanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jlblOffsetInstanceID)
+                .addComponent(jtxtBaseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jcbx180DegreeRotation)
+                .addComponent(jspinInstance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout jpnlOffsetLayout = new javax.swing.GroupLayout(jpnlOffset);
+        jpnlOffset.setLayout(jpnlOffsetLayout);
+        jpnlOffsetLayout.setHorizontalGroup(
+            jpnlOffsetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jpnlParentOffset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jpnlOffsetInstance, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+        jpnlOffsetLayout.setVerticalGroup(
+            jpnlOffsetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnlOffsetLayout.createSequentialGroup()
+                .addComponent(jpnlParentOffset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jpnlOffsetInstance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jpnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpnlLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jpnlOffsetEditor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jpnlOffset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jpnlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 490, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jpnlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jpnlOffsetEditor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(113, Short.MAX_VALUE)
+                .addComponent(jpnlOffset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jpnlControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jpnlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 131, Short.MAX_VALUE)))
         );
 
         pack();
@@ -290,13 +300,16 @@ public final class OffsetInstanceEditorFrame extends javax.swing.JFrame {
 
     private void jbtnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAcceptActionPerformed
         updateOffsetData();
-        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        if (updateHandler != null) {
+            updateHandler.onUpdate(offset);
+        }
+        setVisible(false);
+        dispose();
     }//GEN-LAST:event_jbtnAcceptActionPerformed
 
     private void jbtnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelActionPerformed
         setVisible(false);
         dispose();
-//        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_jbtnCancelActionPerformed
 
     /**
@@ -316,20 +329,27 @@ public final class OffsetInstanceEditorFrame extends javax.swing.JFrame {
 //                }
 //            }
 //        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(OffsetInstanceEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(OffsetEditorDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(OffsetInstanceEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(OffsetEditorDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(OffsetInstanceEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(OffsetEditorDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(OffsetInstanceEditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(OffsetEditorDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
 //        //</editor-fold>
 //
-//        /* Create and display the form */
+//        /* Create and display the dialog */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new OffsetInstanceEditorFrame().setVisible(true);
+//                OffsetEditorDialog dialog = new OffsetEditorDialog(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
 //            }
 //        });
 //    }
@@ -345,9 +365,9 @@ public final class OffsetInstanceEditorFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jlblOffsetInstanceID;
     private javax.swing.JPanel jpnlControls;
     private javax.swing.JPanel jpnlLogo;
-    private javax.swing.JPanel jpnlOffsetEditor;
+    private javax.swing.JPanel jpnlOffset;
     private javax.swing.JPanel jpnlOffsetInstance;
-    private javax.swing.JPanel jpnlOriginalOffset;
+    private javax.swing.JPanel jpnlParentOffset;
     private javax.swing.JSpinner jspinInstance;
     private javax.swing.JTextField jtxtBaseName;
     private javax.swing.JLabel lblOriginalOffset;
