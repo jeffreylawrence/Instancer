@@ -7,12 +7,15 @@ package com.modern.instancer.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
@@ -38,6 +41,7 @@ public class TextEditorPanel extends javax.swing.JPanel {
     private final String CUT_PUM_ACTION = "CUT";
     private final String PASTE_PUM_ACTION = "PASTE";
 //    private final String CLEAR_PUM_ACTION = "CLEAR";
+    private final String PRINT_PUM_ACTION = "PRINT";
 
     private final String OPEN_FILE_PUM_LABEL = "Open file...";
     private final String CLOSE_FILE_PUM_LABEL = "Close file";
@@ -50,6 +54,7 @@ public class TextEditorPanel extends javax.swing.JPanel {
     private final String CUT_PUM_LABEL = "Cut";
     private final String PASTE_PUM_LABEL = "Paste";
 //    private final String CLEAR_PUM_LABEL = "Clear all text";
+    private final String PRINT_PUM_LABEL = "Print...";
 
     private EditorMenuItemListener menuItemListener;
 //	private JPopupMenu pumTree;
@@ -103,6 +108,13 @@ public class TextEditorPanel extends javax.swing.JPanel {
         mi.setActionCommand(PASTE_PUM_ACTION);
         jpumTextEditor.add(mi);
 
+        jpumTextEditor.add(new JSeparator());
+
+        mi = new JMenuItem(PRINT_PUM_LABEL);
+        mi.addActionListener(menuItemListener);
+        mi.setActionCommand(PRINT_PUM_ACTION);
+        jpumTextEditor.add(mi);
+
         jtxtTextEditor.setComponentPopupMenu(jpumTextEditor);
     }
 
@@ -144,6 +156,10 @@ public class TextEditorPanel extends javax.swing.JPanel {
                     paste();
                     break;
 
+                case PRINT_PUM_ACTION:
+                    print();
+                    break;
+
                 default:
                     notYetImplemented(e.getActionCommand());
                     break;
@@ -173,6 +189,8 @@ public class TextEditorPanel extends javax.swing.JPanel {
                     while ((line = br.readLine()) != null) {
                         jtxtTextEditor.append(line + "\n");
                     }
+                    
+                    
                 } catch (IOException e) {
 //                e.printStackTrace();
                 }
@@ -209,6 +227,15 @@ public class TextEditorPanel extends javax.swing.JPanel {
 
     public void paste() {
         notYetImplemented(PASTE_PUM_LABEL);
+    }
+
+    public void print() {
+        try {
+            jtxtTextEditor.print();
+        } catch (PrinterException ex) {
+            Logger.getLogger(TextEditorPanel.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Print Error");
+        }
     }
 //    public void find(){}
 

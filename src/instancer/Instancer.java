@@ -39,6 +39,7 @@ public class Instancer { //implements { OffsetUpdateHandlerIntf {
 //        OffsetEditorDialog editor = new OffsetEditorDialog(null, true, offset, this);
         OffsetEditorDialog editor = new OffsetEditorDialog(null, true, offset, (Offset anOffset) -> {System.out.println("Offset = " + offset.getOffsetID());});
         editor.setVisible(true);
+        //editor.
         
     }
 
