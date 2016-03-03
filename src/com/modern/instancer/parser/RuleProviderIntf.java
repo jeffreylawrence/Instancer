@@ -80,6 +80,7 @@ Module GcodeModule
         Dim HOffPerm(0) As String 'this contains the height offsets for each tool
         Dim DOffPerm(0) As String 'this contains the diameter offsets for each tool
         Dim OffsetLine(0) As Integer 'this is the line number where it found an offset, used to get the angle associated to this offset
+
         Dim AnglePerm(0) As String 'this contains the angles for each offset, for each tool
         Dim AngleCounter As Integer
         Dim AngleLine As String 'a line with the angle for associated offset
@@ -87,6 +88,7 @@ Module GcodeModule
         Dim AngleMatched As Boolean = False
         Dim AnglePosition As Integer 'position of the angle in the line
         Dim PreviousAngle As String = Nothing 'Contains the angle from the previous offset, for when angles are the same as previous one
+        
         Dim RPMperm(0) As String 'this contains the RPM for each tool
         Dim FeedPerm(0) As String 'this contains the feeds for each tool
         Dim LowZPerm(0) As Double 'this contains the lowest Z level for each tool

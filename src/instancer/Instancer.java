@@ -36,11 +36,8 @@ public class Instancer { //implements { OffsetUpdateHandlerIntf {
 //        JOptionPane.showInputDialog(instancerMain, offset, "", 0);
 //        JOptionPane.show
 
-//        OffsetEditorDialog editor = new OffsetEditorDialog(null, true, offset, this);
-        OffsetEditorDialog editor = new OffsetEditorDialog(null, true, offset, (Offset anOffset) -> {System.out.println("Offset = " + offset.getOffsetID());});
-        editor.setVisible(true);
-        //editor.
-        
+//        OffsetEditorDialog editor = new OffsetEditorDialog(null, true, offset, (Offset anOffset) -> {System.out.println("Offset = " + offset.getOffsetID());});
+//        editor.setVisible(true);
     }
 
 //<editor-fold defaultstate="collapsed" desc="OffsetUpdateHandlerIntf">
