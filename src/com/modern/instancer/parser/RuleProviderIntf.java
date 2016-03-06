@@ -92,10 +92,12 @@ Module GcodeModule
         Dim RPMperm(0) As String 'this contains the RPM for each tool
         Dim FeedPerm(0) As String 'this contains the feeds for each tool
         Dim LowZPerm(0) As Double 'this contains the lowest Z level for each tool
+        
         Dim OffsetPattern As String 'this contains all the offset types in 1 single variable
         Dim OffsetTypeCount As Integer 'contains how many types of offsets are in the .ini file
         Dim OffsetCounter As Integer 'just a counter for a loop
         Dim OffsetOneLine As String
+
         Dim IsCommentLine As Boolean 'to check if we are dealing with a comment line
         Dim FilePathNoNewLine As String 'here i use a variable to strip any carriage return from the original path
         Dim DisplayExtractor As String = Nothing
@@ -165,6 +167,7 @@ Module GcodeModule
                 If IsNumeric(Mid(NewTool, CurrentPos + 1, 1)) And Not IsNumeric(Mid(NewTool, CurrentPos + 1, 4)) And CurrentPos < 3 Then 'this SEEMS to be a valid N sequence number, but some Goto command could refer to N100 for example...
                     IsCommentLine = IdCommentLine(NewTool)
                     If IsCommentLine = True Then 'Ok, now there is a N# line, with a comment on that line, this should be fairly certain that it is a valid N sequence line
+                        
                         NewToolStartPos(StartIndex) = LineIndex 'assigns the current line number to the new tool start index - this line is the line where the new tool starts
                         If StartIndex > 0 Then 'not the 1st tool
                             If StartIndex + 1 = NewToolEndPos.Length Then 'found the last tool
@@ -508,7 +511,7 @@ Module GcodeModule
         End If
 
     End Sub
-
+//
     Private Function FindM6(GcodeResult As String) As Integer
 
         Dim CurrentPos As Integer 'position of found M6 in the line

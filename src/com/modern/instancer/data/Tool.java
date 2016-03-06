@@ -26,7 +26,7 @@ public class Tool {
     String rpm;                         //  RPMperm         'this contains the RPM for each tool 
     String feed;                        //  FeedPerm        'this contains the feeds for each tool 
     String lowZ;                        //  LowZPerm        'this contains the lowest Z level for each tool 
-    String oneSection;                  //  OffsetLine      ' 
+    String oneSection; //TODO - refactor toString() //  OneSection      'contains 1 tool with all its related info, in each element of the array - Used for printing 
     
 //        Array.Resize(NewToolStartPos, M6Result) 'make the array the same size as the number of M6 found, so that it looks for new tools the right number of times.
 //        Array.Resize(NewToolEndPos, M6Result) 'make the array the same size as the number of M6 found, so that it looks for new tools the right number of times.
@@ -44,4 +44,11 @@ public class Tool {
 //        Array.Resize(FeedPerm, M6Result)
 //        Array.Resize(LowZPerm, M6Result)
 //        Array.Resize(OneSection, M6Result)
+    
+    //rules for finding a new tool
+    // Line contains an N in first 3 positions
+    // Line contains at least one numeric character after it, and not more than 3 
+    // Line contains a comment, Indicated by a "("
+    // 
+    
 }
