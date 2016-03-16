@@ -5,7 +5,6 @@
  */
 package com.modern.instancer.parser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
