@@ -91,7 +91,7 @@ public class TextParser {
 //            LineIndex = LineIndex + 1
 //        Next NewTool
 //</editor-fold>
-        ArrayList<Integer> newToolLineIndexList = getNewToolLineIndexes(gCodeLines);
+        ArrayList<Integer> newToolLineIndexList = getNewToolLineStartIndexes(gCodeLines);
 
         return parsedData;
     }
@@ -133,7 +133,7 @@ public class TextParser {
     
 //<editor-fold defaultstate="collapsed" desc="getNewToolLineIndexes()">
     
-    private static ArrayList<Integer> getNewToolLineIndexes(ArrayList<String> lines) {
+    private static ArrayList<Integer> getNewToolLineStartIndexes(ArrayList<String> lines) {
         ArrayList<Integer> lineIndexes = new ArrayList<>();
         
         for (int i = 0; i < lines.size(); i++) {
@@ -142,20 +142,30 @@ public class TextParser {
             }
         }
         
-//        There appears to be special processing for the last tool in the tool list
+        //TODO - consider if this should be wrapped up into a "Tool" class
+        
+//<editor-fold defaultstate="collapsed" desc="End of 'tool section' logic">
+//      There appears to be special processing for the "end" of each tool section
+//      which calculates the last line for the section; the logic is that
+//      the last line of a tool section is the line before the line that starts
+//      next section (obviously!) except for the last tool, which use the end of
+//      file as the end point (obviously!)
+//      Ignore this for now, and respect the processing at the other end that
+//      uses the structure
 /*
-                        NewToolStartPos(StartIndex) = LineIndex 'assigns the current line number to the new tool start index - this line is the line where the new tool starts
-                        If StartIndex > 0 Then 'not the 1st tool
-                            If StartIndex + 1 = NewToolEndPos.Length Then 'found the last tool
-                                NewToolEndPos(StartIndex) = LinesContent.Length 'for the last tool, the line number is the last line number in the file
-                            End If
-                            NewToolEndPos(StartIndex - 1) = LineIndex - 1 'assigns the line number to the end of a new tool
-                        End If
-                        StartIndex = StartIndex + 1
-                        If NewToolStartPos.Length = 1 Then
-                            NewToolEndPos(StartIndex - 1) = LinesContent.Length 'for a program with just 1 tool, the line number is the last line number in the file
-                        End If
-*/        
+NewToolStartPos(StartIndex) = LineIndex 'assigns the current line number to the new tool start index - this line is the line where the new tool starts
+If StartIndex > 0 Then 'not the 1st tool
+If StartIndex + 1 = NewToolEndPos.Length Then 'found the last tool
+NewToolEndPos(StartIndex) = LinesContent.Length 'for the last tool, the line number is the last line number in the file
+End If
+NewToolEndPos(StartIndex - 1) = LineIndex - 1 'assigns the line number to the end of a new tool
+End If
+StartIndex = StartIndex + 1
+If NewToolStartPos.Length = 1 Then
+NewToolEndPos(StartIndex - 1) = LinesContent.Length 'for a program with just 1 tool, the line number is the last line number in the file
+End If
+*/
+//</editor-fold>
         
         return lineIndexes;
     }

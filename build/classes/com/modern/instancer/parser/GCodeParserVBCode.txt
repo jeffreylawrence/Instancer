@@ -546,6 +546,7 @@ Module GcodeModule
         NoComments = Replace(NoComments, Comment, "") 'removing the comment from the string
         Return NoComments
     End Function
+
     Private Function GetComments(OneLine As String) As String 'This functions gets all the comments related to each tool
         Dim IsCommentLine As Boolean 'true if it is a comment line, false if not
         Dim BracketPos As Integer 'position of the "(" in the line
