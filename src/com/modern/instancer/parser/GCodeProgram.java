@@ -5,8 +5,6 @@
  */
 package com.modern.instancer.parser;
 
-import static com.modern.instancer.parser.TextParser.countM6Lines;
-import static com.modern.instancer.parser.TextParser.isNewToolLine;
 import java.util.ArrayList;
 
 /**
@@ -86,7 +84,25 @@ public class GCodeProgram {
         return parsedData;
     }
 
+    public static int countM6Lines(ArrayList<String> lines) {
+        return countLines(lines, GCodeLine.M6_IDENTIFIER);
+    }
 
+    //TODO - consider refactor as generic, passing in boolean method with param "String", returning boolean
+    public static int countLines(ArrayList<String> lines, String searchText) {
+        int count = 0;
+
+        // TODO: consider benefit of refactoring to functional operation
+        // count = lines.stream().filter((line) -> (isM6(line))).map((_item) -> 1).reduce(count, Integer::sum);
+        for (String line : lines) {
+            if (GCodeLine.isM6(line)) {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    
 //<editor-fold defaultstate="collapsed" desc="getNewToolLineIndexes()">
     
     private static ArrayList<Integer> getNewToolLineStartIndexes(ArrayList<String> lines) {
@@ -125,10 +141,48 @@ End If
         
         return lineIndexes;
     }
-
     
+    public static final String NEW_TOOL_IDENTIFIER = "N";
+    
+    public static boolean isNewToolLine(String text){
+        int index = text.indexOf(NEW_TOOL_IDENTIFIER);
+        
+        if (index == GCodeLine.NOT_FOUND){
+            return false;
+        } else {
+            return (index < 3) && GCodeLine.safeIsNumeric(text, index + 1) && GCodeLine.safeIsNumeric(text, index + 4) && GCodeLine.isComment(text);
+        }
+    }
+    
+//<editor-fold defaultstate="collapsed" desc="New Tool Code">
+//        'This section finds the line number (index in array) of each new tool beginning.
+//        For Each NewTool As String In LinesContent
+//            If InStr(NewTool, "N") <> 0 Then 'found a "N"
+//                CurrentPos = InStr(NewTool, "N")
+//                If IsNumeric(Mid(NewTool, CurrentPos + 1, 1)) And Not IsNumeric(Mid(NewTool, CurrentPos + 1, 4)) And CurrentPos < 3 Then 'this SEEMS to be a valid N sequence number, but some Goto command could refer to N100 for example...
+//                    IsCommentLine = IdCommentLine(NewTool)
+//                    If IsCommentLine = True Then 'Ok, now there is a N# line, with a comment on that line, this should be fairly certain that it is a valid N sequence line
+//
+//                        NewToolStartPos(StartIndex) = LineIndex 'assigns the current line number to the new tool start index - this line is the line where the new tool starts
+//                        If StartIndex > 0 Then 'not the 1st tool
+//                            If StartIndex + 1 = NewToolEndPos.Length Then 'found the last tool
+//                                NewToolEndPos(StartIndex) = LinesContent.Length 'for the last tool, the line number is the last line number in the file
+//                            End If
+//                            NewToolEndPos(StartIndex - 1) = LineIndex - 1 'assigns the line number to the end of a new tool
+//                        End If
+//                        StartIndex = StartIndex + 1
+//                        If NewToolStartPos.Length = 1 Then
+//                            NewToolEndPos(StartIndex - 1) = LinesContent.Length 'for a program with just 1 tool, the line number is the last line number in the file
+//                        End If
+//                    End If
+//                End If
+//            End If
+//            LineIndex = LineIndex + 1
+//        Next NewTool
 //</editor-fold>
-    
+
+//</editor-fold>
+           
 //<editor-fold defaultstate="collapsed" desc="Constructors">
     {
         setLines(new ArrayList<>());
