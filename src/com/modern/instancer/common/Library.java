@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.modern.instancer.gui;
+package com.modern.instancer.common;
 
 import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -27,4 +29,26 @@ public class Library {
         }
         return image;
     }
+    
+    public static File openFile(String title) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        fileChooser.setDialogTitle(title);
+        fileChooser.setMultiSelectionEnabled(false);
+       
+        int result = fileChooser.showOpenDialog(null);
+        
+        if (result == JFileChooser.APPROVE_OPTION) {
+            return fileChooser.getSelectedFile();
+        } else {
+            return null;
+        }
+    }
+
+    public static File openFile() {
+        return openFile("Open File");
+    }
+    
+    
+    
 }

@@ -5,6 +5,7 @@
  */
 package com.modern.instancer.parser;
 
+import com.modern.instancer.data.MemoryFile;
 import java.util.ArrayList;
 
 /**
@@ -15,14 +16,17 @@ public class GCodeProgram {
 
 //<editor-fold defaultstate="collapsed" desc="Methods">
     
-    public static ArrayList<String> getParsedGCode(ArrayList<String> gCodeLines) {
-        ArrayList<String> parsedData = new ArrayList<>();
+    
+    
+//    public static ArrayList<String> getParsedGCode(ArrayList<String> gCodeLines) {
+    public static MemoryFile getParsedGCode(ArrayList<String> gCodeLines) {
+        MemoryFile infoFile = new MemoryFile();
 
         //put in file name/path (later...)
-        parsedData.add(String.format(FILE_PATH, NOT_COMPLETE));
+        infoFile.addLine(String.format(FILE_PATH, NOT_COMPLETE));
 
         //count the number of machining steps
-        parsedData.add(String.format(MACHINING_STEPS, countM6Lines(gCodeLines)));
+        infoFile.addLine(String.format(MACHINING_STEPS, countM6Lines(gCodeLines)));
 //<editor-fold defaultstate="collapsed" desc="Machining Steps - 'FindM6' Sub Logic">
 //    Private Function FindM6(GcodeResult As String) As Integer
 //
@@ -80,15 +84,16 @@ public class GCodeProgram {
 //        Next NewTool
 //</editor-fold>
         ArrayList<Integer> newToolLineIndexList = getNewToolLineStartIndexes(gCodeLines);
+        infoFile.addLine(String.format(TOOL_COUNT, newToolLineIndexList.size()));
 
-        return parsedData;
+
+        return infoFile;
     }
 
     public static int countM6Lines(ArrayList<String> lines) {
         return countLines(lines, GCodeLine.M6_IDENTIFIER);
     }
 
-    //TODO - consider refactor as generic, passing in boolean method with param "String", returning boolean
     public static int countLines(ArrayList<String> lines, String searchText) {
         int count = 0;
 
@@ -101,21 +106,18 @@ public class GCodeProgram {
         }
         return count;
     }
-    
-    
+
 //<editor-fold defaultstate="collapsed" desc="getNewToolLineIndexes()">
-    
     private static ArrayList<Integer> getNewToolLineStartIndexes(ArrayList<String> lines) {
         ArrayList<Integer> lineIndexes = new ArrayList<>();
-        
+
         for (int i = 0; i < lines.size(); i++) {
             if (isNewToolLine(lines.get(i))) {
                 lineIndexes.add(i);
             }
         }
-        
+
         //TODO - consider if this should be wrapped up into a "Tool" class
-        
 //<editor-fold defaultstate="collapsed" desc="End of 'tool section' logic">
 //      There appears to be special processing for the "end" of each tool section
 //      which calculates the last line for the section; the logic is that
@@ -136,24 +138,23 @@ StartIndex = StartIndex + 1
 If NewToolStartPos.Length = 1 Then
 NewToolEndPos(StartIndex - 1) = LinesContent.Length 'for a program with just 1 tool, the line number is the last line number in the file
 End If
-*/
+         */
 //</editor-fold>
-        
         return lineIndexes;
     }
-    
+
     public static final String NEW_TOOL_IDENTIFIER = "N";
-    
-    public static boolean isNewToolLine(String text){
+
+    public static boolean isNewToolLine(String text) {
         int index = text.indexOf(NEW_TOOL_IDENTIFIER);
-        
-        if (index == GCodeLine.NOT_FOUND){
+
+        if (index == GCodeLine.NOT_FOUND) {
             return false;
         } else {
             return (index < 3) && GCodeLine.safeIsNumeric(text, index + 1) && GCodeLine.safeIsNumeric(text, index + 4) && GCodeLine.isComment(text);
         }
     }
-    
+
 //<editor-fold defaultstate="collapsed" desc="New Tool Code">
 //        'This section finds the line number (index in array) of each new tool beginning.
 //        For Each NewTool As String In LinesContent
@@ -180,41 +181,42 @@ End If
 //            LineIndex = LineIndex + 1
 //        Next NewTool
 //</editor-fold>
-
 //</editor-fold>
-           
+    
 //<editor-fold defaultstate="collapsed" desc="Constructors">
     {
         setLines(new ArrayList<>());
-}
-    
-    public GCodeProgram(){ }
-    
-    public GCodeProgram(ArrayList<GCodeLine> lines){
+    }
+
+    public GCodeProgram() {
+    }
+
+    public GCodeProgram(ArrayList<GCodeLine> lines) {
         this.lines = lines;
     }
-    
-    public GCodeProgram(ArrayList<GCodeLine> lines, String filePath){
+
+    public GCodeProgram(ArrayList<GCodeLine> lines, String filePath) {
         this.lines = lines;
         this.filePath = filePath;
     }
 //</editor-fold>
-    
+
 //<editor-fold defaultstate="collapsed" desc="Properties">
     public static final String NOT_COMPLETE = "<NOT COMPLETE>";
     public static final String FILE_PATH = "File Location: %s";
     public static final String MACHINING_STEPS = "There are %d machining steps for this program.";
+    public static final String TOOL_COUNT = "There are %d DIFFERENT tools used in this program.";
 
     private ArrayList<GCodeLine> lines;
     private String filePath;
-    
+
     /**
      * @return the lines
      */
     public ArrayList<GCodeLine> getLines() {
         return lines;
     }
-    
+
     /**
      * @param lines the lines to set
      */
@@ -236,5 +238,5 @@ End If
         this.filePath = filePath;
     }
 //</editor-fold>
-    
+
 }

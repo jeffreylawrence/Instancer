@@ -86,6 +86,9 @@ Module GcodeModule
 
         GcodeText = frmStartForm.GcodeText
         NumberOfLines = CountLines(GcodeText) 'here it calls the function that counts the number of lines and that puts each line in the array LinesContent
+        
+//KL here!
+
         GcodeTempValue = CInt(FindM6("M6")) 'to find the number of M6 in the file
 
         'For the MAM, when the program comes back in computer from the machine, there is no new line!!  This here will detect and fix that

@@ -5,6 +5,9 @@
  */
 package com.modern.instancer.gui;
 
+import com.modern.instancer.common.Library;
+import com.modern.instancer.data.MemoryFile;
+import com.modern.instancer.parser.GCodeProgram;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -38,6 +41,8 @@ public class TextEditorPanel extends javax.swing.JPanel {
     private final String CLOSE_FILE_PUM_ACTION = "CLOSE_FILE";
     private final String INSERT_FILE_PUM_ACTION = "INSERT";
 
+    private final String CREATE_INFO_PUM_ACTION = "CREATE_INFO";
+
     private final String SAVE_PUM_ACTION = "SAVE";
     private final String SAVE_AS_PUM_ACTION = "SAVE_AS";
 
@@ -50,6 +55,8 @@ public class TextEditorPanel extends javax.swing.JPanel {
     private final String OPEN_FILE_PUM_LABEL = "Open file...";
     private final String CLOSE_FILE_PUM_LABEL = "Close file";
     private final String INSERT_FILE_PUM_LABEL = "Insert file at cursor...";
+
+    private final String CREATE_INFO_PUM_LABEL = "Create Info File";
 
     private final String SAVE_PUM_LABEL = "Save";
     private final String SAVE_AS_PUM_LABEL = "Save as...";
@@ -85,6 +92,13 @@ public class TextEditorPanel extends javax.swing.JPanel {
 
         jpumTextEditor.add(new JSeparator());
 
+        mi = new JMenuItem(CREATE_INFO_PUM_LABEL);
+        mi.addActionListener(menuItemListener);
+        mi.setActionCommand(CREATE_INFO_PUM_ACTION);
+        jpumTextEditor.add(mi);
+
+        jpumTextEditor.add(new JSeparator());
+
         mi = new JMenuItem(SAVE_PUM_LABEL);
         mi.addActionListener(menuItemListener);
         mi.setActionCommand(SAVE_PUM_ACTION);
@@ -106,7 +120,6 @@ public class TextEditorPanel extends javax.swing.JPanel {
 //        mi.addActionListener(menuItemListener);
 //        mi.setActionCommand(CUT_PUM_ACTION);
 //        jpumTextEditor.add(mi);
-
         mi = new JMenuItem(PASTE_PUM_LABEL);
         mi.addActionListener(menuItemListener);
         mi.setActionCommand(PASTE_PUM_ACTION);
@@ -140,6 +153,10 @@ public class TextEditorPanel extends javax.swing.JPanel {
                     appendFile();
                     break;
 
+                case CREATE_INFO_PUM_ACTION:
+                    createInfoFile();
+                    break;
+
                 case SAVE_PUM_ACTION:
                     save();
                     break;
@@ -169,6 +186,7 @@ public class TextEditorPanel extends javax.swing.JPanel {
                     break;
             }
         }
+
     }
 
     private static final String NOT_YET_IMPLEMENTED_MESSAGE = "'%s' has not yet been implemented.";
@@ -189,29 +207,71 @@ public class TextEditorPanel extends javax.swing.JPanel {
     }
 
     public void appendFile() {
-        File file = GuiUtility.openFile("Open D-Code Source File");
+        file = new MemoryFile();
+        file.openFile();
 
         if (file != null) {
-//            System.out.println("Selected file: " + file.getAbsolutePath());
-            jlblFilePathName.setText(file.getAbsolutePath());
+            setFile(file);
+        }
 
-            BufferedReader br;
-            try {
-                br = new BufferedReader(new FileReader(file.getAbsolutePath()));
-                try {
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        jtxtTextEditor.append(line + "\n");
-                    }
-                    
-                } catch (IOException e) {
-//                e.printStackTrace();
-                }
-            } catch (FileNotFoundException e) {
-                System.out.println(e);
-//            e.printStackTrace();
+//<editor-fold defaultstate="collapsed" desc="olde code">
+//        File file = Library.openFile("Open D-Code Source File");
+//
+//        if (file != null) {
+////            System.out.println("Selected file: " + file.getAbsolutePath());
+//            jlblFilePathName.setText(file.getAbsolutePath());
+//
+//            BufferedReader br;
+//            try {
+//                br = new BufferedReader(new FileReader(file.getAbsolutePath()));
+//                try {
+//                    String line;
+//                    while ((line = br.readLine()) != null) {
+//                        jtxtTextEditor.append(line + "\n");
+//                    }
+//
+//                } catch (IOException e) {
+////                e.printStackTrace();
+//                }
+//            } catch (FileNotFoundException e) {
+//                System.out.println(e);
+////            e.printStackTrace();
+//            }
+//            jtxtTextEditor.setCaretPosition(0);
+//        }
+//</editor-fold>
+    }
+
+    public void setFile(MemoryFile file) {
+        jlblFilePathName.setText(file.getAbsolutePath());
+
+        file.getLines().stream().forEachOrdered((line) -> {
+            jtxtTextEditor.append(line);
+        });
+
+        jtxtTextEditor.setCaretPosition(0);
+    }
+
+    MemoryFile file;
+    private TextEditorEventListenerIntf eventListener;
+
+    /**
+     * @param eventListener the eventListener to set
+     */
+    public void setEventListener(TextEditorEventListenerIntf eventListener) {
+        this.eventListener = eventListener;
+    }
+
+    private void createInfoFile() {
+        if (file != null) {
+            if (eventListener != null) {
+//                MemoryFile infoFile = new MemoryFile(GCodeProgram.getParsedGCode(file.getLines()));
+                MemoryFile infoFile = GCodeProgram.getParsedGCode(file.getLines());
+                eventListener.handleProcessedFile(infoFile);
             }
-            jtxtTextEditor.setCaretPosition(0);
+//            GCodeProgram.getParsedGCode(file.getLines()).stream().forEachOrdered((line) ->{
+//                
+//            });
         }
     }
 
@@ -234,19 +294,19 @@ public class TextEditorPanel extends javax.swing.JPanel {
             StringSelection stringSelection = new StringSelection(selectedText);
 
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-            clipboard.setContents(stringSelection, null);        
+            clipboard.setContents(stringSelection, null);
         }
     }
 
     public void paste() {
 //        notYetImplemented(PASTE_PUM_LABEL);
-        
+
         Clipboard systemClipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        try {        
+        try {
 //            Object text = systemClipboard.getData(DataFlavor.stringFlavor);
             String text = (String) systemClipboard.getData(DataFlavor.stringFlavor);
             jtxtTextEditor.insert(text, jtxtTextEditor.getCaretPosition());
-            
+
         } catch (UnsupportedFlavorException | IOException ex) {
             Logger.getLogger(TextEditorPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -267,7 +327,6 @@ public class TextEditorPanel extends javax.swing.JPanel {
 //    public void appendText(ArrayList<String> text) {
 //    }
 //</editor-fold>
-
     /**
      * Creates new form TextEditor
      */

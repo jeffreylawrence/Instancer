@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.modern.instancer.parser;
+package com.modern.instancer.gui;
+
+import com.modern.instancer.data.MemoryFile;
 
 /**
  *
  * @author kevinlawrence
  */
-public class Library {
-//    Hey… was there anything for me to know about hyperacusis?
-    
-    
+public interface TextEditorEventListenerIntf {
+    public void handleProcessedFile(MemoryFile file);
 }

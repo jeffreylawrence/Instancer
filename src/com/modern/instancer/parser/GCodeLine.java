@@ -5,8 +5,6 @@
  */
 package com.modern.instancer.parser;
 
-import static com.modern.instancer.parser.TextParser.safeIsNumeric;
-
 /**
  *
  * @author kevinlawrence
@@ -51,6 +49,7 @@ public class GCodeLine {
     }
 
 //</editor-fold>
+    
 //<editor-fold defaultstate="collapsed" desc="Library Methods">
     public static boolean safeIsNumeric(String text, int index) {
         if ((index < 0) || (index >= text.length())) {
@@ -123,7 +122,7 @@ public class GCodeLine {
     public static boolean isM6(String line) {
         int index = line.indexOf(M6_IDENTIFIER);
 
-        if (index != NOT_FOUND) {
+        if (index == NOT_FOUND) {
             return false;
         } else {
             // Eliminates  T0M6,          comment lines,   and M60 to M69 possible gcodes

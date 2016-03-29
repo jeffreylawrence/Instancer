@@ -5,7 +5,10 @@
  */
 package com.modern.instancer.gui;
 
-import java.awt.Frame;
+import com.modern.instancer.common.Library;
+import com.modern.instancer.data.MemoryFile;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
 
@@ -15,12 +18,74 @@ import javax.swing.JFrame;
  */
 public class InstancerMain extends javax.swing.JFrame {
     
-    TextEditorPanel left, right;
+    //<editor-fold defaultstate="collapsed" desc="Key Listener">
+    private class SketchPadKeyListener implements KeyListener {
 
+        @Override
+        public void keyTyped(KeyEvent e) {
+//            System.out.println("Key Typed");
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            
+            System.out.println("Key Pressed");
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_1:
+                    break;
+            }
+
+            if (e.isControlDown()) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_G:
+                        break;
+            
+                    case KeyEvent.VK_O:
+//                        SketchIO.openFile();
+                        break;
+                        
+                    case KeyEvent.VK_S:
+//                        SketchIO.saveToFile(sketchPad.sketchObjects);
+                        break;
+                }
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+//            System.out.println("Key Released");
+        }
+    }
+//</editor-fold>
+
+    private class TextEditorListener implements TextEditorEventListenerIntf {
+
+        public TextEditorListener(){};
+        
+        @Override
+        public void handleProcessedFile(MemoryFile file) {
+            handleInformationFile(file);
+        }  
+    }
+    
+    TextEditorListener gCodeEditorListener;
+    
+    private void handleInformationFile(MemoryFile infoFile){
+        right.setFile(infoFile);
+    }
+
+//<editor-fold defaultstate="collapsed" desc="Properties">
+    TextEditorPanel left, right;
+    
+//</editor-fold>
+    
     private void internalInit(){
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         left = new TextEditorPanel();
+        gCodeEditorListener = new TextEditorListener();
+        left.setEventListener(gCodeEditorListener);
+        
         right = new TextEditorPanel();
         
         jsplitpnlTextEditor.setLeftComponent(left);
