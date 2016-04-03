@@ -26,7 +26,7 @@ public class OffsetList implements OffsetListProviderIntf {
     }
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Poperties">
+//<editor-fold defaultstate="collapsed" desc="Properties">
     private ArrayList<Offset> offsetList;
 
     /**
@@ -49,9 +49,9 @@ public class OffsetList implements OffsetListProviderIntf {
     public ArrayList<String> getOffsetIDs() {
         ArrayList<String> offsetIDs = new ArrayList<>();
 
-        for (Offset offset : offsetList) {
+        offsetList.stream().forEachOrdered((offset) -> {
             offsetIDs.add(offset.getOffsetID());
-        }
+        });
 
         return offsetIDs;
     }
