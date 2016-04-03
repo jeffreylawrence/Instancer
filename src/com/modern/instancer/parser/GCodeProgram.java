@@ -84,6 +84,11 @@ public class GCodeProgram {
 //        Next NewTool
 //</editor-fold>
         ArrayList<Integer> newToolLineIndexList = getNewToolLineStartIndexes(gCodeLines);
+        
+//        process tools - the assumption here is that the start of one tool section will
+//        mark the end of another tool section
+        
+        
         infoFile.addLine(String.format(TOOL_COUNT, newToolLineIndexList.size()));
 
 

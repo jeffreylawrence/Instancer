@@ -11,4 +11,7 @@ package com.modern.instancer.data;
  */
 public interface OffsetValidatorIntf {
     public OperationStatusProviderIntf validate(Offset offset);
+    
+    public int getMinInstanceID();
+    public int getMaxInstanceID();
 }

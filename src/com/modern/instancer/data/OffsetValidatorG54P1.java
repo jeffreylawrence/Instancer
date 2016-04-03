@@ -25,11 +25,24 @@ public class OffsetValidatorG54P1 implements OffsetValidatorIntf {
             return new OperationStatusProvider(false, String.format("Offset '%s' does not start with standard prefix '%s'.", offset.getOffsetID(), G54P1_NAME_BASE));
         }
         
-        if ((offset.getInstance() < minimumInstanceID) || (offset.getInstance() > maximumInstanceID)){
-            return new OperationStatusProvider(false, String.format("Offset instance number '%d' is not between minimum (%d) and maximum (%d) allowed values.", offset.getInstance(), minimumInstanceID, maximumInstanceID));
+        if ((offset.getInstance() < MIN_INSTANCE_ID) || (offset.getInstance() > MAX_INSTANCE_ID)){
+            return new OperationStatusProvider(false, String.format("Offset instance number '%d' is not between minimum (%d) and maximum (%d) allowed values.", offset.getInstance(), MIN_INSTANCE_ID, MAX_INSTANCE_ID));
         }
         
         return new OperationStatusProvider(true, String.format("Offset '%s' passed validation rules.", offset.getOffsetID()));
+    }
+    
+    private static final int MIN_INSTANCE_ID = 1;
+    private static final int MAX_INSTANCE_ID = 300;
+
+    @Override
+    public int getMinInstanceID() {
+        return MIN_INSTANCE_ID;
+    }
+
+    @Override
+    public int getMaxInstanceID() {
+        return MAX_INSTANCE_ID;
     }
 //</editor-fold>
     
@@ -44,8 +57,6 @@ public class OffsetValidatorG54P1 implements OffsetValidatorIntf {
     
     private ArrayList<Offset> offsets;
     
-    private final int minimumInstanceID = 1;
-    private final int maximumInstanceID = 300;
     private boolean allowDuplicateOffsetID = false;
 //</editor-fold>
 }

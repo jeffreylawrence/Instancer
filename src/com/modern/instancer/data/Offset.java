@@ -32,6 +32,17 @@ public class Offset implements Comparable {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Validation">
+    private OffsetValidatorIntf validator;
+    private OperationStatusHandlerIntf validationStatusHandler;
+    
+    /**
+     * @param validator the validator to set
+     */
+    public void setValidator(OffsetValidatorIntf validator) {
+        this.validator = validator;
+    }
+
+
     private boolean validate() throws Exception {
         if (validator != null) {
             OperationStatusProviderIntf validationStatus = validator.validate(this);
@@ -44,21 +55,33 @@ public class Offset implements Comparable {
         }
         return true;
     }
+    
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="Properties">
     public static final String G54P1_NAME_BASE = "G54.1P";
 
-    private final int minimumInstance = 1;
-    private final int maximumInstance = 300;
-
-    private OffsetValidatorIntf validator;
-    private OperationStatusHandlerIntf validationStatusHandler;
+    private final int MIN_INSTANCE_NUMBER = 1;
+    private final int MAX_INSTANCE_NUMBER = 300;
 
     private String nameBase;
     private int instance;
     private String parentOffsetID;
     private boolean rotate180Degrees;
+
+    /**
+     * @return the instance
+     */
+    public int getInstance() {
+        return instance;
+    }
+
+    /**
+     * @param instance the instance to set
+     */
+    public void setInstance(int instance) {
+        this.instance = instance;
+    }
 
     /**
      * @return a textual representation of the Offset
@@ -143,7 +166,7 @@ public class Offset implements Comparable {
     public static int COMPARABLE_MORE_THAN = 1;
 
     /*
-    * return negative integr (COMPARABLE_LESS_THAN = -1) if the specified offSet 
+    * return negative integer (COMPARABLE_LESS_THAN = -1) if the specified offSet 
     * "o" sorts ordinally before this object, zero int (COMPARABLE_EQUAL_TO = 0)
     * if the specified offSet "o" sorts identically to this object, or a positive 
     * integer (COMPARABLE_MORE_THAN = 1) if the specified offSet "o" 
@@ -152,6 +175,7 @@ public class Offset implements Comparable {
     * "Root" offsets (those will "null" parent references) will always sort 
     * before non-parent offsets (those that have parents)
      */
+    @Override
     public int compareTo(Object o) {
         if (o == null) {
             throw new NullPointerException("A null value Offset cannot be compared to another Offset item for sorting.");
@@ -174,26 +198,6 @@ public class Offset implements Comparable {
         }
     }
 
-    /**
-     * @param validator the validator to set
-     */
-    public void setValidator(OffsetValidatorIntf validator) {
-        this.validator = validator;
-    }
-
-    /**
-     * @return the instance
-     */
-    public int getInstance() {
-        return instance;
-    }
-
-    /**
-     * @param instance the instance to set
-     */
-    public void setInstance(int instance) {
-        this.instance = instance;
-    }
 //</editor-fold>
 
 }
