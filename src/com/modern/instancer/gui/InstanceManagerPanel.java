@@ -5,13 +5,16 @@
  */
 package com.modern.instancer.gui;
 
+import com.modern.instancer.data.InstanceOffsetTree;
+
 /**
  *
  * @author kevinlawrence
  */
 public class InstanceManagerPanel extends javax.swing.JPanel {
 
-//    private 
+    private InstanceOffsetTree instanceOffsetTree;
+    
     private boolean loadInstanceData(){
         
         
