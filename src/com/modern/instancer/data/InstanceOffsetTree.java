@@ -15,37 +15,72 @@ public class InstanceOffsetTree {
 
 //<editor-fold defaultstate="collapsed" desc="Constructors">
     {
-        instanceTree = new HashMap<>();
+        setName("Instance-Offset Structure");
+        setInstanceTree(new HashMap<>());
     }
 
     public InstanceOffsetTree() {}
     
-    public InstanceOffsetTree(HashMap<String, OffsetList> instanceTree) {
+    public InstanceOffsetTree(String name, HashMap<String, OffsetList> instanceTree) {
+        this.name = name;
         this.instanceTree = instanceTree;
     }
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="Properties">
+    private String name;
     private HashMap<String, OffsetList> instanceTree;
     
     public OffsetList addInstance(String instance) {
-        return instanceTree.put(instance, new OffsetList());
+        return getInstanceTree().put(instance, new OffsetList());
     }
     
     public OffsetList addInstance(String instance, OffsetList offsets) {
-        return instanceTree.put(instance, offsets);
+        return getInstanceTree().put(instance, offsets);
     }
     
     public void removeInstance(String instance) {
-        instanceTree.remove(instance);
+        getInstanceTree().remove(instance);
     }
     
     public boolean addOffset(String instance, Offset offset) {
-        return instanceTree.get(instance).getOffsetList().add(offset);
+        if (getInstanceTree().get(instance) == null){
+            getInstanceTree().put(instance, new OffsetList());
+        }
+        
+        return getInstanceTree().get(instance).getOffsetList().add(offset);
     }
     
     public boolean removeOffset(String instance, Offset offset) {
-        return instanceTree.get(instance).getOffsetList().remove(offset);
+        return getInstanceTree().get(instance).getOffsetList().remove(offset);
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the instanceTree
+     */
+    public HashMap<String, OffsetList> getInstanceTree() {
+        return instanceTree;
+    }
+
+    /**
+     * @param instanceTree the instanceTree to set
+     */
+    public void setInstanceTree(HashMap<String, OffsetList> instanceTree) {
+        this.instanceTree = instanceTree;
     }
 //</editor-fold>
     

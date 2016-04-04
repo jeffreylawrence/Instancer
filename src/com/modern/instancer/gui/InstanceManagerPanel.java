@@ -6,6 +6,10 @@
 package com.modern.instancer.gui;
 
 import com.modern.instancer.data.InstanceOffsetTree;
+import com.modern.instancer.data.Offset;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeSelectionModel;
 
 /**
  *
@@ -15,20 +19,65 @@ public class InstanceManagerPanel extends javax.swing.JPanel {
 
     private InstanceOffsetTree instanceOffsetTree;
     
-    private boolean loadInstanceData(){
+    private void createTestInstanceData(){
+        instanceOffsetTree = new InstanceOffsetTree();
+        instanceOffsetTree.setName("Test Data - Part XYZ-123");
         
+        instanceOffsetTree.addOffset("G54.1P100", new Offset("G54.1P111", "G54.1P100", false));
+        instanceOffsetTree.addOffset("G54.1P100", new Offset("G54.1P112", "G54.1P100", false));
+        instanceOffsetTree.addOffset("G54.1P100", new Offset("G54.1P113", "G54.1P100", false));
+        instanceOffsetTree.addOffset("G54.1P100", new Offset("G54.1P114", "G54.1P100", false));
         
+        instanceOffsetTree.addOffset("G54.1P200", new Offset("G54.1P211", "G54.1P200", false));
+        instanceOffsetTree.addOffset("G54.1P200", new Offset("G54.1P212", "G54.1P200", false));
+        instanceOffsetTree.addOffset("G54.1P200", new Offset("G54.1P213", "G54.1P200", true));
+        instanceOffsetTree.addOffset("G54.1P200", new Offset("G54.1P214", "G54.1P200", true));
+        
+        instanceOffsetTree.addOffset("G54.1P250", new Offset("G54.1P251", "G54.1P250", true));
+        instanceOffsetTree.addOffset("G54.1P250", new Offset("G54.1P252", "G54.1P250", true));
+        instanceOffsetTree.addOffset("G54.1P250", new Offset("G54.1P253", "G54.1P250", false));
+        instanceOffsetTree.addOffset("G54.1P250", new Offset("G54.1P254", "G54.1P250", false)); 
+    };
+
+    
+    private boolean loadInstanceData() {
+//        jtreeOffsetInstance.get
+        if (instanceOffsetTree != null) {
+            DefaultMutableTreeNode root = new DefaultMutableTreeNode(instanceOffsetTree.getName());
+            JTree tree = new JTree(root);
+
+            //add instance and offset nodes
+//            instanceOffsetTree.getInstanceTree().forEach(action);
+//            for (String instance : instanceOffsetTree.getInstanceTree().keySet()) {
+//
+//            }
+
+            instanceOffsetTree.getInstanceTree().keySet().stream().forEachOrdered((instance) -> {
+                //add the instance node to the jtree
+                DefaultMutableTreeNode currentNode = new DefaultMutableTreeNode(instance);
+                root.add(currentNode);
+
+                //add the offsets below the current node
+                instanceOffsetTree.getInstanceTree().get(instance).getOffsetIDsSorted().stream().forEachOrdered((offsetID) -> {
+                    DefaultMutableTreeNode offsetNode = new DefaultMutableTreeNode(offsetID);
+                    currentNode.add(offsetNode);
+                });
+            });
+
+            tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+            jtreeOffsetInstance = tree;
+        }
+
         return true;
     }
-    
-    
-    
-    
+
     /**
      * Creates new form InstanceManagerPanel
      */
     public InstanceManagerPanel() {
         initComponents();
+        createTestInstanceData();
+        loadInstanceData();
     }
 
     /**

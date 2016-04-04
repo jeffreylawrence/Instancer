@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
-
 /**
  *
  * @author kevinlawrence
@@ -98,6 +97,10 @@ public class InstancerMain extends javax.swing.JFrame {
     public void setVisible(boolean visible){
         super.setVisible(visible);
         jsplitpnlTextEditor.setDividerLocation(0.5);
+        repaint();
+        
+        InstanceManagerDialog dlg = new InstanceManagerDialog(this, true);
+        dlg.setVisible(true);
     }
     
     
