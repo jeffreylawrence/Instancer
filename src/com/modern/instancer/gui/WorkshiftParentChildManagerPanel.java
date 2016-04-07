@@ -7,6 +7,8 @@ package com.modern.instancer.gui;
 
 import com.modern.instancer.data.WorkshiftParentChildTree;
 import com.modern.instancer.data.Workshift;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
@@ -63,6 +65,17 @@ public class WorkshiftParentChildManagerPanel extends javax.swing.JPanel {
         return true;
     }
 
+    
+    private class WorkshiftTreeSelectionListener implements TreeSelectionListener {
+
+        @Override
+        public void valueChanged(TreeSelectionEvent e) {
+//            e.
+        }
+        
+    }
+    
+    
     /**
      * Creates new form InstanceManagerPanel
      */
@@ -71,6 +84,9 @@ public class WorkshiftParentChildManagerPanel extends javax.swing.JPanel {
 
         createTestInstanceData();
         loadInstanceData();
+        
+//        tree.addTreeSelectionListener(this);
+//jtreeWorkshiftParentChild
     }
 
     /**
