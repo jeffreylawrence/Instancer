@@ -5,7 +5,7 @@
  */
 package com.modern.instancer.gui;
 
-import com.modern.instancer.data.WorkshiftParentChildTree;
+import com.modern.instancer.data.WorkshiftTreeData;
 import com.modern.instancer.data.Workshift;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -17,51 +17,51 @@ import javax.swing.tree.TreeSelectionModel;
  *
  * @author kevinlawrence
  */
-public class WorkshiftParentChildManagerPanel extends javax.swing.JPanel {
+public class WorkshiftTransformPanel extends javax.swing.JPanel {
 
-    private WorkshiftParentChildTree workshiftParentChildTree;
+    private WorkshiftTreeData workshiftTree;
 
     private void createTestInstanceData() {
-        workshiftParentChildTree = new WorkshiftParentChildTree();
-        workshiftParentChildTree.setName("Test Data - Part XYZ-123");
+        workshiftTree = new WorkshiftTreeData();
+        workshiftTree.setName("Test Data - Part XYZ-123");
 
-        workshiftParentChildTree.addWorkshiftParentAndChild("G54.1P100", new Workshift("G54.1P111", "G54.1P100", false));
-        workshiftParentChildTree.addWorkshiftParentAndChild("G54.1P100", new Workshift("G54.1P112", "G54.1P100", false));
-        workshiftParentChildTree.addWorkshiftParentAndChild("G54.1P100", new Workshift("G54.1P113", "G54.1P100", false));
-        workshiftParentChildTree.addWorkshiftParentAndChild("G54.1P100", new Workshift("G54.1P114", "G54.1P100", false));
+        workshiftTree.addWorkshiftParentAndChild("G54.1P100", new Workshift("G54.1P111", "G54.1P100", false));
+        workshiftTree.addWorkshiftParentAndChild("G54.1P100", new Workshift("G54.1P112", "G54.1P100", false));
+        workshiftTree.addWorkshiftParentAndChild("G54.1P100", new Workshift("G54.1P113", "G54.1P100", false));
+        workshiftTree.addWorkshiftParentAndChild("G54.1P100", new Workshift("G54.1P114", "G54.1P100", false));
 
-        workshiftParentChildTree.addWorkshiftParentAndChild("G54.1P200", new Workshift("G54.1P211", "G54.1P200", false));
-        workshiftParentChildTree.addWorkshiftParentAndChild("G54.1P200", new Workshift("G54.1P212", "G54.1P200", false));
-        workshiftParentChildTree.addWorkshiftParentAndChild("G54.1P200", new Workshift("G54.1P213", "G54.1P200", true));
-        workshiftParentChildTree.addWorkshiftParentAndChild("G54.1P200", new Workshift("G54.1P214", "G54.1P200", true));
+        workshiftTree.addWorkshiftParentAndChild("G54.1P200", new Workshift("G54.1P211", "G54.1P200", false));
+        workshiftTree.addWorkshiftParentAndChild("G54.1P200", new Workshift("G54.1P212", "G54.1P200", false));
+        workshiftTree.addWorkshiftParentAndChild("G54.1P200", new Workshift("G54.1P213", "G54.1P200", true));
+        workshiftTree.addWorkshiftParentAndChild("G54.1P200", new Workshift("G54.1P214", "G54.1P200", true));
 
-        workshiftParentChildTree.addWorkshiftParentAndChild("G54.1P250", new Workshift("G54.1P251", "G54.1P250", true));
-        workshiftParentChildTree.addWorkshiftParentAndChild("G54.1P250", new Workshift("G54.1P252", "G54.1P250", true));
-        workshiftParentChildTree.addWorkshiftParentAndChild("G54.1P250", new Workshift("G54.1P253", "G54.1P250", false));
-        workshiftParentChildTree.addWorkshiftParentAndChild("G54.1P250", new Workshift("G54.1P254", "G54.1P250", false));
+        workshiftTree.addWorkshiftParentAndChild("G54.1P250", new Workshift("G54.1P251", "G54.1P250", true));
+        workshiftTree.addWorkshiftParentAndChild("G54.1P250", new Workshift("G54.1P252", "G54.1P250", true));
+        workshiftTree.addWorkshiftParentAndChild("G54.1P250", new Workshift("G54.1P253", "G54.1P250", false));
+        workshiftTree.addWorkshiftParentAndChild("G54.1P250", new Workshift("G54.1P254", "G54.1P250", false));
     }
 
     private boolean loadInstanceData() {
-        if (workshiftParentChildTree != null) {
-            DefaultMutableTreeNode root = new DefaultMutableTreeNode(workshiftParentChildTree.getName());
+        if (workshiftTree != null) {
+            DefaultMutableTreeNode root = new DefaultMutableTreeNode(workshiftTree.getName());
             DefaultTreeModel tm = new DefaultTreeModel(root);
 
-            workshiftParentChildTree.getWorkshiftParentChildTree().keySet().stream().forEachOrdered((workshiftIDParent) -> {
+            workshiftTree.getWorkshiftTree().keySet().stream().forEachOrdered((workshiftID) -> {
                 //add the instance node to the jtree
-                DefaultMutableTreeNode parentNode = new DefaultMutableTreeNode(workshiftIDParent);
-                root.add(parentNode);
+                DefaultMutableTreeNode workshiftNode = new DefaultMutableTreeNode(workshiftID);
+                root.add(workshiftNode);
 
                 //add the offsets below the current node
-                workshiftParentChildTree.getWorkshiftParentChildTree().get(workshiftIDParent).getWorkshiftIDsSorted().stream().forEachOrdered((workshiftIDChild) -> {
-                    DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(workshiftIDChild);
-                    parentNode.add(childNode);
+                workshiftTree.getWorkshiftTree().get(workshiftID).getWorkshiftIDsSorted().stream().forEachOrdered((transformWorkshiftID) -> {
+                    DefaultMutableTreeNode transformNode = new DefaultMutableTreeNode(transformWorkshiftID);
+                    workshiftNode.add(transformNode);
                 });
             });
 
-            jtreeWorkshiftParentChild.setModel(tm);
+            jtreeWorkshiftTransform.setModel(tm);
         }
 
-        jtreeWorkshiftParentChild.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        jtreeWorkshiftTransform.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         return true;
     }
 
@@ -79,7 +79,7 @@ public class WorkshiftParentChildManagerPanel extends javax.swing.JPanel {
     /**
      * Creates new form InstanceManagerPanel
      */
-    public WorkshiftParentChildManagerPanel() {
+    public WorkshiftTransformPanel() {
         initComponents();
 
         createTestInstanceData();
@@ -100,9 +100,9 @@ public class WorkshiftParentChildManagerPanel extends javax.swing.JPanel {
 
         jpnlInstanceTree = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtreeWorkshiftParentChild = new javax.swing.JTree();
+        jtreeWorkshiftTransform = new javax.swing.JTree();
 
-        jScrollPane1.setViewportView(jtreeWorkshiftParentChild);
+        jScrollPane1.setViewportView(jtreeWorkshiftTransform);
 
         javax.swing.GroupLayout jpnlInstanceTreeLayout = new javax.swing.GroupLayout(jpnlInstanceTree);
         jpnlInstanceTree.setLayout(jpnlInstanceTreeLayout);
@@ -131,6 +131,6 @@ public class WorkshiftParentChildManagerPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel jpnlInstanceTree;
-    private javax.swing.JTree jtreeWorkshiftParentChild;
+    private javax.swing.JTree jtreeWorkshiftTransform;
     // End of variables declaration//GEN-END:variables
 }

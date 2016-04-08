@@ -99,7 +99,7 @@ public class InstancerMain extends javax.swing.JFrame {
         jsplitpnlTextEditor.setDividerLocation(0.5);
         repaint();
         
-        WorkshiftParentChildManagerDialog dlg = new WorkshiftParentChildManagerDialog(this, true);
+        WorkshiftTransformDialog dlg = new WorkshiftTransformDialog(this, true);
         dlg.setVisible(true);
     }
     

@@ -11,13 +11,13 @@ import java.awt.BorderLayout;
  *
  * @author kevinlawrence
  */
-public class WorkshiftParentChildManagerDialog extends javax.swing.JDialog {
+public class WorkshiftTransformDialog extends javax.swing.JDialog {
 
     private void initCustomComponents(){
-        WorkshiftParentChildManagerPanel pnl = new WorkshiftParentChildManagerPanel();
+        WorkshiftTransformPanel pnl = new WorkshiftTransformPanel();
         
-        jpnlWorkshiftParentChild.setLayout(new BorderLayout());     
-        jpnlWorkshiftParentChild.add(pnl);
+        jpnlWorkshiftTransform.setLayout(new BorderLayout());     
+        jpnlWorkshiftTransform.add(pnl);
         pnl.setVisible(true);
     };
     
@@ -27,9 +27,9 @@ public class WorkshiftParentChildManagerDialog extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    public WorkshiftParentChildManagerDialog(java.awt.Frame parent, boolean modal) {
+    public WorkshiftTransformDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        this.setTitle("Workshift Parent-Child Structure");
+        this.setTitle("Part - Workshift - Transform Structure");
         initComponents();
         initCustomComponents();
     }
@@ -43,18 +43,18 @@ public class WorkshiftParentChildManagerDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jpnlWorkshiftParentChild = new javax.swing.JPanel();
+        jpnlWorkshiftTransform = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        javax.swing.GroupLayout jpnlWorkshiftParentChildLayout = new javax.swing.GroupLayout(jpnlWorkshiftParentChild);
-        jpnlWorkshiftParentChild.setLayout(jpnlWorkshiftParentChildLayout);
-        jpnlWorkshiftParentChildLayout.setHorizontalGroup(
-            jpnlWorkshiftParentChildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jpnlWorkshiftTransformLayout = new javax.swing.GroupLayout(jpnlWorkshiftTransform);
+        jpnlWorkshiftTransform.setLayout(jpnlWorkshiftTransformLayout);
+        jpnlWorkshiftTransformLayout.setHorizontalGroup(
+            jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 435, Short.MAX_VALUE)
         );
-        jpnlWorkshiftParentChildLayout.setVerticalGroup(
-            jpnlWorkshiftParentChildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jpnlWorkshiftTransformLayout.setVerticalGroup(
+            jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 262, Short.MAX_VALUE)
         );
 
@@ -62,12 +62,12 @@ public class WorkshiftParentChildManagerDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpnlWorkshiftParentChild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jpnlWorkshiftTransform, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jpnlWorkshiftParentChild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jpnlWorkshiftTransform, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 49, Short.MAX_VALUE))
         );
 
@@ -91,21 +91,23 @@ public class WorkshiftParentChildManagerDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WorkshiftParentChildManagerDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WorkshiftTransformDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WorkshiftParentChildManagerDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WorkshiftTransformDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WorkshiftParentChildManagerDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WorkshiftTransformDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WorkshiftParentChildManagerDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WorkshiftTransformDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                WorkshiftParentChildManagerDialog dialog = new WorkshiftParentChildManagerDialog(new javax.swing.JFrame(), true);
+                WorkshiftTransformDialog dialog = new WorkshiftTransformDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -118,6 +120,6 @@ public class WorkshiftParentChildManagerDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jpnlWorkshiftParentChild;
+    private javax.swing.JPanel jpnlWorkshiftTransform;
     // End of variables declaration//GEN-END:variables
 }

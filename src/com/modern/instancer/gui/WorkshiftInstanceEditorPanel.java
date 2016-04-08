@@ -156,7 +156,7 @@ public class WorkshiftInstanceEditorPanel extends javax.swing.JPanel {
 
         jpnlOffsetInstance.setForeground(new java.awt.Color(255, 255, 255));
 
-        jlblOffsetInstanceID.setText("Base / Instance ID");
+        jlblOffsetInstanceID.setText("Transform ID");
 
         jcbx180DegreeRotation.setText("180 Rotation?");
 
