@@ -11,10 +11,16 @@ package com.modern.instancer.common;
  */
 public class TextParser {
 
+//<editor-fold defaultstate="collapsed" desc="Static values">
     private static final int NOT_FOUND = -1;
     private static final String DOUBLE_CHARS = "-0123456789,.";
     private static final String INTEGER_CHARS = "-0123456789,";
     
+    public static final String COMMENT_ID_START = "(";
+    public static final String COMMENT_ID_END = ")";
+//</editor-fold>
+    
+//<editor-fold defaultstate="collapsed" desc="Numeric Methods">
     public static double getDoubleAtLocator(String valueLocator, String text) throws Exception {
         int index = text.indexOf(valueLocator);
         
@@ -34,17 +40,28 @@ public class TextParser {
                 } else {
                     finished = true;
                 }
-            
+                
                 index++;
             }
             return Double.valueOf(dblText);
         }
     }
     
-    
-    public static final String COMMENT_ID_START = "(";
-    public static final String COMMENT_ID_END = ")";
-    
+    public static boolean safeIsNumeric(String text, int index) {
+        if ((index < 0) || (index >= text.length())) {
+            return false;
+        } else {
+            try {
+                Integer.valueOf(String.valueOf(text.charAt(index)));
+            } catch (NumberFormatException e) {
+                return false;
+            }
+            return true;
+        }
+    }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="String Methods">
     public static String getComments(String text){
         return getSubString(text, COMMENT_ID_START, COMMENT_ID_END);
     }
@@ -58,22 +75,9 @@ public class TextParser {
         if ((start != NOT_FOUND) && (end != NOT_FOUND) && (start <= end)) {
             result = text.substring(start, end+1);
         }
-                
+        
         return result;
     }
-    
-    
-//    public static boolean safeIsNumeric(String text, int index) {
-//        if ((index < 0) || (index >= text.length())) {
-//            return false;
-//        } else {
-//            try {
-//                Integer.valueOf(String.valueOf(text.charAt(index)));
-//            } catch (NumberFormatException e) {
-//                return false;
-//            }
-//            return true;
-//        }
-//    }
+//</editor-fold>
     
 }

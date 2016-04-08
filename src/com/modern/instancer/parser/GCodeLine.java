@@ -5,6 +5,8 @@
  */
 package com.modern.instancer.parser;
 
+import static com.modern.instancer.common.TextParser.safeIsNumeric;
+
 /**
  *
  * @author kevinlawrence
@@ -50,21 +52,6 @@ public class GCodeLine {
 
 //</editor-fold>
     
-//<editor-fold defaultstate="collapsed" desc="Library Methods">
-    public static boolean safeIsNumeric(String text, int index) {
-        if ((index < 0) || (index >= text.length())) {
-            return false;
-        } else {
-            try {
-                Integer.valueOf(String.valueOf(text.charAt(index)));
-            } catch (NumberFormatException e) {
-                return false;
-            }
-            return true;
-        }
-    }
-//</editor-fold>
-
 //<editor-fold defaultstate="collapsed" desc="Extended Properties">
     public static final String T0_IDENTIFIER = "T0";
     public static final String M6_IDENTIFIER = "M6";
@@ -150,7 +137,6 @@ public class GCodeLine {
 //</editor-fold>
     public static boolean isToolZero(String line) {
         return (line.contains(T0_IDENTIFIER) && line.contains(M6_IDENTIFIER));
-//        return (line.indexOf(T0_IDENTIFIER) != NOT_FOUND) && (line.indexOf(M6_IDENTIFIER) != NOT_FOUND);
     }
 
     public boolean isToolZero() {
