@@ -68,6 +68,10 @@ public class Workshift implements Comparable {
     private int instance;
     private String parentWorkshiftID;
     private boolean rotate180Degrees;
+    
+    private double x, y, z, a, c;
+    private String comment, source;
+//    private boolean axisOverrideFromComments;
 
     /**
      * @return the instance

@@ -54,6 +54,7 @@ public class WorkshiftValidatorG54P1 implements WorkshiftValidatorIntf {
     
 //<editor-fold defaultstate="collapsed" desc="Properties">
     public static final String G54P1_NAME_BASE = "G54.1P";
+//    public static final String G54P1_TEST_SET = "G10L20P10X-14.9572Y-10.9581Z-14.7454A0.0C0.0(A-90. C180.)";
     
     private ArrayList<Workshift> workshifts;
     private boolean allowDuplicateWorkshiftID = false;

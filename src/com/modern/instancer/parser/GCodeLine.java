@@ -223,9 +223,7 @@ public class GCodeLine {
     public boolean is() {
         return isM0(line);
     }
-//</editor-fold>
-
-    
+//</editor-fold>    
     
 //<editor-fold defaultstate="collapsed" desc="isToolComment">
 //<editor-fold defaultstate="collapsed" desc="GetComments - Tool Comments Logic">
