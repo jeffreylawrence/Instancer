@@ -107,7 +107,7 @@ public class Workshift implements Comparable {
      */
     @Override
     public String toString() {
-        return String.format("%s%s%s", getWorkshiftID(), isMain() ? " <BASE>" : "", rotate180Degrees ? " <ROTATE 180>" : "");
+        return String.format("%s%s%s%s", getWorkshiftID(), isMain() ? " <BASE>" : "", rotate180Degrees ? " <ROTATE 180>" : "", axisData.toString());
     }
 
     /**

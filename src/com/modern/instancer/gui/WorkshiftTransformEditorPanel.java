@@ -212,7 +212,11 @@ public final class WorkshiftTransformEditorPanel extends javax.swing.JPanel {
         WorkshiftTransformEditorPanel panel = new WorkshiftTransformEditorPanel(workshift, transform);
         int result = JOptionPane.showConfirmDialog(null, panel, "Edit Workshift Transform", JOptionPane.OK_CANCEL_OPTION);
         
-        return new WorkshiftTransformEditorResult(result, null, null);//panel.getWorkshift(), panel.getTransform());
+        if (result == JOptionPane.OK_OPTION) {
+            panel.updateData();
+        }
+        
+        return new WorkshiftTransformEditorResult(result, panel.getWorkshift(), panel.getTransform());//panel.getWorkshift(), panel.getTransform());
     }
 //</editor-fold>
     
