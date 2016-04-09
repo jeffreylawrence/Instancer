@@ -11,10 +11,10 @@ import java.awt.BorderLayout;
  *
  * @author kevinlawrence
  */
-public class WorkshiftTransformDialog extends javax.swing.JDialog {
+public class WorkshiftTransformTreeDialog extends javax.swing.JDialog {
 
     private void initCustomComponents(){
-        WorkshiftTransformPanel pnl = new WorkshiftTransformPanel();
+        WorkshiftTransformTreePanel pnl = new WorkshiftTransformTreePanel();
         
         jpnlWorkshiftTransform.setLayout(new BorderLayout());     
         jpnlWorkshiftTransform.add(pnl);
@@ -27,7 +27,7 @@ public class WorkshiftTransformDialog extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    public WorkshiftTransformDialog(java.awt.Frame parent, boolean modal) {
+    public WorkshiftTransformTreeDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         this.setTitle("Part - Workshift - Transform Structure");
         initComponents();
@@ -91,14 +91,18 @@ public class WorkshiftTransformDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WorkshiftTransformDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WorkshiftTransformTreeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WorkshiftTransformDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WorkshiftTransformTreeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WorkshiftTransformDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WorkshiftTransformTreeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WorkshiftTransformDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WorkshiftTransformTreeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -107,7 +111,7 @@ public class WorkshiftTransformDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                WorkshiftTransformDialog dialog = new WorkshiftTransformDialog(new javax.swing.JFrame(), true);
+                WorkshiftTransformTreeDialog dialog = new WorkshiftTransformTreeDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

@@ -12,7 +12,7 @@ import com.modern.instancer.data.WorkshiftListProviderIntf;
  *
  * @author kevinlawrence
  */
-public class WorkshiftInstanceEditorPanel extends javax.swing.JPanel {
+public class WorkshiftTransformEditorPanel extends javax.swing.JPanel {
 
 //<editor-fold defaultstate="collapsed" desc="Properties">
     private Workshift workshift;
@@ -143,7 +143,7 @@ public class WorkshiftInstanceEditorPanel extends javax.swing.JPanel {
     /**
      * Creates new form InstanceEditorPanel
      */
-    public WorkshiftInstanceEditorPanel(Workshift workshift, Workshift transform) {
+    public WorkshiftTransformEditorPanel(Workshift workshift, Workshift transform) {
         initComponents();
 
         this.workshift = workshift;
