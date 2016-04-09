@@ -7,6 +7,7 @@ package com.modern.instancer.gui;
 
 import com.modern.instancer.data.Workshift;
 import com.modern.instancer.data.WorkshiftListProviderIntf;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -158,6 +159,63 @@ public final class WorkshiftTransformEditorPanel extends javax.swing.JPanel {
     }
 //</editor-fold>
 
+    
+//<editor-fold defaultstate="collapsed" desc="Factory">
+    //<editor-fold defaultstate="collapsed" desc="WorkshiftTransformEditorResult">
+    public interface WorkshiftTransformEditorResultIntf {
+        public int getDialogResult();
+        
+        public Workshift getWorkshift();
+        public Workshift getTransform();
+    }
+    
+    public static class WorkshiftTransformEditorResult implements WorkshiftTransformEditorResultIntf {
+        //<editor-fold defaultstate="collapsed" desc="Constructor">
+        public WorkshiftTransformEditorResult(int dialogResult, Workshift workshift, Workshift transform){
+            this.dialogResult = dialogResult;
+            
+            this.workshift = workshift;
+            this.transform = transform;
+        }
+        //</editor-fold>
+        
+        //<editor-fold defaultstate="collapsed" desc="Properties">
+        private int dialogResult;
+        private Workshift workshift;
+        private Workshift transform;
+        
+        /**
+         * @return the dialogResult
+         */
+        public int getDialogResult() {
+            return dialogResult;
+        }
+        
+        /**
+         * @return the workshift
+         */
+        public Workshift getWorkshift() {
+            return workshift;
+        }
+        
+        /**
+         * @return the transform
+         */
+        public Workshift getTransform() {
+            return transform;
+        }
+        //</editor-fold>
+    }
+    //</editor-fold>
+    
+    public static WorkshiftTransformEditorResult showWorkshiftTransformEditor(Workshift workshift, Workshift transform){
+        WorkshiftTransformEditorPanel panel = new WorkshiftTransformEditorPanel(workshift, transform);
+        int result = JOptionPane.showConfirmDialog(null, panel, "Edit Workshift Transform", JOptionPane.OK_CANCEL_OPTION);
+        
+        return new WorkshiftTransformEditorResult(result, null, null);//panel.getWorkshift(), panel.getTransform());
+    }
+//</editor-fold>
+    
     /**
      * Creates new form InstanceEditorPanel
      * @param workshift
@@ -168,8 +226,6 @@ public final class WorkshiftTransformEditorPanel extends javax.swing.JPanel {
 
         setWorkshift(workshift);
         setTransform(transform);
-//        this.workshift = workshift;
-//        this.transform = transform;
     }
 
     /**
@@ -327,7 +383,7 @@ public final class WorkshiftTransformEditorPanel extends javax.swing.JPanel {
 
         jcbxTransform180DegreeRotation.setText("180 Rotation?");
 
-        jspinTransformInstance.setModel(new javax.swing.SpinnerNumberModel(1, 1, 300, 1));
+        jspinTransformInstance.setModel(new javax.swing.SpinnerNumberModel(1, 0, 300, 1));
 
         jlblX.setText("X");
 
