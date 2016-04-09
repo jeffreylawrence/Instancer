@@ -5,11 +5,16 @@
         <group>
             <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/src/com/modern/instancer/gui/WorkshiftEditorDialog.java</file>
             <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/src/com/modern/instancer/data/WorkshiftValidatorG54P1.java</file>
-            <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/src/com/modern/instancer/parser/GCodeLine.java</file>
-            <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/src/com/modern/instancer/gui/WorkshiftEditorFrame.java</file>
+            <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/src/com/modern/instancer/gui/InstancerMain.java</file>
+            <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/src/instancer/Instancer.java</file>
+            <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/src/com/modern/instancer/gui/WorkshiftTransformTreePanel.java</file>
+            <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/src/com/modern/instancer/data/FiveAxisData.java</file>
+            <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/src/com/modern/instancer/gui/WorkshiftTransformEditorPanel.java</file>
+            <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/test/com/modern/instancer/common/TextParserTest.java</file>
+            <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/src/com/modern/instancer/data/WorkshiftTreeData.java</file>
             <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/src/com/modern/instancer/data/Workshift.java</file>
-            <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/src/com/modern/instancer/data/AxisData.java</file>
-            <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/src/com/modern/instancer/gui/WorkshiftInstanceEditorPanel.java</file>
+            <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/src/com/modern/instancer/gui/WorkshiftTransformEditorDialog.java</file>
+            <file>file:/Users/kevinlawrence/Documents/OneDrive/Sync/Personal/Modern%20Eng/Instancer/src/com/modern/instancer/gui/WorkshiftUpdateHandlerIntf.java</file>
         </group>
     </open-files>
 </project-private>

@@ -19,16 +19,28 @@ public class Workshift implements Comparable {
         axisData = new FiveAxisData();
     }
 
-    public Workshift(String offsetID, String parentOffsetID, boolean rotate180Degrees) {
-        setWorkshiftID(offsetID);
-        this.parentWorkshiftID = parentOffsetID;
+    public Workshift(String workshiftID, String parentWorkshiftID, boolean rotate180Degrees, String axisData) {
+        setWorkshiftID(workshiftID);
+        this.parentWorkshiftID = parentWorkshiftID;
+        this.rotate180Degrees = rotate180Degrees;
+        
+        try {
+            this.axisData = new FiveAxisData(axisData);
+        } catch (Exception e){
+            //bury it, dammit!
+        }
+    }
+
+    public Workshift(String workshiftID, String parentWorkshiftID, boolean rotate180Degrees) {
+        setWorkshiftID(workshiftID);
+        this.parentWorkshiftID = parentWorkshiftID;
         this.rotate180Degrees = rotate180Degrees;
     }
 
-    public Workshift(String offsetNameBase, int offsetInstance, String parentOffsetID, boolean rotate180Degrees) {
-        this.nameBase = offsetNameBase;
-        this.instance = offsetInstance;
-        this.parentWorkshiftID = parentOffsetID;
+    public Workshift(String nameBase, int instance, String parentWorkshiftID, boolean rotate180Degrees) {
+        this.nameBase = nameBase;
+        this.instance = instance;
+        this.parentWorkshiftID = parentWorkshiftID;
         this.rotate180Degrees = rotate180Degrees;
     }
 //</editor-fold>

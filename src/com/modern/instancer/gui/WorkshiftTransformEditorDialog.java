@@ -7,12 +7,14 @@ package com.modern.instancer.gui;
 
 import com.modern.instancer.data.Workshift;
 import java.awt.BorderLayout;
+import java.awt.event.WindowEvent;
+import javax.swing.JDialog;
 
 /**
  *
  * @author kevinlawrence
  */
-public class WorkshiftTransformEditorDialog extends javax.swing.JDialog {
+public final class WorkshiftTransformEditorDialog extends javax.swing.JDialog {
     
 //<editor-fold defaultstate="collapsed" desc="Properties">
     WorkshiftTransformEditorPanel jpnlWorkshiftTransformEditor;
@@ -57,6 +59,8 @@ public class WorkshiftTransformEditorDialog extends javax.swing.JDialog {
     public WorkshiftTransformEditorDialog(java.awt.Frame parent, boolean modal,
             Workshift workshift, Workshift transform) {
         super(parent, modal);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+
         initComponents();
         initCustomComponents(workshift, transform);
     }
@@ -69,6 +73,16 @@ public class WorkshiftTransformEditorDialog extends javax.swing.JDialog {
         jpnlWorkshiftTransformEditor.setVisible(true);
     }
     
+    private void updateData() {
+        if (jpnlWorkshiftTransformEditor != null) {
+            jpnlWorkshiftTransformEditor.updateWorkshiftData();
+        }
+    }
+    
+    public void close(){
+        setVisible(false);
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }
 //</editor-fold>
 
     /**
@@ -82,6 +96,8 @@ public class WorkshiftTransformEditorDialog extends javax.swing.JDialog {
 
         jpnlEditorHome = new javax.swing.JPanel();
         jpnlControl = new javax.swing.JPanel();
+        jbtnOK = new javax.swing.JButton();
+        jbtnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -89,41 +105,78 @@ public class WorkshiftTransformEditorDialog extends javax.swing.JDialog {
         jpnlEditorHome.setLayout(jpnlEditorHomeLayout);
         jpnlEditorHomeLayout.setHorizontalGroup(
             jpnlEditorHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 634, Short.MAX_VALUE)
         );
         jpnlEditorHomeLayout.setVerticalGroup(
             jpnlEditorHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 270, Short.MAX_VALUE)
+            .addGap(0, 184, Short.MAX_VALUE)
         );
+
+        jbtnOK.setText("OK");
+        jbtnOK.setPreferredSize(new java.awt.Dimension(100, 29));
+        jbtnOK.setSize(new java.awt.Dimension(100, 29));
+        jbtnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnOKActionPerformed(evt);
+            }
+        });
+
+        jbtnCancel.setText("Cancel");
+        jbtnCancel.setPreferredSize(new java.awt.Dimension(100, 29));
+        jbtnCancel.setSize(new java.awt.Dimension(100, 29));
+        jbtnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jpnlControlLayout = new javax.swing.GroupLayout(jpnlControl);
         jpnlControl.setLayout(jpnlControlLayout);
         jpnlControlLayout.setHorizontalGroup(
             jpnlControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 566, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlControlLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbtnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbtnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jpnlControlLayout.setVerticalGroup(
             jpnlControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 53, Short.MAX_VALUE)
+            .addGroup(jpnlControlLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpnlControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnOK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpnlControl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jpnlEditorHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jpnlControl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jpnlEditorHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jpnlEditorHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jpnlControl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jpnlControl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jbtnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOKActionPerformed
+        updateData();
+        close();
+    }//GEN-LAST:event_jbtnOKActionPerformed
+
+    private void jbtnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelActionPerformed
+        close();
+    }//GEN-LAST:event_jbtnCancelActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -168,8 +221,12 @@ public class WorkshiftTransformEditorDialog extends javax.swing.JDialog {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jbtnCancel;
+    private javax.swing.JButton jbtnOK;
     private javax.swing.JPanel jpnlControl;
     private javax.swing.JPanel jpnlEditorHome;
     // End of variables declaration//GEN-END:variables
+
+
 
 }

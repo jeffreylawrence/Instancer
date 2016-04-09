@@ -7,12 +7,9 @@ package instancer;
 
 import com.modern.instancer.data.Workshift;
 import com.modern.instancer.gui.InstancerMain;
-import com.modern.instancer.gui.WorkshiftEditorDialog;
-import com.modern.instancer.gui.WorkshiftEditorFrame;
-import java.awt.Frame;
-import javax.swing.JFrame;
+import com.modern.instancer.gui.WorkshiftTransformEditorDialog;
+import com.modern.instancer.gui.WorkshiftTransformEditorPanel;
 import javax.swing.JOptionPane;
-import com.modern.instancer.gui.WorkshiftUpdateHandlerIntf;
 
 /**
  *
@@ -27,12 +24,25 @@ public class Instancer { //implements { WorkshiftUpdateHandlerIntf {
         InstancerMain instancerMain = new InstancerMain();
         instancerMain.setVisible(true);
         
-        Workshift offset = new Workshift(Workshift.G54P1_NAME_BASE, 12, null, false);
+        Workshift workshift = new Workshift(Workshift.G54P1_NAME_BASE, 12, null, false);
 //        WorkshiftEditorFrame instanceEditor = new WorkshiftEditorFrame(offset);
 //        instanceEditor.setAlwaysOnTop(true);
 //        instanceEditor.setVisible(true);
         
+
+    String G54P1_WORKSHIFT = "G10L20P10X-14.9572Y-10.9581Z-14.7454A0.0C0.0(A-90. C180.)";
+    String G54P1_TRANSFORM = "G10L20P10X-14.9572Y-10.9581Z-14.7454A0.0C0.0(A-90. C180.)";
+
+//        WorkshiftTransformEditorDialog dlg = new WorkshiftTransformEditorDialog(null, true, new Workshift("WS001", null, false, G54P1_WORKSHIFT), new Workshift("WS001", null, false, G54P1_TRANSFORM));
+//        dlg.setVisible(true);
         
+        WorkshiftTransformEditorPanel panel = new WorkshiftTransformEditorPanel(new Workshift("WS001", null, false, G54P1_WORKSHIFT), new Workshift("WS001", null, false, G54P1_TRANSFORM));
+        int result = JOptionPane.showConfirmDialog(null, panel,
+            "Edit Workshift Transform", JOptionPane.OK_CANCEL_OPTION);
+
+      if (result == JOptionPane.OK_OPTION) {
+         System.out.println("success");
+      }
 //        JOptionPane.showInputDialog(instancerMain, offset, "", 0);
 //        JOptionPane.show
 
