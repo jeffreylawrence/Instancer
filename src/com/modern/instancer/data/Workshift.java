@@ -15,6 +15,8 @@ public class Workshift implements Comparable {
     {
         parentWorkshiftID = "";
         rotate180Degrees = false;
+        
+        axisData = new FiveAxisData();
     }
 
     public Workshift(String offsetID, String parentOffsetID, boolean rotate180Degrees) {
@@ -69,7 +71,8 @@ public class Workshift implements Comparable {
     private String parentWorkshiftID;
     private boolean rotate180Degrees;
     
-    private double x, y, z, a, c;
+//    private double x, y, z, a, c;
+    private FiveAxisData axisData;
     private String comment, source;
 //    private boolean axisOverrideFromComments;
 
@@ -162,6 +165,75 @@ public class Workshift implements Comparable {
         this.nameBase = nameBase;
     }
     
+        /**
+     * @return the x
+     */
+    public double getX() {
+        return axisData.getX();
+    }
+
+    /**
+     * @param x the x to set
+     */
+    public void setX(double x) {
+        axisData.setX(x);
+    }
+
+    /**
+     * @return the y
+     */
+    public double getY() {
+        return axisData.getY();
+    }
+
+    /**
+     * @param y the y to set
+     */
+    public void setY(double y) {
+        axisData.setY(y);
+    }
+
+    /**
+     * @return the z
+     */
+    public double getZ() {
+        return axisData.getZ();
+    }
+
+    /**
+     * @param z the z to set
+     */
+    public void setZ(double z) {
+        axisData.setZ(z);
+    }
+
+    /**
+     * @return the a
+     */
+    public double getA() {
+        return axisData.getA();
+    }
+
+    /**
+     * @param a the a to set
+     */
+    public void setA(double a) {
+        axisData.setA(a);
+    }
+
+    /**
+     * @return the c
+     */
+    public double getC() {
+        return axisData.getC();
+    }
+
+    /**
+     * @param c the c to set
+     */
+    public void setC(double c) {
+        axisData.setC(c);
+    }
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Comparable Interface Methods">
@@ -173,11 +245,11 @@ public class Workshift implements Comparable {
     * return negative integer (COMPARABLE_LESS_THAN = -1) if the specified workshift 
     * "o" sorts ordinally before this object, zero int (COMPARABLE_EQUAL_TO = 0)
     * if the specified workshift "o" sorts identically to this object, or a positive 
-    * integer (COMPARABLE_MORE_THAN = 1) if the specified offSet "o" 
+    * integer (COMPARABLE_MORE_THAN = 1) if the specified workshift "o" 
     * sorts ordinally after this object.
     *
     * "Root" workshifts (those will "null" parent references) will always sort 
-    * before non-parent offsets (those that have parents)
+    * before non-parent workshift (those that have parents)
      */
     @Override
     public int compareTo(Object o) {

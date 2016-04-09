@@ -11,7 +11,7 @@ import com.modern.instancer.common.TextParser;
  *
  * @author kevinlawrence
  */
-public class AxisData {
+public class FiveAxisData {
 
     //<editor-fold defaultstate="collapsed" desc="Constructors">
     {
@@ -19,11 +19,13 @@ public class AxisData {
         source = "";
     }
     
-    public AxisData(String source) throws Exception {
+    public FiveAxisData(){}
+
+    public FiveAxisData(String source) throws Exception {
         parseSource(source);
     }
     
-    public AxisData(double x, double y, double z, double a, double c, String comment) {
+    public FiveAxisData(double x, double y, double z, double a, double c, String comment) {
         this.x = x;
         this.y = y;
         this.z = z;
