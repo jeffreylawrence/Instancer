@@ -16,6 +16,7 @@ public class WorkshiftInstanceEditorPanel extends javax.swing.JPanel {
 
 //<editor-fold defaultstate="collapsed" desc="Properties">
     private Workshift workshift;
+    private Workshift transform;
     private WorkshiftListProviderIntf workshiftListProvider;
 
     /**
@@ -34,6 +35,21 @@ public class WorkshiftInstanceEditorPanel extends javax.swing.JPanel {
     }
 
     /**
+     * @return the transform
+     */
+    public Workshift getTransform() {
+        return transform;
+    }
+
+    /**
+     * @param transform the transform to set
+     */
+    public void setTransform(Workshift transform) {
+        this.transform = transform;
+        updateTransformDisplay();
+    }
+
+    /**
      * @param workshiftListProvider the offsetListProvider to set
      */
     public void setWorkshiftListProvider(WorkshiftListProviderIntf workshiftListProvider) {
@@ -44,54 +60,94 @@ public class WorkshiftInstanceEditorPanel extends javax.swing.JPanel {
 
 //<editor-fold defaultstate="collapsed" desc="Data Update Methods">
     public void updateWorkshiftListNavigation() {
-        jbtnPreviousOriginalOffset.setEnabled(jcbxOriginalOffset.getItemCount() > 0);
-        jbtnNextOriginalOffset.setEnabled(jcbxOriginalOffset.getItemCount() > 0);
-        
-        //TODO: remove out later
-        jbtnPreviousOriginalOffset.setVisible(false);
-        jbtnNextOriginalOffset.setVisible(false);
+        jbtnPreviousWorkshift.setEnabled(jcbxWorkshift.getItemCount() > 0);
+        jbtnNextWorkshift.setEnabled(jcbxWorkshift.getItemCount() > 0);
+
+        //TODO: remove later
+        jbtnPreviousWorkshift.setVisible(false);
+        jbtnNextWorkshift.setVisible(false);
     }
-    
+
     public void updateWorkshiftListDisplay() {
         //setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jcbxOriginalOffset.removeAllItems();
-        
+        jcbxWorkshift.removeAllItems();
+
         if (workshiftListProvider != null) {
-            workshiftListProvider.getWorkshiftIDsSorted().stream().forEachOrdered(offsetID -> jcbxOriginalOffset.addItem(offsetID));
+            workshiftListProvider.getWorkshiftIDsSorted().stream().forEachOrdered(offsetID -> jcbxWorkshift.addItem(offsetID));
         }
         updateWorkshiftListNavigation();
     }
-    
+
     public void updateWorkshiftDisplay() {
-        jtxtBaseName.setText("");
-        jcbx180DegreeRotation.setSelected(false);
-        
-        if (workshift != null) {
+//        jtxtBaseName.setText("");
+//        jcbx180DegreeRotation.setSelected(false);
+//        
+//        if (workshift != null) {
+////            this.s(workshift.getWorkshiftID());
+//            jtxtBaseName.setText(workshift.getNameBase());
+//            jspinInstance.setValue(workshift.getInstance());
+//            jcbx180DegreeRotation.setSelected(workshift.isRotate180Degrees());
 //            this.s(workshift.getWorkshiftID());
-            jtxtBaseName.setText(workshift.getNameBase());
-            jspinInstance.setValue(workshift.getInstance());
-            jcbx180DegreeRotation.setSelected(workshift.isRotate180Degrees());
+//            jtxtTransformBaseName.setText(workshift.getNameBase());
+//            jspinTransformInstance.setValue(workshift.getInstance());
+//            jcbxTransform180DegreeRotation.setSelected(workshift.isRotate180Degrees());
+//        }
+    }
+
+    public void updateWorkshiftData() {
+//        if (workshift != null) {
+////            workshift.setNameBase(jtxtWorkshiftBaseName.getText());
+//            workshift.setInstance((int) jspinWorkshiftInstance.getValue());
+//
+//            workshift.setRotate180Degrees(jcbxWorkshift180DegreeRotation.isSelected());
+//
+//            workshift.setX(Double.valueOf(jtxtWorkshiftX.getText()));
+//            workshift.setY(Double.valueOf(jtxtWorkshiftY.getText()));
+//            workshift.setZ(Double.valueOf(jtxtWorkshiftZ.getText()));
+//            workshift.setA(Double.valueOf(jtxtWorkshiftA.getText()));
+//            workshift.setC(Double.valueOf(jtxtWorkshiftC.getText()));
+//        }
+    }
+
+    private void updateTransformDisplay() {
+        if (transform != null) {
+            jtxtTransformBaseName.setText(transform.getNameBase());
+            jspinTransformInstance.setValue(transform.getInstance());
+
+            jcbxTransform180DegreeRotation.setSelected(transform.isRotate180Degrees());
+
+            jtxtTransformX.setText(String.valueOf(transform.getX()));
+            jtxtTransformY.setText(String.valueOf(transform.getY()));
+            jtxtTransformZ.setText(String.valueOf(transform.getZ()));
+            jtxtTransformA.setText(String.valueOf(transform.getA()));
+            jtxtTransformC.setText(String.valueOf(transform.getC()));
         }
     }
-    
-    public void updateWorkshiftData() {
-        if (workshift != null) {
-            workshift.setWorkshiftID(jtxtBaseName.getText());
-            workshift.setInstance((int) jspinInstance.getValue());
-            workshift.setRotate180Degrees(jcbx180DegreeRotation.isSelected());
-            //TODO... do we even want to allow this?
-            workshift.setParentWorkshiftID((String) jcbxOriginalOffset.getSelectedItem());
+
+    private void updateTransformData() {
+        if (transform != null) {
+            transform.setNameBase(jtxtTransformBaseName.getText());
+            transform.setInstance((int) jspinTransformInstance.getValue());
+
+            transform.setRotate180Degrees(jcbxTransform180DegreeRotation.isSelected());
+
+            transform.setX(Double.valueOf(jtxtTransformX.getText()));
+            transform.setY(Double.valueOf(jtxtTransformY.getText()));
+            transform.setZ(Double.valueOf(jtxtTransformZ.getText()));
+            transform.setA(Double.valueOf(jtxtTransformA.getText()));
+            transform.setC(Double.valueOf(jtxtTransformC.getText()));
         }
     }
 //</editor-fold>
-    
+
     /**
      * Creates new form InstanceEditorPanel
      */
-    public WorkshiftInstanceEditorPanel(Workshift workshift) {
+    public WorkshiftInstanceEditorPanel(Workshift workshift, Workshift transform) {
         initComponents();
 
         this.workshift = workshift;
+        this.transform = transform;
     }
 
     /**
@@ -105,27 +161,82 @@ public class WorkshiftInstanceEditorPanel extends javax.swing.JPanel {
 
         jpnlOriginalOffset = new javax.swing.JPanel();
         lblParentWorkshiftID = new javax.swing.JLabel();
-        jcbxOriginalOffset = new javax.swing.JComboBox<>();
-        jbtnPreviousOriginalOffset = new javax.swing.JButton();
-        jbtnNextOriginalOffset = new javax.swing.JButton();
-        jpnlOffsetInstance = new javax.swing.JPanel();
+        jcbxWorkshift = new javax.swing.JComboBox<>();
+        jbtnPreviousWorkshift = new javax.swing.JButton();
+        jbtnNextWorkshift = new javax.swing.JButton();
+        jlblX1 = new javax.swing.JLabel();
+        jtxtWorkshiftX = new javax.swing.JTextField();
+        jlblY1 = new javax.swing.JLabel();
+        jtxtWorkshiftY = new javax.swing.JTextField();
+        jlblZ1 = new javax.swing.JLabel();
+        jtxtWorkshiftZ = new javax.swing.JTextField();
+        jlblA1 = new javax.swing.JLabel();
+        jtxtWorkshiftA = new javax.swing.JTextField();
+        jlblC1 = new javax.swing.JLabel();
+        jtxtWorkshiftC = new javax.swing.JTextField();
+        jpnlWorkshiftTransform = new javax.swing.JPanel();
         jlblOffsetInstanceID = new javax.swing.JLabel();
-        jtxtBaseName = new javax.swing.JTextField();
-        jcbx180DegreeRotation = new javax.swing.JCheckBox();
-        jspinInstance = new javax.swing.JSpinner();
+        jtxtTransformBaseName = new javax.swing.JTextField();
+        jcbxTransform180DegreeRotation = new javax.swing.JCheckBox();
+        jspinTransformInstance = new javax.swing.JSpinner();
+        jlblX = new javax.swing.JLabel();
+        jtxtTransformX = new javax.swing.JTextField();
+        jlblY = new javax.swing.JLabel();
+        jtxtTransformY = new javax.swing.JTextField();
+        jlblZ = new javax.swing.JLabel();
+        jtxtTransformZ = new javax.swing.JTextField();
+        jlblA = new javax.swing.JLabel();
+        jtxtTransformA = new javax.swing.JTextField();
+        jlblC = new javax.swing.JLabel();
+        jtxtTransformC = new javax.swing.JTextField();
         jpnlControls = new javax.swing.JPanel();
         jbtnAccept = new javax.swing.JButton();
         jbtnCancel = new javax.swing.JButton();
 
-        lblParentWorkshiftID.setText("Parent (Main) Workshift ID");
+        lblParentWorkshiftID.setText("Workshift ID (Parent)");
 
-        jcbxOriginalOffset.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbxWorkshift.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jbtnPreviousOriginalOffset.setText("<");
-        jbtnPreviousOriginalOffset.setToolTipText("Previous Original Offset");
+        jbtnPreviousWorkshift.setText("<");
+        jbtnPreviousWorkshift.setToolTipText("Previous Original Offset");
 
-        jbtnNextOriginalOffset.setText(">");
-        jbtnNextOriginalOffset.setToolTipText("Next Original Offset");
+        jbtnNextWorkshift.setText(">");
+        jbtnNextWorkshift.setToolTipText("Next Original Offset");
+
+        jlblX1.setText("X");
+
+        jtxtWorkshiftX.setEditable(false);
+        jtxtWorkshiftX.setBackground(new java.awt.Color(204, 204, 204));
+        jtxtWorkshiftX.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtWorkshiftX.setPreferredSize(new java.awt.Dimension(70, 28));
+
+        jlblY1.setText("Y");
+
+        jtxtWorkshiftY.setEditable(false);
+        jtxtWorkshiftY.setBackground(new java.awt.Color(204, 204, 204));
+        jtxtWorkshiftY.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtWorkshiftY.setPreferredSize(new java.awt.Dimension(70, 28));
+
+        jlblZ1.setText("Z");
+
+        jtxtWorkshiftZ.setEditable(false);
+        jtxtWorkshiftZ.setBackground(new java.awt.Color(204, 204, 204));
+        jtxtWorkshiftZ.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtWorkshiftZ.setPreferredSize(new java.awt.Dimension(70, 28));
+
+        jlblA1.setText("A");
+
+        jtxtWorkshiftA.setEditable(false);
+        jtxtWorkshiftA.setBackground(new java.awt.Color(204, 204, 204));
+        jtxtWorkshiftA.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtWorkshiftA.setPreferredSize(new java.awt.Dimension(70, 28));
+
+        jlblC1.setText("C");
+
+        jtxtWorkshiftC.setEditable(false);
+        jtxtWorkshiftC.setBackground(new java.awt.Color(204, 204, 204));
+        jtxtWorkshiftC.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtWorkshiftC.setPreferredSize(new java.awt.Dimension(70, 28));
 
         javax.swing.GroupLayout jpnlOriginalOffsetLayout = new javax.swing.GroupLayout(jpnlOriginalOffset);
         jpnlOriginalOffset.setLayout(jpnlOriginalOffsetLayout);
@@ -133,14 +244,37 @@ public class WorkshiftInstanceEditorPanel extends javax.swing.JPanel {
             jpnlOriginalOffsetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpnlOriginalOffsetLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblParentWorkshiftID, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                .addGroup(jpnlOriginalOffsetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jpnlOriginalOffsetLayout.createSequentialGroup()
+                        .addComponent(jlblX1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtxtWorkshiftX, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlblY1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtxtWorkshiftY, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlblZ1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtxtWorkshiftZ, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlblA1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtxtWorkshiftA, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpnlOriginalOffsetLayout.createSequentialGroup()
+                        .addComponent(lblParentWorkshiftID)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcbxWorkshift, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlblC1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jcbxOriginalOffset, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbtnPreviousOriginalOffset, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbtnNextOriginalOffset, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(jpnlOriginalOffsetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpnlOriginalOffsetLayout.createSequentialGroup()
+                        .addComponent(jbtnPreviousWorkshift, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbtnNextWorkshift, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtxtWorkshiftC, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jpnlOriginalOffsetLayout.setVerticalGroup(
             jpnlOriginalOffsetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,44 +282,121 @@ public class WorkshiftInstanceEditorPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jpnlOriginalOffsetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblParentWorkshiftID)
-                    .addComponent(jcbxOriginalOffset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbtnNextOriginalOffset)
-                    .addComponent(jbtnPreviousOriginalOffset))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jcbxWorkshift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnNextWorkshift)
+                    .addComponent(jbtnPreviousWorkshift))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpnlOriginalOffsetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlblX1)
+                    .addComponent(jtxtWorkshiftX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlblY1)
+                    .addComponent(jtxtWorkshiftY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlblZ1)
+                    .addComponent(jtxtWorkshiftZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlblA1)
+                    .addComponent(jtxtWorkshiftA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlblC1)
+                    .addComponent(jtxtWorkshiftC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        jpnlOffsetInstance.setForeground(new java.awt.Color(255, 255, 255));
+        jpnlWorkshiftTransform.setForeground(new java.awt.Color(255, 255, 255));
 
         jlblOffsetInstanceID.setText("Transform ID");
 
-        jcbx180DegreeRotation.setText("180 Rotation?");
+        jtxtTransformBaseName.setPreferredSize(new java.awt.Dimension(70, 28));
 
-        jspinInstance.setModel(new javax.swing.SpinnerNumberModel(1, 1, 300, 1));
+        jcbxTransform180DegreeRotation.setText("180 Rotation?");
 
-        javax.swing.GroupLayout jpnlOffsetInstanceLayout = new javax.swing.GroupLayout(jpnlOffsetInstance);
-        jpnlOffsetInstance.setLayout(jpnlOffsetInstanceLayout);
-        jpnlOffsetInstanceLayout.setHorizontalGroup(
-            jpnlOffsetInstanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpnlOffsetInstanceLayout.createSequentialGroup()
+        jspinTransformInstance.setModel(new javax.swing.SpinnerNumberModel(1, 1, 300, 1));
+
+        jlblX.setText("X");
+
+        jtxtTransformX.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtTransformX.setPreferredSize(new java.awt.Dimension(70, 28));
+
+        jlblY.setText("Y");
+
+        jtxtTransformY.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtTransformY.setPreferredSize(new java.awt.Dimension(70, 28));
+
+        jlblZ.setText("Z");
+
+        jtxtTransformZ.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtTransformZ.setPreferredSize(new java.awt.Dimension(70, 28));
+
+        jlblA.setText("A");
+
+        jtxtTransformA.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtTransformA.setPreferredSize(new java.awt.Dimension(70, 28));
+
+        jlblC.setText("C");
+
+        jtxtTransformC.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtTransformC.setPreferredSize(new java.awt.Dimension(70, 28));
+
+        javax.swing.GroupLayout jpnlWorkshiftTransformLayout = new javax.swing.GroupLayout(jpnlWorkshiftTransform);
+        jpnlWorkshiftTransform.setLayout(jpnlWorkshiftTransformLayout);
+        jpnlWorkshiftTransformLayout.setHorizontalGroup(
+            jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnlWorkshiftTransformLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jlblOffsetInstanceID)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jtxtBaseName, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jspinInstance, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jcbx180DegreeRotation, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jpnlWorkshiftTransformLayout.createSequentialGroup()
+                        .addComponent(jlblX)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtxtTransformX, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlblY)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtxtTransformY, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpnlWorkshiftTransformLayout.createSequentialGroup()
+                        .addComponent(jlblOffsetInstanceID)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jtxtTransformBaseName, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlblZ)
+                .addGap(7, 7, 7)
+                .addGroup(jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jtxtTransformZ, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jspinTransformInstance, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpnlWorkshiftTransformLayout.createSequentialGroup()
+                        .addComponent(jlblA)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtxtTransformA, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlblC)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtxtTransformC, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jpnlWorkshiftTransformLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jcbxTransform180DegreeRotation, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jpnlOffsetInstanceLayout.setVerticalGroup(
-            jpnlOffsetInstanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpnlOffsetInstanceLayout.createSequentialGroup()
+        jpnlWorkshiftTransformLayout.setVerticalGroup(
+            jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnlWorkshiftTransformLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpnlOffsetInstanceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlblOffsetInstanceID)
-                    .addComponent(jtxtBaseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcbx180DegreeRotation)
-                    .addComponent(jspinInstance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtxtTransformBaseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcbxTransform180DegreeRotation)
+                    .addComponent(jspinTransformInstance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlblX)
+                    .addComponent(jtxtTransformX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlblY)
+                    .addComponent(jtxtTransformY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlblZ)
+                    .addComponent(jtxtTransformZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlblA)
+                    .addComponent(jtxtTransformA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlblC)
+                    .addComponent(jtxtTransformC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -217,7 +428,7 @@ public class WorkshiftInstanceEditorPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jpnlOriginalOffset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jpnlOffsetInstance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jpnlWorkshiftTransform, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jpnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -225,9 +436,9 @@ public class WorkshiftInstanceEditorPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jpnlOriginalOffset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jpnlOffsetInstance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jpnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jpnlWorkshiftTransform, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jpnlControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -235,16 +446,36 @@ public class WorkshiftInstanceEditorPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jbtnAccept;
     private javax.swing.JButton jbtnCancel;
-    private javax.swing.JButton jbtnNextOriginalOffset;
-    private javax.swing.JButton jbtnPreviousOriginalOffset;
-    private javax.swing.JCheckBox jcbx180DegreeRotation;
-    private javax.swing.JComboBox<String> jcbxOriginalOffset;
+    private javax.swing.JButton jbtnNextWorkshift;
+    private javax.swing.JButton jbtnPreviousWorkshift;
+    private javax.swing.JCheckBox jcbxTransform180DegreeRotation;
+    private javax.swing.JComboBox<String> jcbxWorkshift;
+    private javax.swing.JLabel jlblA;
+    private javax.swing.JLabel jlblA1;
+    private javax.swing.JLabel jlblC;
+    private javax.swing.JLabel jlblC1;
     private javax.swing.JLabel jlblOffsetInstanceID;
+    private javax.swing.JLabel jlblX;
+    private javax.swing.JLabel jlblX1;
+    private javax.swing.JLabel jlblY;
+    private javax.swing.JLabel jlblY1;
+    private javax.swing.JLabel jlblZ;
+    private javax.swing.JLabel jlblZ1;
     private javax.swing.JPanel jpnlControls;
-    private javax.swing.JPanel jpnlOffsetInstance;
     private javax.swing.JPanel jpnlOriginalOffset;
-    private javax.swing.JSpinner jspinInstance;
-    private javax.swing.JTextField jtxtBaseName;
+    private javax.swing.JPanel jpnlWorkshiftTransform;
+    private javax.swing.JSpinner jspinTransformInstance;
+    private javax.swing.JTextField jtxtTransformA;
+    private javax.swing.JTextField jtxtTransformBaseName;
+    private javax.swing.JTextField jtxtTransformC;
+    private javax.swing.JTextField jtxtTransformX;
+    private javax.swing.JTextField jtxtTransformY;
+    private javax.swing.JTextField jtxtTransformZ;
+    private javax.swing.JTextField jtxtWorkshiftA;
+    private javax.swing.JTextField jtxtWorkshiftC;
+    private javax.swing.JTextField jtxtWorkshiftX;
+    private javax.swing.JTextField jtxtWorkshiftY;
+    private javax.swing.JTextField jtxtWorkshiftZ;
     private javax.swing.JLabel lblParentWorkshiftID;
     // End of variables declaration//GEN-END:variables
 
