@@ -5,6 +5,7 @@
  */
 package com.modern.instancer.parser;
 
+import static com.modern.instancer.common.TextParser.*;
 import com.modern.instancer.data.MemoryFile;
 import java.util.ArrayList;
 
@@ -156,7 +157,7 @@ End If
         if (index == GCodeLine.NOT_FOUND) {
             return false;
         } else {
-            return (index < 3) && GCodeLine.safeIsNumeric(text, index + 1) && GCodeLine.safeIsNumeric(text, index + 4) && GCodeLine.isComment(text);
+            return (index < 3) && safeIsNumeric(text, index + 1) && safeIsNumeric(text, index + 4) && GCodeLine.isComment(text);
         }
     }
 
