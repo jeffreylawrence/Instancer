@@ -7,6 +7,8 @@ package com.modern.instancer.gui;
 
 import com.modern.instancer.data.Workshift;
 import com.modern.instancer.data.WorkshiftListProviderIntf;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -208,9 +210,33 @@ public final class WorkshiftTransformEditorPanel extends javax.swing.JPanel {
     }
     //</editor-fold>
     
+    
+    
     public static WorkshiftTransformEditorResult showWorkshiftTransformEditor(Workshift workshift, Workshift transform){
+//    public static WorkshiftTransformEditorResult showWorkshiftTransformEditor(Workshift workshift, Workshift transform, ImageIcon icon){
         WorkshiftTransformEditorPanel panel = new WorkshiftTransformEditorPanel(workshift, transform);
+//        Integer mine = 11;
+//        ImageIcon icon = new ImageIcon(Integer.class.getResource("/instancer_icon_mill.png"));
+//        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("instancer_icon_250x250.png")));
+
+//        ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Integer.class.getClass().getResource("instancer_icon_250x250.png")));
+//        ImageIcon icon = new ImageIcon("/instancer_icon_250x250.png");
+
+//        JOptionPane.showMessageDialog(null,
+//                panel,
+////    "Eggs are not supposed to be green.",
+//    "Inane custom dialog",
+//    JOptionPane.INFORMATION_MESSAGE,
+//    icon);
+
+//        JOptionPane.showMessageDialog(null,
+//    "Eggs are not supposed to be green.",
+//    "Inane custom dialog",
+//    JOptionPane.INFORMATION_MESSAGE,
+//    icon);
+//        JOptionPane.s
         int result = JOptionPane.showConfirmDialog(null, panel, "Edit Workshift Transform", JOptionPane.OK_CANCEL_OPTION);
+//        int result = JOptionPane.showMessageDialog(panel, "Edit Workshift Transform", JOptionPane.OK_CANCEL_OPTION);
         
         if (result == JOptionPane.OK_OPTION) {
             panel.updateData();
