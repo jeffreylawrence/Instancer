@@ -83,7 +83,6 @@ public class Workshift implements Comparable {
     private String parentWorkshiftID;
     private boolean rotate180Degrees;
     
-//    private double x, y, z, a, c;
     private FiveAxisData axisData;
     private String comment, source;
 //    private boolean axisOverrideFromComments;
@@ -107,7 +106,7 @@ public class Workshift implements Comparable {
      */
     @Override
     public String toString() {
-        return String.format("%s%s%s%s", getWorkshiftID(), isMain() ? " <BASE>" : "", rotate180Degrees ? " <ROTATE 180>" : "", axisData.toString());
+        return String.format("%s%s%s %s", getWorkshiftID(), isMain() ? " <BASE>" : "", rotate180Degrees ? " <ROTATE 180>" : "", axisData.toString());
     }
 
     /**
@@ -266,11 +265,11 @@ public class Workshift implements Comparable {
     @Override
     public int compareTo(Object o) {
         if (o == null) {
-            throw new NullPointerException("A null value Offset cannot be compared to another Offset item for sorting.");
+            throw new NullPointerException("A null value Workshift cannot be compared to another Workshift item for sorting.");
         }
 
         if (!(o instanceof Workshift)) {
-            throw new ClassCastException("A non-Offset data type cannot be compared to an Offset item for sorting.");
+            throw new ClassCastException("A non-Workshift data type cannot be compared to an Workshift item for sorting.");
         }
 
         Workshift offset = (Workshift) o;

@@ -7,8 +7,8 @@ package instancer;
 
 import com.modern.instancer.data.Workshift;
 import com.modern.instancer.gui.InstancerMain;
-import com.modern.instancer.gui.WorkshiftTransformEditorPanel;
-import com.modern.instancer.gui.WorkshiftTransformTreeDialog;
+import com.modern.instancer.gui.WorkshiftInstanceEditorPanel;
+import com.modern.instancer.gui.WorkshiftTreeDialog;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -46,15 +46,15 @@ public class Instancer { //implements { WorkshiftUpdateHandlerIntf {
 //        ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("instancer_icon_250x250.png")));
 //        ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("instancer_icon_250x250.png")));
 
-        WorkshiftTransformEditorPanel.WorkshiftTransformEditorResult data = WorkshiftTransformEditorPanel.showWorkshiftTransformEditor(new Workshift("WS001", null, false, G54P1_WORKSHIFT), new Workshift("WS001", null, false, G54P1_TRANSFORM));
+        WorkshiftInstanceEditorPanel.WorkshiftInstanceEditorResult data = WorkshiftInstanceEditorPanel.showWorkshiftTransformEditor(new Workshift("WS001", null, false, G54P1_WORKSHIFT), new Workshift("WS001", null, false, G54P1_TRANSFORM));
 
         System.out.println(data.getDialogResult() == JOptionPane.OK_OPTION ? "OK" : "Cancel");
         System.out.println(" Workshift:  " + data.getWorkshift().toString());
-        System.out.println(" Transform:  " + data.getTransform().toString());
+        System.out.println(" Transform:  " + data.getInstance().toString());
     }
     
     private static void testWorkshiftTransformTreeDialog(){
-        WorkshiftTransformTreeDialog dlg = new WorkshiftTransformTreeDialog(null, true);
+        WorkshiftTreeDialog dlg = new WorkshiftTreeDialog(null, true);
         dlg.setVisible(true);
 
     }

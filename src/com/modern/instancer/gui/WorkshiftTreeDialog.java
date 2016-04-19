@@ -11,13 +11,13 @@ import java.awt.BorderLayout;
  *
  * @author kevinlawrence
  */
-public class WorkshiftTransformTreeDialog extends javax.swing.JDialog {
+public class WorkshiftTreeDialog extends javax.swing.JDialog {
 
     private void initCustomComponents(){
-        WorkshiftTransformTreePanel pnl = new WorkshiftTransformTreePanel();
+        WorkshiftTreePanel pnl = new WorkshiftTreePanel();
         
-        jpnlWorkshiftTransform.setLayout(new BorderLayout());     
-        jpnlWorkshiftTransform.add(pnl);
+        jpnlWorkshiftTree.setLayout(new BorderLayout());     
+        jpnlWorkshiftTree.add(pnl);
         pnl.setVisible(true);
     };
     
@@ -27,9 +27,9 @@ public class WorkshiftTransformTreeDialog extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    public WorkshiftTransformTreeDialog(java.awt.Frame parent, boolean modal) {
+    public WorkshiftTreeDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        this.setTitle("Part - Workshift - Transform Structure");
+        this.setTitle("Part - Workshift - Instance Structure");
         initComponents();
         initCustomComponents();
     }
@@ -43,18 +43,18 @@ public class WorkshiftTransformTreeDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jpnlWorkshiftTransform = new javax.swing.JPanel();
+        jpnlWorkshiftTree = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        javax.swing.GroupLayout jpnlWorkshiftTransformLayout = new javax.swing.GroupLayout(jpnlWorkshiftTransform);
-        jpnlWorkshiftTransform.setLayout(jpnlWorkshiftTransformLayout);
-        jpnlWorkshiftTransformLayout.setHorizontalGroup(
-            jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jpnlWorkshiftTreeLayout = new javax.swing.GroupLayout(jpnlWorkshiftTree);
+        jpnlWorkshiftTree.setLayout(jpnlWorkshiftTreeLayout);
+        jpnlWorkshiftTreeLayout.setHorizontalGroup(
+            jpnlWorkshiftTreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 435, Short.MAX_VALUE)
         );
-        jpnlWorkshiftTransformLayout.setVerticalGroup(
-            jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jpnlWorkshiftTreeLayout.setVerticalGroup(
+            jpnlWorkshiftTreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 262, Short.MAX_VALUE)
         );
 
@@ -62,12 +62,12 @@ public class WorkshiftTransformTreeDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpnlWorkshiftTransform, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jpnlWorkshiftTree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jpnlWorkshiftTransform, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jpnlWorkshiftTree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 49, Short.MAX_VALUE))
         );
 
@@ -91,14 +91,22 @@ public class WorkshiftTransformTreeDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WorkshiftTransformTreeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WorkshiftTreeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WorkshiftTransformTreeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WorkshiftTreeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WorkshiftTransformTreeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WorkshiftTreeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WorkshiftTransformTreeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WorkshiftTreeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -111,7 +119,7 @@ public class WorkshiftTransformTreeDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                WorkshiftTransformTreeDialog dialog = new WorkshiftTransformTreeDialog(new javax.swing.JFrame(), true);
+                WorkshiftTreeDialog dialog = new WorkshiftTreeDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -124,6 +132,6 @@ public class WorkshiftTransformTreeDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jpnlWorkshiftTransform;
+    private javax.swing.JPanel jpnlWorkshiftTree;
     // End of variables declaration//GEN-END:variables
 }

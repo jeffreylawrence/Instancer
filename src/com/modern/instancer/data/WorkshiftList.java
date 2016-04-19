@@ -21,8 +21,8 @@ public class WorkshiftList implements WorkshiftListProviderIntf {
 
     public WorkshiftList() {}
 
-    public WorkshiftList(ArrayList<Workshift> offsetList) {
-        this.workshiftList = offsetList;
+    public WorkshiftList(ArrayList<Workshift> worshiftList) {
+        this.workshiftList = worshiftList;
     }
 //</editor-fold>
 
@@ -49,8 +49,8 @@ public class WorkshiftList implements WorkshiftListProviderIntf {
     public ArrayList<String> getWorkshiftIDs() {
         ArrayList<String> workshiftIDs = new ArrayList<>();
 
-        workshiftList.stream().forEachOrdered((offset) -> {
-            workshiftIDs.add(offset.getWorkshiftID());
+        workshiftList.stream().forEachOrdered((workshift) -> {
+            workshiftIDs.add(workshift.getWorkshiftID());
         });
 
         return workshiftIDs;
