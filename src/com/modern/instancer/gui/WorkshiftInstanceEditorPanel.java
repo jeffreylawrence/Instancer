@@ -207,39 +207,16 @@ public final class WorkshiftInstanceEditorPanel extends javax.swing.JPanel {
     }
     //</editor-fold>
     
-    
-    
-    public static WorkshiftInstanceEditorResult showWorkshiftTransformEditor(Workshift workshift, Workshift transform){
-//    public static WorkshiftInstanceEditorResult showWorkshiftTransformEditor(Workshift workshift, Workshift instance, ImageIcon icon){
-        WorkshiftInstanceEditorPanel panel = new WorkshiftInstanceEditorPanel(workshift, transform);
-//        Integer mine = 11;
-//        ImageIcon icon = new ImageIcon(Integer.class.getResource("/instancer_icon_mill.png"));
-//        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("instancer_icon_250x250.png")));
+    public static WorkshiftInstanceEditorResult showWorkshiftInstanceEditor(Workshift workshift, Workshift instance){
+        WorkshiftInstanceEditorPanel editorPanel = new WorkshiftInstanceEditorPanel(workshift, instance);
 
-//        ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Integer.class.getClass().getResource("instancer_icon_250x250.png")));
-//        ImageIcon icon = new ImageIcon("/instancer_icon_250x250.png");
-
-//        JOptionPane.showMessageDialog(null,
-//                panel,
-////    "Eggs are not supposed to be green.",
-//    "Inane custom dialog",
-//    JOptionPane.INFORMATION_MESSAGE,
-//    icon);
-
-//        JOptionPane.showMessageDialog(null,
-//    "Eggs are not supposed to be green.",
-//    "Inane custom dialog",
-//    JOptionPane.INFORMATION_MESSAGE,
-//    icon);
-//        JOptionPane.s
-        int result = JOptionPane.showConfirmDialog(null, panel, "Edit Workshift Transform", JOptionPane.OK_CANCEL_OPTION);
-//        int result = JOptionPane.showMessageDialog(panel, "Edit Workshift Transform", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(null, editorPanel, "Edit Workshift Instance", JOptionPane.OK_CANCEL_OPTION);
         
         if (result == JOptionPane.OK_OPTION) {
-            panel.updateData();
+            editorPanel.updateData();
         }
         
-        return new WorkshiftInstanceEditorResult(result, panel.getWorkshift(), panel.getInstance());//panel.getWorkshift(), panel.getInstance());
+        return new WorkshiftInstanceEditorResult(result, editorPanel.getWorkshift(), editorPanel.getInstance());
     }
 //</editor-fold>
     

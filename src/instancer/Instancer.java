@@ -46,7 +46,7 @@ public class Instancer { //implements { WorkshiftUpdateHandlerIntf {
 //        ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("instancer_icon_250x250.png")));
 //        ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("instancer_icon_250x250.png")));
 
-        WorkshiftInstanceEditorPanel.WorkshiftInstanceEditorResult data = WorkshiftInstanceEditorPanel.showWorkshiftTransformEditor(new Workshift("WS001", null, false, G54P1_WORKSHIFT), new Workshift("WS001", null, false, G54P1_TRANSFORM));
+        WorkshiftInstanceEditorPanel.WorkshiftInstanceEditorResult data = WorkshiftInstanceEditorPanel.showWorkshiftInstanceEditor(new Workshift("WS001", null, false, G54P1_WORKSHIFT), new Workshift("WS001", null, false, G54P1_TRANSFORM));
 
         System.out.println(data.getDialogResult() == JOptionPane.OK_OPTION ? "OK" : "Cancel");
         System.out.println(" Workshift:  " + data.getWorkshift().toString());
