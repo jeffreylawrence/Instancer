@@ -7,15 +7,16 @@ package instancer;
 
 import com.modern.instancer.data.Workshift;
 import com.modern.instancer.gui.InstancerMain;
-import com.modern.instancer.gui.WorkshiftTransformEditorDialog;
-import com.modern.instancer.gui.WorkshiftTransformEditorPanel;
+//import com.modern.instancer.gui.WorkshiftTransformEditorPanel;
+import com.modern.instancer.gui.WorkshiftInstanceEditorPanel;
+import com.modern.instancer.gui.WorkshiftTreeDialog;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author kevinlawrence
  */
-public class Instancer { //implements { WorkshiftUpdateHandlerIntf {
+public class Instancer { 
 
     /**
      * @param args the command line arguments
@@ -23,38 +24,33 @@ public class Instancer { //implements { WorkshiftUpdateHandlerIntf {
     public static void main(String[] args) {
         InstancerMain instancerMain = new InstancerMain();
         instancerMain.setVisible(true);
-        
+
         Workshift workshift = new Workshift(Workshift.G54P1_NAME_BASE, 12, null, false);
-//        WorkshiftEditorFrame instanceEditor = new WorkshiftEditorFrame(offset);
-//        instanceEditor.setAlwaysOnTop(true);
-//        instanceEditor.setVisible(true);
-        
 
-    String G54P1_WORKSHIFT = "G10L20P10X-14.9572Y-10.9581Z-14.7454A0.0C0.0(A-90. C180.)";
-    String G54P1_TRANSFORM = "G10L20P10X-14.9572Y-10.9581Z-14.7454A0.0C0.0(A-90. C180.)";
+        String G54P1_WORKSHIFT = "G10L20P10X-14.9572Y-10.9581Z-14.7454A0.0C0.0(A-90. C180.)";
+        String G54P1_TRANSFORM = "G10L20P10X-14.9572Y-10.9581Z-14.7454A0.0C0.0(A-90. C180.)";
 
-//        WorkshiftTransformEditorDialog dlg = new WorkshiftTransformEditorDialog(null, true, new Workshift("WS001", null, false, G54P1_WORKSHIFT), new Workshift("WS001", null, false, G54P1_TRANSFORM));
-//        dlg.setVisible(true);
-        
-        WorkshiftTransformEditorPanel panel = new WorkshiftTransformEditorPanel(new Workshift("WS001", null, false, G54P1_WORKSHIFT), new Workshift("WS001", null, false, G54P1_TRANSFORM));
-        int result = JOptionPane.showConfirmDialog(null, panel,
-            "Edit Workshift Transform", JOptionPane.OK_CANCEL_OPTION);
-
-      if (result == JOptionPane.OK_OPTION) {
-         System.out.println("success");
-      }
-//        JOptionPane.showInputDialog(instancerMain, offset, "", 0);
-//        JOptionPane.show
-
-//        WorkshiftEditorDialog editor = new WorkshiftEditorDialog(null, true, offset, (Workshift anOffset) -> {System.out.println("Workshift = " + offset.getWorkshiftID());});
-//        editor.setVisible(true);
+        testWorkshiftTransformEditor();
+        testWorkshiftTransformTreeDialog();
     }
 
-//<editor-fold defaultstate="collapsed" desc="WorkshiftUpdateHandlerIntf">
-//    @Override
-//    public void onUpdate(Workshift offset) {
-//        System.out.println("Workshift = " + offset.getWorkshiftID());
-//    }
-//</editor-fold>
-    
+    private static void testWorkshiftTransformEditor() {
+        String G54P1_WORKSHIFT = "G10L20P10X-14.9572Y-10.9581Z-14.7454A0.0C0.0(A-90. C180.)";
+        String G54P1_TRANSFORM = "G10L20P10X-14.9572Y-10.9581Z-14.7454A-90.0C-180.0(A-90. C180.)";
+
+//        Image i = new Image();
+//        ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("instancer_icon_250x250.png")));
+//        ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("instancer_icon_250x250.png")));
+        WorkshiftInstanceEditorPanel.WorkshiftInstanceEditorResult data = WorkshiftInstanceEditorPanel.showWorkshiftInstanceEditor(new Workshift("WS001", null, false, G54P1_WORKSHIFT), new Workshift("WS001", null, false, G54P1_TRANSFORM));
+
+        System.out.println(data.getDialogResult() == JOptionPane.OK_OPTION ? "OK" : "Cancel");
+        System.out.println(" Workshift:  " + data.getWorkshift().toString());
+        System.out.println(" Transform:  " + data.getInstance().toString());
+    }
+
+    private static void testWorkshiftTransformTreeDialog() {
+        WorkshiftTreeDialog dlg = new WorkshiftTreeDialog(null, true);
+        dlg.setVisible(true);
+    }
+
 }

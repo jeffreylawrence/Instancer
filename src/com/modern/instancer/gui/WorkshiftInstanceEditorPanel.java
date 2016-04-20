@@ -7,16 +7,17 @@ package com.modern.instancer.gui;
 
 import com.modern.instancer.data.Workshift;
 import com.modern.instancer.data.WorkshiftListProviderIntf;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author kevinlawrence
  */
-public final class WorkshiftTransformEditorPanel extends javax.swing.JPanel {
+public final class WorkshiftInstanceEditorPanel extends javax.swing.JPanel {
 
 //<editor-fold defaultstate="collapsed" desc="Properties">
     private Workshift workshift;
-    private Workshift transform;
+    private Workshift instance;
     private WorkshiftListProviderIntf workshiftListProvider;
 
     /**
@@ -35,18 +36,18 @@ public final class WorkshiftTransformEditorPanel extends javax.swing.JPanel {
     }
 
     /**
-     * @return the transform
+     * @return the instance
      */
-    public Workshift getTransform() {
-        return transform;
+    public Workshift getInstance() {
+        return instance;
     }
 
     /**
-     * @param transform the transform to set
+     * @param instance the instance to set
      */
-    public void setTransform(Workshift transform) {
-        this.transform = transform;
-        updateTransformDisplay();
+    public void setInstance(Workshift instance) {
+        this.instance = instance;
+        updateInstanceDisplay();
     }
 
     /**
@@ -122,54 +123,113 @@ public final class WorkshiftTransformEditorPanel extends javax.swing.JPanel {
 //        }
     }
 
-    private void updateTransformDisplay() {
-        if (transform != null) {
-            jtxtTransformBaseName.setText(transform.getNameBase());
-            jspinTransformInstance.setValue(transform.getInstance());
+    private void updateInstanceDisplay() {
+        if (instance != null) {
+            jtxtInstanceBaseName.setText(instance.getNameBase());
+            jspinInstanceID.setValue(instance.getInstance());
 
-            jcbxTransform180DegreeRotation.setSelected(transform.isRotate180Degrees());
+            jcbxInstance180DegreeRotation.setSelected(instance.isRotate180Degrees());
 
-            jtxtTransformX.setText(String.valueOf(transform.getX()));
-            jtxtTransformY.setText(String.valueOf(transform.getY()));
-            jtxtTransformZ.setText(String.valueOf(transform.getZ()));
-            jtxtTransformA.setText(String.valueOf(transform.getA()));
-            jtxtTransformC.setText(String.valueOf(transform.getC()));
+            jtxtInstanceX.setText(String.valueOf(instance.getX()));
+            jtxtInstanceY.setText(String.valueOf(instance.getY()));
+            jtxtInstanceZ.setText(String.valueOf(instance.getZ()));
+            jtxtInstanceA.setText(String.valueOf(instance.getA()));
+            jtxtInstanceC.setText(String.valueOf(instance.getC()));
         }
     }
 
-    private void updateTransformData() {
-        if (transform != null) {
-            transform.setNameBase(jtxtTransformBaseName.getText());
-            transform.setInstance((int) jspinTransformInstance.getValue());
+    private void updateInstanceData() {
+        if (instance != null) {
+            instance.setNameBase(jtxtInstanceBaseName.getText());
+            instance.setInstance((int) jspinInstanceID.getValue());
 
-            transform.setRotate180Degrees(jcbxTransform180DegreeRotation.isSelected());
+            instance.setRotate180Degrees(jcbxInstance180DegreeRotation.isSelected());
 
-            transform.setX(Double.valueOf(jtxtTransformX.getText()));
-            transform.setY(Double.valueOf(jtxtTransformY.getText()));
-            transform.setZ(Double.valueOf(jtxtTransformZ.getText()));
-            transform.setA(Double.valueOf(jtxtTransformA.getText()));
-            transform.setC(Double.valueOf(jtxtTransformC.getText()));
+            instance.setX(Double.valueOf(jtxtInstanceX.getText()));
+            instance.setY(Double.valueOf(jtxtInstanceY.getText()));
+            instance.setZ(Double.valueOf(jtxtInstanceZ.getText()));
+            instance.setA(Double.valueOf(jtxtInstanceA.getText()));
+            instance.setC(Double.valueOf(jtxtInstanceC.getText()));
         }
     }
     
     public void updateData(){
-        updateTransformData();
+        updateInstanceData();
         updateWorkshiftDisplay();  //TODO not sure if will allow update...
     }
 //</editor-fold>
+    
+//<editor-fold defaultstate="collapsed" desc="Factory">
+    //<editor-fold defaultstate="collapsed" desc="WorkshiftInstanceEditorResult">
+    public interface WorkshiftInstanceEditorResultIntf {
+        public int getDialogResult();
+        
+        public Workshift getWorkshift();
+        public Workshift getInstance();
+    }
+    
+    public static class WorkshiftInstanceEditorResult implements WorkshiftInstanceEditorResultIntf {
+        //<editor-fold defaultstate="collapsed" desc="Constructor">
+        public WorkshiftInstanceEditorResult(int dialogResult, Workshift workshift, Workshift instance){
+            this.dialogResult = dialogResult;
+            
+            this.workshift = workshift;
+            this.instance = instance;
+        }
+        //</editor-fold>
+        
+        //<editor-fold defaultstate="collapsed" desc="Properties">
+        private int dialogResult;
+        private Workshift workshift;
+        private Workshift instance;
+        
+        /**
+         * @return the dialogResult
+         */
+        public int getDialogResult() {
+            return dialogResult;
+        }
+        
+        /**
+         * @return the workshift
+         */
+        public Workshift getWorkshift() {
+            return workshift;
+        }
+        
+        /**
+         * @return the instance
+         */
+        public Workshift getInstance() {
+            return instance;
+        }
+        //</editor-fold>
+    }
+    //</editor-fold>
+    
+    public static WorkshiftInstanceEditorResult showWorkshiftInstanceEditor(Workshift workshift, Workshift instance){
+        WorkshiftInstanceEditorPanel editorPanel = new WorkshiftInstanceEditorPanel(workshift, instance);
 
+        int result = JOptionPane.showConfirmDialog(null, editorPanel, "Edit Workshift Instance", JOptionPane.OK_CANCEL_OPTION);
+        
+        if (result == JOptionPane.OK_OPTION) {
+            editorPanel.updateData();
+        }
+        
+        return new WorkshiftInstanceEditorResult(result, editorPanel.getWorkshift(), editorPanel.getInstance());
+    }
+//</editor-fold>
+    
     /**
      * Creates new form InstanceEditorPanel
      * @param workshift
      * @param transform
      */
-    public WorkshiftTransformEditorPanel(Workshift workshift, Workshift transform) {
+    public WorkshiftInstanceEditorPanel(Workshift workshift, Workshift transform) {
         initComponents();
 
         setWorkshift(workshift);
-        setTransform(transform);
-//        this.workshift = workshift;
-//        this.transform = transform;
+        setInstance(transform);
     }
 
     /**
@@ -197,20 +257,20 @@ public final class WorkshiftTransformEditorPanel extends javax.swing.JPanel {
         jlblC1 = new javax.swing.JLabel();
         jtxtWorkshiftC = new javax.swing.JTextField();
         jpnlWorkshiftTransform = new javax.swing.JPanel();
-        jlblOffsetInstanceID = new javax.swing.JLabel();
-        jtxtTransformBaseName = new javax.swing.JTextField();
-        jcbxTransform180DegreeRotation = new javax.swing.JCheckBox();
-        jspinTransformInstance = new javax.swing.JSpinner();
+        jlblWorkshiftInstanceID = new javax.swing.JLabel();
+        jtxtInstanceBaseName = new javax.swing.JTextField();
+        jcbxInstance180DegreeRotation = new javax.swing.JCheckBox();
+        jspinInstanceID = new javax.swing.JSpinner();
         jlblX = new javax.swing.JLabel();
-        jtxtTransformX = new javax.swing.JTextField();
+        jtxtInstanceX = new javax.swing.JTextField();
         jlblY = new javax.swing.JLabel();
-        jtxtTransformY = new javax.swing.JTextField();
+        jtxtInstanceY = new javax.swing.JTextField();
         jlblZ = new javax.swing.JLabel();
-        jtxtTransformZ = new javax.swing.JTextField();
+        jtxtInstanceZ = new javax.swing.JTextField();
         jlblA = new javax.swing.JLabel();
-        jtxtTransformA = new javax.swing.JTextField();
+        jtxtInstanceA = new javax.swing.JTextField();
         jlblC = new javax.swing.JLabel();
-        jtxtTransformC = new javax.swing.JTextField();
+        jtxtInstanceC = new javax.swing.JTextField();
 
         lblParentWorkshiftID.setText("Workshift ID (Parent)");
 
@@ -321,38 +381,38 @@ public final class WorkshiftTransformEditorPanel extends javax.swing.JPanel {
 
         jpnlWorkshiftTransform.setForeground(new java.awt.Color(255, 255, 255));
 
-        jlblOffsetInstanceID.setText("Transform ID");
+        jlblWorkshiftInstanceID.setText("Instance ID");
 
-        jtxtTransformBaseName.setPreferredSize(new java.awt.Dimension(100, 28));
+        jtxtInstanceBaseName.setPreferredSize(new java.awt.Dimension(100, 28));
 
-        jcbxTransform180DegreeRotation.setText("180 Rotation?");
+        jcbxInstance180DegreeRotation.setText("180 Rotation?");
 
-        jspinTransformInstance.setModel(new javax.swing.SpinnerNumberModel(1, 1, 300, 1));
+        jspinInstanceID.setModel(new javax.swing.SpinnerNumberModel(1, 0, 300, 1));
 
         jlblX.setText("X");
 
-        jtxtTransformX.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jtxtTransformX.setPreferredSize(new java.awt.Dimension(100, 28));
+        jtxtInstanceX.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtInstanceX.setPreferredSize(new java.awt.Dimension(100, 28));
 
         jlblY.setText("Y");
 
-        jtxtTransformY.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jtxtTransformY.setPreferredSize(new java.awt.Dimension(100, 28));
+        jtxtInstanceY.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtInstanceY.setPreferredSize(new java.awt.Dimension(100, 28));
 
         jlblZ.setText("Z");
 
-        jtxtTransformZ.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jtxtTransformZ.setPreferredSize(new java.awt.Dimension(100, 28));
+        jtxtInstanceZ.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtInstanceZ.setPreferredSize(new java.awt.Dimension(100, 28));
 
         jlblA.setText("A");
 
-        jtxtTransformA.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jtxtTransformA.setPreferredSize(new java.awt.Dimension(100, 28));
+        jtxtInstanceA.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtInstanceA.setPreferredSize(new java.awt.Dimension(100, 28));
 
         jlblC.setText("C");
 
-        jtxtTransformC.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jtxtTransformC.setPreferredSize(new java.awt.Dimension(100, 28));
+        jtxtInstanceC.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jtxtInstanceC.setPreferredSize(new java.awt.Dimension(100, 28));
 
         javax.swing.GroupLayout jpnlWorkshiftTransformLayout = new javax.swing.GroupLayout(jpnlWorkshiftTransform);
         jpnlWorkshiftTransform.setLayout(jpnlWorkshiftTransformLayout);
@@ -364,57 +424,57 @@ public final class WorkshiftTransformEditorPanel extends javax.swing.JPanel {
                     .addGroup(jpnlWorkshiftTransformLayout.createSequentialGroup()
                         .addComponent(jlblX)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtxtTransformX, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jtxtInstanceX, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jlblY)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtxtTransformY, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jtxtInstanceY, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jpnlWorkshiftTransformLayout.createSequentialGroup()
-                        .addComponent(jlblOffsetInstanceID)
+                        .addComponent(jlblWorkshiftInstanceID)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jtxtTransformBaseName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jtxtInstanceBaseName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jlblZ)
                 .addGap(7, 7, 7)
                 .addGroup(jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jspinTransformInstance)
-                    .addComponent(jtxtTransformZ, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jspinInstanceID)
+                    .addComponent(jtxtInstanceZ, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpnlWorkshiftTransformLayout.createSequentialGroup()
                         .addComponent(jlblA)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtxtTransformA, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jtxtInstanceA, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jlblC)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtxtTransformC, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jtxtInstanceC, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jpnlWorkshiftTransformLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jcbxTransform180DegreeRotation, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jcbxInstance180DegreeRotation, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jpnlWorkshiftTransformLayout.setVerticalGroup(
             jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpnlWorkshiftTransformLayout.createSequentialGroup()
                 .addGroup(jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlblOffsetInstanceID)
-                    .addComponent(jtxtTransformBaseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcbxTransform180DegreeRotation)
-                    .addComponent(jspinTransformInstance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jlblWorkshiftInstanceID)
+                    .addComponent(jtxtInstanceBaseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcbxInstance180DegreeRotation)
+                    .addComponent(jspinInstanceID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpnlWorkshiftTransformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlblX)
-                    .addComponent(jtxtTransformX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtInstanceX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jlblY)
-                    .addComponent(jtxtTransformY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtInstanceY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jlblZ)
-                    .addComponent(jtxtTransformZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtInstanceZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jlblA)
-                    .addComponent(jtxtTransformA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtInstanceA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jlblC)
-                    .addComponent(jtxtTransformC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtxtInstanceC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -439,13 +499,13 @@ public final class WorkshiftTransformEditorPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jbtnNextWorkshift;
     private javax.swing.JButton jbtnPreviousWorkshift;
-    private javax.swing.JCheckBox jcbxTransform180DegreeRotation;
+    private javax.swing.JCheckBox jcbxInstance180DegreeRotation;
     private javax.swing.JComboBox<String> jcbxWorkshift;
     private javax.swing.JLabel jlblA;
     private javax.swing.JLabel jlblA1;
     private javax.swing.JLabel jlblC;
     private javax.swing.JLabel jlblC1;
-    private javax.swing.JLabel jlblOffsetInstanceID;
+    private javax.swing.JLabel jlblWorkshiftInstanceID;
     private javax.swing.JLabel jlblX;
     private javax.swing.JLabel jlblX1;
     private javax.swing.JLabel jlblY;
@@ -454,13 +514,13 @@ public final class WorkshiftTransformEditorPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jlblZ1;
     private javax.swing.JPanel jpnlOriginalOffset;
     private javax.swing.JPanel jpnlWorkshiftTransform;
-    private javax.swing.JSpinner jspinTransformInstance;
-    private javax.swing.JTextField jtxtTransformA;
-    private javax.swing.JTextField jtxtTransformBaseName;
-    private javax.swing.JTextField jtxtTransformC;
-    private javax.swing.JTextField jtxtTransformX;
-    private javax.swing.JTextField jtxtTransformY;
-    private javax.swing.JTextField jtxtTransformZ;
+    private javax.swing.JSpinner jspinInstanceID;
+    private javax.swing.JTextField jtxtInstanceA;
+    private javax.swing.JTextField jtxtInstanceBaseName;
+    private javax.swing.JTextField jtxtInstanceC;
+    private javax.swing.JTextField jtxtInstanceX;
+    private javax.swing.JTextField jtxtInstanceY;
+    private javax.swing.JTextField jtxtInstanceZ;
     private javax.swing.JTextField jtxtWorkshiftA;
     private javax.swing.JTextField jtxtWorkshiftC;
     private javax.swing.JTextField jtxtWorkshiftX;

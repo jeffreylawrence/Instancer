@@ -17,7 +17,7 @@ import javax.swing.tree.TreeSelectionModel;
  *
  * @author kevinlawrence
  */
-public class WorkshiftTransformTreePanel extends javax.swing.JPanel {
+public class WorkshiftTreePanel extends javax.swing.JPanel {
 
     private WorkshiftTreeData workshiftTree;
 
@@ -64,22 +64,19 @@ public class WorkshiftTransformTreePanel extends javax.swing.JPanel {
         jtreeWorkshiftTransform.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         return true;
     }
-
     
     private class WorkshiftTreeSelectionListener implements TreeSelectionListener {
-
         @Override
         public void valueChanged(TreeSelectionEvent e) {
-//            e.
+
         }
-        
     }
     
     
     /**
      * Creates new form InstanceManagerPanel
      */
-    public WorkshiftTransformTreePanel() {
+    public WorkshiftTreePanel() {
         initComponents();
 
         createTestInstanceData();

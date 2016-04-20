@@ -13,7 +13,7 @@ import com.modern.instancer.common.TextParser;
  */
 public class FiveAxisData {
 
-    //<editor-fold defaultstate="collapsed" desc="Constructors">
+//<editor-fold defaultstate="collapsed" desc="Constructors">
     {
         comment = "";
         source = "";
@@ -152,6 +152,15 @@ public class FiveAxisData {
     public String getSource() {
         return source;
     }
+    
+    /**
+     * @return the object as a string
+     */
+    @Override
+    public String toString() {
+        return String.format("X%sY%sZ%sA%sC%s", x, y, z, a, c);
+    }
+    
 //</editor-fold>
 
 }

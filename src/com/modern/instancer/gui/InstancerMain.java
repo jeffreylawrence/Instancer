@@ -7,6 +7,7 @@ package com.modern.instancer.gui;
 
 import com.modern.instancer.common.Library;
 import com.modern.instancer.data.MemoryFile;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
@@ -80,7 +81,8 @@ public class InstancerMain extends javax.swing.JFrame {
     
     private void internalInit(){
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("instancer_icon_250x250.png")));
+
         left = new TextEditorPanel();
         gCodeEditorListener = new TextEditorListener();
         left.setEventListener(gCodeEditorListener);
