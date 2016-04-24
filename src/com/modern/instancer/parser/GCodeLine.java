@@ -6,6 +6,7 @@
 package com.modern.instancer.parser;
 
 import static com.modern.instancer.common.TextParser.safeIsNumeric;
+import java.util.ArrayList;
 
 /**
  *
@@ -120,7 +121,30 @@ public class GCodeLine {
     public boolean isM6() {
         return isM6(getLine());
     }
+
+    public static int countM6Lines(ArrayList<String> lines) {
+        return countLines(lines, M6_IDENTIFIER);
+    }
 //</editor-fold>
+    
+    public static int countLines(ArrayList<String> lines, String searchText) {
+        int count = 0;
+        return lines.stream().filter((line) -> (line.contains(searchText))).map((_item) -> 1).reduce(count, Integer::sum);
+//<editor-fold defaultstate="collapsed" desc="olde code">
+//        count = lines.stream().filter((line) -> (line.contains(searchText))).map((_item) -> 1).reduce(count, Integer::sum);
+
+//        for (String line : lines) {
+//            if (line.contains(searchText)) {
+//                count++;
+//            }
+//        }
+//        return count;
+//</editor-fold>
+    }
+
+    
+    
+    
 
 //<editor-fold defaultstate="collapsed" desc="isToolZero">
 ////<editor-fold defaultstate="collapsed" desc="IdToolZeroLine Sub">
@@ -157,6 +181,7 @@ public class GCodeLine {
 //        Return CommentFlag
 //    End Function
 //</editor-fold>
+
     public static boolean isComment(String line) {
         return line.contains(COMMENT_IDENTIFIER);
     }
@@ -164,7 +189,6 @@ public class GCodeLine {
     public boolean isComment() {
         return isComment(line);
     }
-
 //</editor-fold>
     
     public static boolean isRadiusFraction(String text, int offset) {

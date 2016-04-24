@@ -11,6 +11,6 @@ package com.modern.instancer.parser;
  *
  * @author kevinlawrence
  */
-public class GCodeParser {
-//    public GCodeParser
+public class GCodeInstanceParser {
+//    public GCodeInstanceParser
 }

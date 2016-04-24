@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.modern.instancer.gui;
-
-import com.modern.instancer.common.InMemoryFile;
+package com.modern.instancer.parser;
 
 /**
  *
  * @author kevinlawrence
  */
-public interface TextEditorEventListenerIntf {
-    public void handleProcessedFile(InMemoryFile file);
+public class MultiInstanceProcessor {
+    
+    public static final String ID = "";
+    
 }

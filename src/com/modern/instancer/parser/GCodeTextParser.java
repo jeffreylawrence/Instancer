@@ -11,16 +11,9 @@ import java.util.ArrayList;
  *
  * @author kevinlawrence
  */
-public class TextParser {
+public class GCodeTextParser {
 
 //<editor-fold defaultstate="collapsed" desc="Extended Properties">
-//    public static boolean contains(String text, String searchString) {
-//        return text.contains(searchString);
-//    }
-//    
-//    public boolean contains(String searchString) {
-//        return contains(text, searchString);
-//    }
     public static final String NOT_COMPLETE = "<NOT COMPLETE>";
     public static final String FILE_PATH = "File Location: %s";
     public static final String MACHINING_STEPS = "There are %d machining steps for this program.";
@@ -32,7 +25,7 @@ public class TextParser {
         parsedData.add(String.format(FILE_PATH, NOT_COMPLETE));
 
         //count the number of machining steps
-        parsedData.add(String.format(MACHINING_STEPS, countM6Lines(gCodeLines)));
+        parsedData.add(String.format(MACHINING_STEPS, GCodeLine.countM6Lines(gCodeLines)));
 //<editor-fold defaultstate="collapsed" desc="Machining Steps - 'FindM6' Sub Logic">
 //    Private Function FindM6(GcodeResult As String) As Integer
 //
@@ -62,8 +55,6 @@ public class TextParser {
 //    End Function
 //</editor-fold>
         
-        
-
         // Find the number of tools in the program
 //<editor-fold defaultstate="collapsed" desc="New Tool Code">
 //        'This section finds the line number (index in array) of each new tool beginning.
@@ -96,52 +87,18 @@ public class TextParser {
         return parsedData;
     }
 
-    public static final String M6_IDENTIFIER = "M6";
-    public static final String COMMENT_IDENTIFIER = "(";
-    public static int NOT_FOUND = -1;
-
-    public static boolean safeIsNumeric(String text, int index) {
-        if ((index < 0) || (index >= text.length())) {
-            return false;
-        } else {
-            try {
-                Integer.valueOf(String.valueOf(text.charAt(index)));
-            } catch (NumberFormatException e) {
-                return false;
-            }
-            return true;
-        }
-    }
-
-    public static int countM6Lines(ArrayList<String> lines) {
-        return countLines(lines, M6_IDENTIFIER);
-    }
-
-    //TODO - consider refactor as generic, passing in boolean method with param "String", returning boolean
-    public static int countLines(ArrayList<String> lines, String searchText) {
-        int count = 0;
-
-//        count = lines.stream().filter((line) -> (isM6(line))).map((_item) -> 1).reduce(count, Integer::sum);
-        for (String line : lines) {
-            if (isM6(line)) {
-                count++;
-            }
-        }
-        return count;
-    }
-    
     
 //<editor-fold defaultstate="collapsed" desc="getNewToolLineIndexes()">
-    
     private static ArrayList<Integer> getNewToolLineStartIndexes(ArrayList<String> lines) {
         ArrayList<Integer> lineIndexes = new ArrayList<>();
         
         for (int i = 0; i < lines.size(); i++) {
-            if (isNewToolLine(lines.get(i))) {
+            if (GCodeLine.isNewToolLine(lines.get(i))) {
                 lineIndexes.add(i);
             }
         }
         
+        return lineIndexes;
         //TODO - consider if this should be wrapped up into a "Tool" class
         
 //<editor-fold defaultstate="collapsed" desc="End of 'tool section' logic">
@@ -166,20 +123,6 @@ NewToolEndPos(StartIndex - 1) = LinesContent.Length 'for a program with just 1 t
 End If
 */
 //</editor-fold>
-        
-        return lineIndexes;
-    }
-    
-    public static final String NEW_TOOL_IDENTIFIER = "N";
-    
-    public static boolean isNewToolLine(String text){
-        int index = text.indexOf(NEW_TOOL_IDENTIFIER);
-        
-        if (index == NOT_FOUND){
-            return false;
-        } else {
-            return (index < 3) && safeIsNumeric(text, index + 1) && safeIsNumeric(text, index + 4) && isComment(text);
-        }
     }
     
 //<editor-fold defaultstate="collapsed" desc="New Tool Code">
@@ -214,7 +157,6 @@ End If
     
 //<editor-fold defaultstate="collapsed" desc="isM6 -> M6 is a tool line">
     
-    
 //        For Each SingleLine As String In LinesContent
 //            IsCommentLine = IdCommentLine(SingleLine) 'calling the function to check if current line is a comment line => IsCommentLine = true if it is a comment line
 //            IsToolZeroLine = IdToolZeroLine(SingleLine) 'calling the function to check if current line is a T0M6 line
@@ -230,73 +172,8 @@ End If
 //        Next
     
 //                    If Not IsNumeric(Mid(SingleLine, CurrentPos + 2, 1)) And IsCommentLine = False And IsToolZeroLine = False Then 'Eliminates M60 to M69 possible gcodes, comment lines, and T0M6 line
-    public static boolean isM6(String text) {
-        int index = text.indexOf(M6_IDENTIFIER);
-        
-        if (index != NOT_FOUND) {
-            return false;
-        } else {
-            // Eliminates  T0M6,          comment lines,   and M60 to M69 possible gcodes
-            return !(isToolZero(text) || isComment(text) || safeIsNumeric(text, index + 2));
-        }
-    }
 
-    public boolean isM6() {
-        return isM6(text);
-    }
 //</editor-fold>
-    
-//<editor-fold defaultstate="collapsed" desc="isToolZero">
-    
-////<editor-fold defaultstate="collapsed" desc="IdToolZeroLine Sub">
-//    Private Function IdToolZeroLine(OneLine As String) As Boolean 'this finds if the current line is a comment line
-//        Dim ToolZeroLine As Boolean
-//
-//        If InStr(OneLine, "T0") <> 0 And InStr(OneLine, "M6") <> 0 Then 'found a T0M6 line
-//            ToolZeroLine = True
-//        Else
-//            ToolZeroLine = False
-//        End If
-//        Return ToolZeroLine
-//    End Function
-//</editor-fold>
-    
-    public static final String T0_IDENTIFIER = "T0";
-    
-    
-    public static boolean isToolZero(String text) {
-        return (text.indexOf(T0_IDENTIFIER) != NOT_FOUND) && (text.indexOf(M6_IDENTIFIER) != NOT_FOUND);
-    }
-    
-    public boolean isToolZero() {
-        return isToolZero(text);
-    }
-//</editor-fold>
-
-//<editor-fold defaultstate="collapsed" desc="isComment">
-    
-//<editor-fold defaultstate="collapsed" desc="IdCommentLine Sub Logic">
-//    Private Function IdCommentLine(OneLine As String) As Boolean 'this finds if the current line is a comment line
-//        Dim CommentFlag As Boolean
-//
-//        If InStr(OneLine, "(") <> 0 Then 'found a comment line
-//            CommentFlag = True
-//        Else
-//            CommentFlag = False
-//        End If
-//        Return CommentFlag
-//    End Function
-//</editor-fold>
-    
-    public static boolean isComment(String text) {
-        return text.contains(COMMENT_IDENTIFIER);
-    }
-    
-    public boolean isComment() {
-        return isComment(text);
-    }
-//</editor-fold>
-    
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Constructors">
@@ -304,10 +181,10 @@ End If
         text = "";
     }
 
-    public TextParser() {
+    public GCodeTextParser() {
     }
 
-    public TextParser(String text) {
+    public GCodeTextParser(String text) {
         this.text = text;
     }
 //</editor-fold>

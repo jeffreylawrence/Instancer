@@ -6,7 +6,7 @@
 package com.modern.instancer.gui;
 
 import com.modern.instancer.common.Library;
-import com.modern.instancer.data.MemoryFile;
+import com.modern.instancer.common.InMemoryFile;
 import com.modern.instancer.parser.GCodeProgram;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -207,7 +207,7 @@ public class TextEditorPanel extends javax.swing.JPanel {
     }
 
     public void appendFile() {
-        file = new MemoryFile();
+        file = new InMemoryFile();
         file.openFile();
 
         if (file != null) {
@@ -242,7 +242,7 @@ public class TextEditorPanel extends javax.swing.JPanel {
 //</editor-fold>
     }
 
-    public void setFile(MemoryFile file) {
+    public void setFile(InMemoryFile file) {
         jlblFilePathName.setText(file.getAbsolutePath());
 
         file.getLines().stream().forEachOrdered((line) -> {
@@ -252,7 +252,7 @@ public class TextEditorPanel extends javax.swing.JPanel {
         jtxtTextEditor.setCaretPosition(0);
     }
 
-    MemoryFile file;
+    InMemoryFile file;
     private TextEditorEventListenerIntf eventListener;
 
     /**
@@ -265,8 +265,8 @@ public class TextEditorPanel extends javax.swing.JPanel {
     private void createInfoFile() {
         if (file != null) {
             if (eventListener != null) {
-//                MemoryFile infoFile = new MemoryFile(GCodeProgram.getParsedGCode(file.getLines()));
-                MemoryFile infoFile = GCodeProgram.getParsedGCode(file.getLines());
+//                InMemoryFile infoFile = new InMemoryFile(GCodeProgram.getParsedGCode(file.getLines()));
+                InMemoryFile infoFile = GCodeProgram.getParsedGCode(file.getLines());
                 eventListener.handleProcessedFile(infoFile);
             }
 //            GCodeProgram.getParsedGCode(file.getLines()).stream().forEachOrdered((line) ->{

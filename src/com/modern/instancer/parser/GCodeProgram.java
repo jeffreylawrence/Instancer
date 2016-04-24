@@ -6,7 +6,7 @@
 package com.modern.instancer.parser;
 
 import static com.modern.instancer.common.TextParser.*;
-import com.modern.instancer.data.MemoryFile;
+import com.modern.instancer.common.InMemoryFile;
 import java.util.ArrayList;
 
 /**
@@ -20,8 +20,8 @@ public class GCodeProgram {
     
     
 //    public static ArrayList<String> getParsedGCode(ArrayList<String> gCodeLines) {
-    public static MemoryFile getParsedGCode(ArrayList<String> gCodeLines) {
-        MemoryFile infoFile = new MemoryFile();
+    public static InMemoryFile getParsedGCode(ArrayList<String> gCodeLines) {
+        InMemoryFile infoFile = new InMemoryFile();
 
         //put in file name/path (later...)
         infoFile.addLine(String.format(FILE_PATH, NOT_COMPLETE));

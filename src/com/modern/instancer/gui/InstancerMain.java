@@ -6,7 +6,7 @@
 package com.modern.instancer.gui;
 
 import com.modern.instancer.common.Library;
-import com.modern.instancer.data.MemoryFile;
+import com.modern.instancer.common.InMemoryFile;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -63,14 +63,14 @@ public class InstancerMain extends javax.swing.JFrame {
         public TextEditorListener(){};
         
         @Override
-        public void handleProcessedFile(MemoryFile file) {
+        public void handleProcessedFile(InMemoryFile file) {
             handleInformationFile(file);
         }  
     }
     
     TextEditorListener gCodeEditorListener;
     
-    private void handleInformationFile(MemoryFile infoFile){
+    private void handleInformationFile(InMemoryFile infoFile){
         right.setFile(infoFile);
     }
 

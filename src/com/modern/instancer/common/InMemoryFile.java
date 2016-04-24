@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.modern.instancer.data;
+package com.modern.instancer.common;
 
 import com.modern.instancer.common.Library;
 import java.io.BufferedReader;
@@ -17,21 +17,21 @@ import java.util.ArrayList;
  *
  * @author kevinlawrence
  */
-public class MemoryFile {
+public class InMemoryFile {
 
 //<editor-fold defaultstate="collapsed" desc="Constructors">
     {
         setLines(new ArrayList<>());
     }
 
-    public MemoryFile() {
+    public InMemoryFile() {
     }
 
-    public MemoryFile(ArrayList<String> lines) {
+    public InMemoryFile(ArrayList<String> lines) {
         this.lines = lines;
     }
 
-    public MemoryFile(File file) {
+    public InMemoryFile(File file) {
         setFile(file);
     }
 //</editor-fold>
