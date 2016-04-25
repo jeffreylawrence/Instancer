@@ -61,13 +61,6 @@ public class InstancerMain extends javax.swing.JFrame implements ActionListener 
     }
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="ActionListener">
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        System.out.println("action peformed");
-    }
-//</editor-fold>
-    
     private class TextEditorListener implements TextEditorEventListenerIntf {
         public TextEditorListener(){};
         
@@ -79,15 +72,27 @@ public class InstancerMain extends javax.swing.JFrame implements ActionListener 
     
     TextEditorListener gCodeEditorListener;
     
-    private void handleInformationFile(InMemoryFile infoFile){
-        right.setFile(infoFile);
+//<editor-fold defaultstate="collapsed" desc="ActionListener">
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        System.out.println("Action Peformed : " + e.toString());
+        
+        switch (e.getActionCommand()){
+            case MENU_ACT_MULTI_INSTANCE_FILE:
+                createMultipartFile();
+                break;
+        }
     }
-
-//<editor-fold defaultstate="collapsed" desc="Properties">
-    TextEditorPanel left, right;
+    
+    public void createMultipartFile(){
+        right.setFile(left.createMultiPartFile());
+        right.setFileName(String.format("Multipart File: Source[%s] Instances[%d]", "", 4));
+    }
     
 //</editor-fold>
     
+    public static final String MENU_ACT_MULTI_INSTANCE_FILE = "CREATE MULTI-INSTANCE FILE";
+
     private void internalInit(){
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("instancer_icon_250x250.png")));
@@ -110,9 +115,20 @@ public class InstancerMain extends javax.swing.JFrame implements ActionListener 
 //        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
         
         menuItem.addActionListener(this);
+        menuItem.setActionCommand(MENU_ACT_MULTI_INSTANCE_FILE);
         menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
         jmenuFile.add(menuItem);
     }
+    
+
+    private void handleInformationFile(InMemoryFile infoFile){
+        right.setFile(infoFile);
+    }
+
+//<editor-fold defaultstate="collapsed" desc="Properties">
+    TextEditorPanel left, right;
+    
+//</editor-fold>
     
     @Override
     public void setVisible(boolean visible){

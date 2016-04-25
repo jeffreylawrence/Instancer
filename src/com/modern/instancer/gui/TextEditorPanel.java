@@ -34,7 +34,7 @@ public class TextEditorPanel extends javax.swing.JPanel {
     // Pop-up Menu
     // ******************************************************
     private final String OPEN_FILE_PUM_ACTION = "OPEN_FILE";
-    private final String CREATE_MULTIPART_FILE_PUM_ACTION = "CREATE_MULTIPART_FILE";
+//    private final String CREATE_MULTIPART_FILE_PUM_ACTION = "CREATE_MULTIPART_FILE";
     
     private final String CLOSE_FILE_PUM_ACTION = "CLOSE_FILE";
     private final String INSERT_FILE_PUM_ACTION = "INSERT";
@@ -80,10 +80,10 @@ public class TextEditorPanel extends javax.swing.JPanel {
         mi.setActionCommand(OPEN_FILE_PUM_ACTION);
         jpumTextEditor.add(mi);
 
-        mi = new JMenuItem(CREATE_MULTIPART_FILE_PUM_LABEL);
-        mi.addActionListener(menuItemListener);
-        mi.setActionCommand(CREATE_MULTIPART_FILE_PUM_ACTION);
-        jpumTextEditor.add(mi);
+//        mi = new JMenuItem(CREATE_MULTIPART_FILE_PUM_LABEL);
+//        mi.addActionListener(menuItemListener);
+//        mi.setActionCommand(CREATE_MULTIPART_FILE_PUM_ACTION);
+//        jpumTextEditor.add(mi);
 
         jpumTextEditor.add(new JSeparator());
 
@@ -152,11 +152,9 @@ public class TextEditorPanel extends javax.swing.JPanel {
                     openFile();
                     break;
         
-                case CREATE_MULTIPART_FILE_PUM_ACTION:
-                    createMultiPartFile();
-                    break;
-
-
+//                case CREATE_MULTIPART_FILE_PUM_ACTION:
+//                    createMultiPartFile();
+//                    break;
         
         case CLOSE_FILE_PUM_ACTION:
                     closeFile();
@@ -209,14 +207,14 @@ public class TextEditorPanel extends javax.swing.JPanel {
     }
 
     public InMemoryFile createMultiPartFile() {
-//        return GCodeInstanceParser.createInstanceFile(file, 4);
+        return GCodeInstanceParser.createInstanceFile(file, 4);
 
-        InMemoryFile multiPartFile = GCodeInstanceParser.createInstanceFile(file, 4);
-        for (String line : multiPartFile.getLines()) {
-            System.out.println(line);
-        }
-        
-        return multiPartFile;
+//        InMemoryFile multiPartFile = GCodeInstanceParser.createInstanceFile(file, 4);
+//        for (String line : multiPartFile.getLines()) {
+//            System.out.println(line);
+//        }
+//        
+//        return multiPartFile;
     }
 
     public void openFile() {
@@ -269,7 +267,8 @@ public class TextEditorPanel extends javax.swing.JPanel {
     public void setFile(InMemoryFile file) {
         this.file = file;
         
-        jlblFilePathName.setText(file.getAbsolutePath());
+//        jlblFilePathName.setText(file.getAbsolutePath());
+        setFileName(file.getAbsolutePath());
 
         file.getLines().stream().forEachOrdered((line) -> {
             jtxtTextEditor.append(line);
@@ -278,6 +277,10 @@ public class TextEditorPanel extends javax.swing.JPanel {
         jtxtTextEditor.setCaretPosition(0);
     }
 
+    public void setFileName(String fileName){
+        jlblFilePathName.setText(fileName);
+    }
+    
     private TextEditorEventListenerIntf eventListener;
 
     /**
