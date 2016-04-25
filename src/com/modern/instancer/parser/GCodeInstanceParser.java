@@ -16,8 +16,10 @@ import java.util.ArrayList;
  */
 public class GCodeInstanceParser {
     
-    public static final String REPEAT_START = "G54.1P10";
-    public static final String REPEAT_END = "G91G28Z0.0M5";
+    public static final String REPEAT_START = "G54";
+    public static final String REPEAT_END = "G91";
+//    public static final String REPEAT_START = "G54.1P10";
+//    public static final String REPEAT_END = "G91G28Z0.0M5";
     
     public static final String REPEAT_START_MARKER = "(INSTANCER - SECTION REPEAT START)";
     public static final String REPEAT_END_MARKER = "(INSTANCER - SECTION REPEAT END)";

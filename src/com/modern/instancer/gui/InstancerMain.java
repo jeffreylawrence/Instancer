@@ -81,6 +81,10 @@ public class InstancerMain extends javax.swing.JFrame implements ActionListener 
             case MENU_ACT_MULTI_INSTANCE_FILE:
                 createMultipartFile();
                 break;
+                
+            case MENU_ACT_OPEN_SOURCE_FILE:
+                openSourceFile();
+                break;
         }
     }
     
@@ -89,9 +93,35 @@ public class InstancerMain extends javax.swing.JFrame implements ActionListener 
         right.setFileName(String.format("Multipart File: Source[%s] Instances[%d]", "", 4));
     }
     
+    private void openSourceFile() {
+        left.openFile();
+    }
 //</editor-fold>
     
+    public static final String MENU_LABEL_MULTI_INSTANCE_FILE = "Create Multi-instance File";
+    public static final String MENU_LABEL_OPEN_SOURCE_FILE = "Open Source File...";
+
     public static final String MENU_ACT_MULTI_INSTANCE_FILE = "CREATE MULTI-INSTANCE FILE";
+    public static final String MENU_ACT_OPEN_SOURCE_FILE = "OPEN SOURCE FILE";
+
+    private void addMenuItems(){
+        // add menu items
+        JMenuItem menuItem;
+        
+        menuItem = new JMenuItem(MENU_LABEL_OPEN_SOURCE_FILE, KeyEvent.VK_O);
+//        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
+        menuItem.addActionListener(this);
+        menuItem.setActionCommand(MENU_ACT_OPEN_SOURCE_FILE);
+        menuItem.getAccessibleContext().setAccessibleDescription("");
+        jmenuFile.add(menuItem);
+
+        menuItem = new JMenuItem(MENU_LABEL_MULTI_INSTANCE_FILE, KeyEvent.VK_M);
+//        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
+        menuItem.addActionListener(this);
+        menuItem.setActionCommand(MENU_ACT_MULTI_INSTANCE_FILE);
+        menuItem.getAccessibleContext().setAccessibleDescription("");
+        jmenuFile.add(menuItem);
+    }
 
     private void internalInit(){
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -108,17 +138,9 @@ public class InstancerMain extends javax.swing.JFrame implements ActionListener 
         
         jsplitpnlTextEditor.setDividerLocation(0.5);
         
-        // add menu items
-        JMenuItem menuItem;
-        
-        menuItem = new JMenuItem("Create Multi-instance file...", KeyEvent.VK_M);
-//        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
-        
-        menuItem.addActionListener(this);
-        menuItem.setActionCommand(MENU_ACT_MULTI_INSTANCE_FILE);
-        menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
-        jmenuFile.add(menuItem);
+        addMenuItems();
     }
+    
     
 
     private void handleInformationFile(InMemoryFile infoFile){
