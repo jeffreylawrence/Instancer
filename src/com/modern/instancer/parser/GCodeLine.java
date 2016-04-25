@@ -62,7 +62,7 @@ public class GCodeLine {
     public static final String G356_IDENTIFIER = "G356";
     public static final String M0_IDENTIFIER = "M0";
 
-    public static int NOT_FOUND = -1;
+    public static final int NOT_FOUND = -1;
 //    public static final String NOT_COMPLETE = "<NOT COMPLETE>";
 
 //<editor-fold defaultstate="collapsed" desc="New Tool Code">
@@ -141,10 +141,6 @@ public class GCodeLine {
 //        return count;
 //</editor-fold>
     }
-
-    
-    
-    
 
 //<editor-fold defaultstate="collapsed" desc="isToolZero">
 ////<editor-fold defaultstate="collapsed" desc="IdToolZeroLine Sub">

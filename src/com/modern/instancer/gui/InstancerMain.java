@@ -8,16 +8,19 @@ package com.modern.instancer.gui;
 import com.modern.instancer.common.Library;
 import com.modern.instancer.common.InMemoryFile;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 
 /**
  *
  * @author kevinlawrence
  */
-public class InstancerMain extends javax.swing.JFrame {
-    
+public class InstancerMain extends javax.swing.JFrame implements ActionListener {
+
     //<editor-fold defaultstate="collapsed" desc="Key Listener">
     private class SketchPadKeyListener implements KeyListener {
 
@@ -58,14 +61,20 @@ public class InstancerMain extends javax.swing.JFrame {
     }
 //</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="ActionListener">
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        System.out.println("action peformed");
+    }
+//</editor-fold>
+    
     private class TextEditorListener implements TextEditorEventListenerIntf {
-
         public TextEditorListener(){};
         
         @Override
         public void handleProcessedFile(InMemoryFile file) {
             handleInformationFile(file);
-        }  
+        }
     }
     
     TextEditorListener gCodeEditorListener;
@@ -93,6 +102,16 @@ public class InstancerMain extends javax.swing.JFrame {
         jsplitpnlTextEditor.setRightComponent(right);
         
         jsplitpnlTextEditor.setDividerLocation(0.5);
+        
+        // add menu items
+        JMenuItem menuItem;
+        
+        menuItem = new JMenuItem("Create Multi-instance file...", KeyEvent.VK_M);
+//        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
+        
+        menuItem.addActionListener(this);
+        menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
+        jmenuFile.add(menuItem);
     }
     
     @Override
@@ -100,9 +119,6 @@ public class InstancerMain extends javax.swing.JFrame {
         super.setVisible(visible);
         jsplitpnlTextEditor.setDividerLocation(0.5);
         repaint();
-        
-//        WorkshiftTransformTreeDialog dlg = new WorkshiftTransformTreeDialog(this, true);
-//        dlg.setVisible(true);
     }
     
     
@@ -129,7 +145,7 @@ public class InstancerMain extends javax.swing.JFrame {
         jsplitpnlTextEditor = new javax.swing.JSplitPane();
         jmbMain = new javax.swing.JMenuBar();
         jmenuFile = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        jmenuEdit = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -138,8 +154,8 @@ public class InstancerMain extends javax.swing.JFrame {
         jmenuFile.setText("File");
         jmbMain.add(jmenuFile);
 
-        jMenu2.setText("Edit");
-        jmbMain.add(jMenu2);
+        jmenuEdit.setText("Edit");
+        jmbMain.add(jmenuEdit);
 
         setJMenuBar(jmbMain);
 
@@ -193,8 +209,8 @@ public class InstancerMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jmbMain;
+    private javax.swing.JMenu jmenuEdit;
     private javax.swing.JMenu jmenuFile;
     private javax.swing.JSplitPane jsplitpnlTextEditor;
     // End of variables declaration//GEN-END:variables

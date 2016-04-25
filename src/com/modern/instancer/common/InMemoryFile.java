@@ -17,15 +17,14 @@ import java.util.ArrayList;
  *
  * @author kevinlawrence
  */
-public class InMemoryFile {
+public final class InMemoryFile {
 
 //<editor-fold defaultstate="collapsed" desc="Constructors">
     {
         setLines(new ArrayList<>());
     }
 
-    public InMemoryFile() {
-    }
+    public InMemoryFile() {}
 
     public InMemoryFile(ArrayList<String> lines) {
         this.lines = lines;
@@ -67,21 +66,6 @@ public class InMemoryFile {
         }
     }
 
-//    public String getFilePath() {
-//        if (file != null) {
-//            return file.getAbsolutePath();
-//        } else {
-//            return "";
-//        }
-//    }
-//    
-//    /**
-//     * @return the file
-//     */
-//    public File getFile() {
-//        return file;
-//    }
-    
     public boolean addLine(String line){
         if (!line.contains(NEW_LINE)){
             return lines.add(line + NEW_LINE);
@@ -89,7 +73,6 @@ public class InMemoryFile {
             return lines.add(line);
         }
     }
-    
     
     /**
      * @param file the file to set

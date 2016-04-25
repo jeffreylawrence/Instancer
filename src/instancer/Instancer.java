@@ -25,10 +25,10 @@ public class Instancer {
         InstancerMain instancerMain = new InstancerMain();
         instancerMain.setVisible(true);
 
-        Workshift workshift = new Workshift(Workshift.G54P1_NAME_BASE, 12, null, false);
+//        Workshift workshift = new Workshift(Workshift.G54P1_NAME_BASE, 12, null, false);
 
-        String G54P1_WORKSHIFT = "G10L20P10X-14.9572Y-10.9581Z-14.7454A0.0C0.0(A-90. C180.)";
-        String G54P1_TRANSFORM = "G10L20P10X-14.9572Y-10.9581Z-14.7454A0.0C0.0(A-90. C180.)";
+//        String G54P1_WORKSHIFT = "G10L20P10X-14.9572Y-10.9581Z-14.7454A0.0C0.0(A-90. C180.)";
+//        String G54P1_TRANSFORM = "G10L20P10X-14.9572Y-10.9581Z-14.7454A0.0C0.0(A-90. C180.)";
 
 //        testWorkshiftTransformEditor();
 //        testWorkshiftTransformTreeDialog();

@@ -5,8 +5,8 @@
  */
 package com.modern.instancer.gui;
 
-import com.modern.instancer.common.Library;
 import com.modern.instancer.common.InMemoryFile;
+import com.modern.instancer.parser.GCodeInstanceParser;
 import com.modern.instancer.parser.GCodeProgram;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -16,10 +16,6 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,6 +34,8 @@ public class TextEditorPanel extends javax.swing.JPanel {
     // Pop-up Menu
     // ******************************************************
     private final String OPEN_FILE_PUM_ACTION = "OPEN_FILE";
+    private final String CREATE_MULTIPART_FILE_PUM_ACTION = "CREATE_MULTIPART_FILE";
+    
     private final String CLOSE_FILE_PUM_ACTION = "CLOSE_FILE";
     private final String INSERT_FILE_PUM_ACTION = "INSERT";
 
@@ -53,6 +51,8 @@ public class TextEditorPanel extends javax.swing.JPanel {
     private final String PRINT_PUM_ACTION = "PRINT";
 
     private final String OPEN_FILE_PUM_LABEL = "Open file...";
+    private final String CREATE_MULTIPART_FILE_PUM_LABEL = "Create Multi-part file...";
+    
     private final String CLOSE_FILE_PUM_LABEL = "Close file";
     private final String INSERT_FILE_PUM_LABEL = "Insert file at cursor...";
 
@@ -79,6 +79,13 @@ public class TextEditorPanel extends javax.swing.JPanel {
         mi.addActionListener(menuItemListener);
         mi.setActionCommand(OPEN_FILE_PUM_ACTION);
         jpumTextEditor.add(mi);
+
+        mi = new JMenuItem(CREATE_MULTIPART_FILE_PUM_LABEL);
+        mi.addActionListener(menuItemListener);
+        mi.setActionCommand(CREATE_MULTIPART_FILE_PUM_ACTION);
+        jpumTextEditor.add(mi);
+
+        jpumTextEditor.add(new JSeparator());
 
         mi = new JMenuItem(INSERT_FILE_PUM_LABEL);
         mi.addActionListener(menuItemListener);
@@ -144,8 +151,14 @@ public class TextEditorPanel extends javax.swing.JPanel {
                 case OPEN_FILE_PUM_ACTION:
                     openFile();
                     break;
+        
+                case CREATE_MULTIPART_FILE_PUM_ACTION:
+                    createMultiPartFile();
+                    break;
 
-                case CLOSE_FILE_PUM_ACTION:
+
+        
+        case CLOSE_FILE_PUM_ACTION:
                     closeFile();
                     break;
 
@@ -186,7 +199,6 @@ public class TextEditorPanel extends javax.swing.JPanel {
                     break;
             }
         }
-
     }
 
     private static final String NOT_YET_IMPLEMENTED_MESSAGE = "'%s' has not yet been implemented.";
@@ -194,6 +206,17 @@ public class TextEditorPanel extends javax.swing.JPanel {
 
     public void notYetImplemented(String action) {
         JOptionPane.showMessageDialog(this, String.format(NOT_YET_IMPLEMENTED_MESSAGE, action), NOT_YET_IMPLEMENTED_TITLE, JOptionPane.ERROR_MESSAGE);
+    }
+
+    public InMemoryFile createMultiPartFile() {
+//        return GCodeInstanceParser.createInstanceFile(file, 4);
+
+        InMemoryFile multiPartFile = GCodeInstanceParser.createInstanceFile(file, 4);
+        for (String line : multiPartFile.getLines()) {
+            System.out.println(line);
+        }
+        
+        return multiPartFile;
     }
 
     public void openFile() {
@@ -213,7 +236,6 @@ public class TextEditorPanel extends javax.swing.JPanel {
         if (file != null) {
             setFile(file);
         }
-
 //<editor-fold defaultstate="collapsed" desc="olde code">
 //        File file = Library.openFile("Open D-Code Source File");
 //
@@ -242,7 +264,11 @@ public class TextEditorPanel extends javax.swing.JPanel {
 //</editor-fold>
     }
 
+    InMemoryFile file;
+    
     public void setFile(InMemoryFile file) {
+        this.file = file;
+        
         jlblFilePathName.setText(file.getAbsolutePath());
 
         file.getLines().stream().forEachOrdered((line) -> {
@@ -252,7 +278,6 @@ public class TextEditorPanel extends javax.swing.JPanel {
         jtxtTextEditor.setCaretPosition(0);
     }
 
-    InMemoryFile file;
     private TextEditorEventListenerIntf eventListener;
 
     /**
