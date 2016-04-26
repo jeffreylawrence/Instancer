@@ -207,7 +207,14 @@ public class TextEditorPanel extends javax.swing.JPanel {
     }
 
     public InMemoryFile createMultiPartFile() {
-        return GCodeInstanceParser.createInstanceFile(file, 4);
+        InstanceConfigurationEditor.InstanceConfigurationResultIntf config = InstanceConfigurationEditor.showInstanceConfigurationEditor();
+        
+        if (config.getDialogResult() == JOptionPane.OK_OPTION) {
+            return GCodeInstanceParser.createInstanceFile(file, config.getInstanceCount(), config.getRetraction());
+        } else {
+            return null;
+        }
+        
 
 //        InMemoryFile multiPartFile = GCodeInstanceParser.createInstanceFile(file, 4);
 //        for (String line : multiPartFile.getLines()) {

@@ -22,7 +22,10 @@ public class Instancer {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        InstancerMain instancerMain = new InstancerMain();
+        int versionMajor = 0;
+        int versionMinor = 3;
+        
+        InstancerMain instancerMain = new InstancerMain(versionMajor, versionMinor);
         instancerMain.setVisible(true);
 
 //        Workshift workshift = new Workshift(Workshift.G54P1_NAME_BASE, 12, null, false);

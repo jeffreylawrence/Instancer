@@ -24,7 +24,7 @@ public class GCodeInstanceParser {
     public static final String REPEAT_START_MARKER = "(INSTANCER - SECTION REPEAT START)";
     public static final String REPEAT_END_MARKER = "(INSTANCER - SECTION REPEAT END)";
     
-    public static InMemoryFile createInstanceFile(InMemoryFile source, int repeatCounter){
+    public static InMemoryFile createInstanceFile(InMemoryFile source, int instanceCounter, String retraction){
         InMemoryFile instanceFile = new InMemoryFile();
         ArrayList<String> repeatSection = new ArrayList<>();
         
@@ -33,15 +33,17 @@ public class GCodeInstanceParser {
                 repeatSection.clear();
                 
                 do {
-                    repeatSection.add(source.getLines().get(i));
                     if (source.getLines().get(i).contains(REPEAT_END)) {
+                        repeatSection.add(retraction);
+                        i--;
                         break;
                     }
+                    repeatSection.add(source.getLines().get(i));
                     i++;
                 } while (i < source.getLines().size());
                 
                 //put this into the new file
-                for (int repeat = 0; repeat <= repeatCounter; repeat++) {
+                for (int repeat = 0; repeat <= instanceCounter; repeat++) {
                     instanceFile.addLine(REPEAT_START_MARKER + " Instance #" + repeat);
                     
                     for (int section = 0; section < repeatSection.size(); section++) {
