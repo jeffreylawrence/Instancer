@@ -19,7 +19,7 @@ import javax.swing.JMenuItem;
  *
  * @author kevinlawrence
  */
-public class InstancerMain extends javax.swing.JFrame implements ActionListener {
+public final class InstancerMain extends javax.swing.JFrame implements ActionListener {
 
     //<editor-fold defaultstate="collapsed" desc="Key Listener">
     private class SketchPadKeyListener implements KeyListener {
@@ -93,7 +93,8 @@ public class InstancerMain extends javax.swing.JFrame implements ActionListener 
 //        JOptionPane.sho
         
         right.setFile(left.createMultiPartFile());
-        right.setFileName(String.format("Multipart File: Source[%s] Instances[%d]", "", 4));
+        right.setFileName("Multipart File");
+//        right.setFileName(String.format("Multipart File: Source[%s]", ""));
     }
     
     private void openSourceFile() {
