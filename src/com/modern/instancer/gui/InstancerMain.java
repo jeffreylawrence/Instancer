@@ -7,6 +7,7 @@ package com.modern.instancer.gui;
 
 import com.modern.instancer.common.Library;
 import com.modern.instancer.common.InMemoryFile;
+import com.modern.instancer.parser.GCodeInstanceParser;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -31,7 +33,7 @@ public final class InstancerMain extends javax.swing.JFrame implements ActionLis
 
         @Override
         public void keyPressed(KeyEvent e) {
-            
+
             System.out.println("Key Pressed");
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_1:
@@ -42,11 +44,11 @@ public final class InstancerMain extends javax.swing.JFrame implements ActionLis
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_G:
                         break;
-            
+
                     case KeyEvent.VK_O:
 //                        SketchIO.openFile();
                         break;
-                        
+
                     case KeyEvent.VK_S:
 //                        SketchIO.saveToFile(sketchPad.sketchObjects);
                         break;
@@ -62,56 +64,71 @@ public final class InstancerMain extends javax.swing.JFrame implements ActionLis
 //</editor-fold>
 
     private class TextEditorListener implements TextEditorEventListenerIntf {
-        public TextEditorListener(){};
+
+        public TextEditorListener() {
+        }
+
+        ;
         
         @Override
         public void handleProcessedFile(InMemoryFile file) {
             handleInformationFile(file);
         }
     }
-    
+
     TextEditorListener gCodeEditorListener;
-    
+
 //<editor-fold defaultstate="collapsed" desc="ActionListener">
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("Action Peformed : " + e.toString());
-        
-        switch (e.getActionCommand()){
+
+        switch (e.getActionCommand()) {
             case MENU_ACT_MULTI_INSTANCE_FILE:
                 createMultipartFile();
                 break;
-                
+
             case MENU_ACT_OPEN_SOURCE_FILE:
                 openSourceFile();
                 break;
         }
     }
-    
-    public void createMultipartFile(){
-        //prompt for number of instances
-//        JOptionPane.sho
+
+    /*
+        public InMemoryFile createMultiPartFile() {
+        InstanceConfigurationEditor.InstanceConfigurationResultIntf config = InstanceConfigurationEditor.showInstanceConfigurationEditor();
         
-        right.setFile(left.createMultiPartFile());
-        right.setFileName("Multipart File");
-//        right.setFileName(String.format("Multipart File: Source[%s]", ""));
+        if (config.getDialogResult() == JOptionPane.OK_OPTION) {
+            return GCodeInstanceParser.createInstanceFile(file, config.getInstanceCount(), config.getRetraction());
+        } else {
+            return null;
+        }
+
+     */
+    public void createMultipartFile() {
+        InstanceConfigurationEditor.InstanceConfigurationResultIntf config = InstanceConfigurationEditor.showInstanceConfigurationEditor();
+        if (config.getDialogResult() == JOptionPane.OK_OPTION) {
+            right.setFile(GCodeInstanceParser.createInstanceFile(left.getFile(), config.getInstanceCount(), config.getRetraction()));
+            right.setFileName("Multipart File");
+        }
     }
-    
+
     private void openSourceFile() {
         left.openFile();
     }
 //</editor-fold>
-    
+
+//<editor-fold defaultstate="collapsed" desc="Menu Items">
     public static final String MENU_LABEL_MULTI_INSTANCE_FILE = "Create Multi-instance File";
     public static final String MENU_LABEL_OPEN_SOURCE_FILE = "Open Source File...";
 
     public static final String MENU_ACT_MULTI_INSTANCE_FILE = "CREATE MULTI-INSTANCE FILE";
     public static final String MENU_ACT_OPEN_SOURCE_FILE = "OPEN SOURCE FILE";
 
-    private void addMenuItems(){
+    private void addMenuItems() {
         // add menu items
         JMenuItem menuItem;
-        
+
         menuItem = new JMenuItem(MENU_LABEL_OPEN_SOURCE_FILE, KeyEvent.VK_O);
 //        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
         menuItem.addActionListener(this);
@@ -127,50 +144,49 @@ public final class InstancerMain extends javax.swing.JFrame implements ActionLis
         jmenuFile.add(menuItem);
     }
 
-    private void internalInit(){
+//</editor-fold>
+    
+    
+    private void internalInit() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("instancer_icon_250x250.png")));
 
         left = new TextEditorPanel();
         gCodeEditorListener = new TextEditorListener();
         left.setEventListener(gCodeEditorListener);
-        
+
         right = new TextEditorPanel();
-        
+
         jsplitpnlTextEditor.setLeftComponent(left);
         jsplitpnlTextEditor.setRightComponent(right);
-        
+
         jsplitpnlTextEditor.setDividerLocation(0.5);
-        
+
         addMenuItems();
     }
-    
-    
 
-    private void handleInformationFile(InMemoryFile infoFile){
+    private void handleInformationFile(InMemoryFile infoFile) {
         right.setFile(infoFile);
     }
 
 //<editor-fold defaultstate="collapsed" desc="Properties">
     TextEditorPanel left, right;
-    
+
 //</editor-fold>
-    
     @Override
-    public void setVisible(boolean visible){
+    public void setVisible(boolean visible) {
         super.setVisible(visible);
         jsplitpnlTextEditor.setDividerLocation(0.5);
         repaint();
     }
-    
-    
+
     /**
      * Creates new form InstancerMain
      */
     public InstancerMain(int versionMajor, int versionMinor) {
         initComponents();
         internalInit();
-        
+
         setTitle(String.format("Instancer v%d.%d", versionMajor, versionMinor));
         setIconImage(Library.loadImageFromResource("com/modern/instancer/gui/instancer_icon_250x250.jpg"));
 //        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);

@@ -6,7 +6,6 @@
 package com.modern.instancer.gui;
 
 import com.modern.instancer.common.InMemoryFile;
-import com.modern.instancer.parser.GCodeInstanceParser;
 import com.modern.instancer.parser.GCodeProgram;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -35,7 +34,7 @@ public class TextEditorPanel extends javax.swing.JPanel {
     // ******************************************************
     private final String OPEN_FILE_PUM_ACTION = "OPEN_FILE";
 //    private final String CREATE_MULTIPART_FILE_PUM_ACTION = "CREATE_MULTIPART_FILE";
-    
+
     private final String CLOSE_FILE_PUM_ACTION = "CLOSE_FILE";
     private final String INSERT_FILE_PUM_ACTION = "INSERT";
 
@@ -52,7 +51,7 @@ public class TextEditorPanel extends javax.swing.JPanel {
 
     private final String OPEN_FILE_PUM_LABEL = "Open file...";
     private final String CREATE_MULTIPART_FILE_PUM_LABEL = "Create Multi-part file...";
-    
+
     private final String CLOSE_FILE_PUM_LABEL = "Close file";
     private final String INSERT_FILE_PUM_LABEL = "Insert file at cursor...";
 
@@ -84,14 +83,12 @@ public class TextEditorPanel extends javax.swing.JPanel {
 //        mi.addActionListener(menuItemListener);
 //        mi.setActionCommand(CREATE_MULTIPART_FILE_PUM_ACTION);
 //        jpumTextEditor.add(mi);
-
         jpumTextEditor.add(new JSeparator());
 
-        mi = new JMenuItem(INSERT_FILE_PUM_LABEL);
-        mi.addActionListener(menuItemListener);
-        mi.setActionCommand(INSERT_FILE_PUM_ACTION);
-        jpumTextEditor.add(mi);
-
+//        mi = new JMenuItem(INSERT_FILE_PUM_LABEL);
+//        mi.addActionListener(menuItemListener);
+//        mi.setActionCommand(INSERT_FILE_PUM_ACTION);
+//        jpumTextEditor.add(mi);
         mi = new JMenuItem(CLOSE_FILE_PUM_LABEL);
         mi.addActionListener(menuItemListener);
         mi.setActionCommand(CLOSE_FILE_PUM_ACTION);
@@ -151,12 +148,11 @@ public class TextEditorPanel extends javax.swing.JPanel {
                 case OPEN_FILE_PUM_ACTION:
                     openFile();
                     break;
-        
+
 //                case CREATE_MULTIPART_FILE_PUM_ACTION:
 //                    createMultiPartFile();
 //                    break;
-        
-        case CLOSE_FILE_PUM_ACTION:
+                case CLOSE_FILE_PUM_ACTION:
                     closeFile();
                     break;
 
@@ -206,6 +202,7 @@ public class TextEditorPanel extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, String.format(NOT_YET_IMPLEMENTED_MESSAGE, action), NOT_YET_IMPLEMENTED_TITLE, JOptionPane.ERROR_MESSAGE);
     }
 
+    /*
     public InMemoryFile createMultiPartFile() {
         InstanceConfigurationEditor.InstanceConfigurationResultIntf config = InstanceConfigurationEditor.showInstanceConfigurationEditor();
         
@@ -223,7 +220,7 @@ public class TextEditorPanel extends javax.swing.JPanel {
 //        
 //        return multiPartFile;
     }
-
+     */
     public void openFile() {
         closeFile();
         appendFile();
@@ -270,24 +267,39 @@ public class TextEditorPanel extends javax.swing.JPanel {
     }
 
     InMemoryFile file;
-    
+
     public void setFile(InMemoryFile file) {
         this.file = file;
-        
-//        jlblFilePathName.setText(file.getAbsolutePath());
-        setFileName(file.getAbsolutePath());
+        setFileName(this.file.getAbsolutePath());
 
-        file.getLines().stream().forEachOrdered((line) -> {
+        this.file.getLines().stream().forEachOrdered((line) -> {
             jtxtTextEditor.append(line);
+//            System.out.println(jtxtTextEditor.getText());
         });
 
         jtxtTextEditor.setCaretPosition(0);
     }
 
-    public void setFileName(String fileName){
+    public InMemoryFile getFile() {
+//        String bob = jtxtTextEditor.getText();
+//        System.out.println("BOB " + bob);
+//        System.out.println("Line count " + jtxtTextEditor.getLineCount());
+        String[] lines = jtxtTextEditor.getText().split("\n");
+        return new InMemoryFile(lines);
+//        return file;
+    }
+
+//    public ArrayList<String> getText(){
+//        ArrayList<String> text = new ArrayList<>();
+//        String[] lines = jtxtTextEditor.getText().split("\\n");
+//        
+//        lines.
+//        return  
+//    }
+    public void setFileName(String fileName) {
         jlblFilePathName.setText(fileName);
     }
-    
+
     private TextEditorEventListenerIntf eventListener;
 
     /**
@@ -311,7 +323,40 @@ public class TextEditorPanel extends javax.swing.JPanel {
     }
 
     public void save() {
-        notYetImplemented(SAVE_PUM_LABEL);
+//        notYetImplemented(SAVE_PUM_LABEL);
+        
+//        jtxtTextEditor.selectAll();
+        String text = jtxtTextEditor.getText();
+//        System.out.println(text);
+//        System.out.println("--------=============================================---");
+//        System.out.println("--------=============================================---");
+//        System.out.println("--------=============================================---");
+//        System.out.println("--------=============================================---");
+//        System.out.println("--------=============================================---");
+        
+        
+        if (text.contains("\n")){
+            System.out.println("BNAG");
+        } else {
+            System.out.println("NOPE");
+        }
+        
+        String[] bump = text.split("\n");
+        System.out.println(bump.length);
+        
+        for (String line: bump) {
+            System.out.println(line);
+            System.out.println("===");
+        }
+        
+//        jtxtTextEditor.selectAll();
+//        text = jtxtTextEditor.getSelectedText();
+//        System.out.println(text);
+        
+//        for () {
+//            
+//        }
+        
     }
 
     public void saveAs() {
@@ -362,6 +407,51 @@ public class TextEditorPanel extends javax.swing.JPanel {
 //    public void appendText(ArrayList<String> text) {
 //    }
 //</editor-fold>
+    /*
+    private TransferHandler handler = new TransferHandler() {
+        public boolean canImport(TransferHandler.TransferSupport support) {
+            if (!support.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+                return false;
+            }
+
+            if (copyItem.isSelected()) {
+                boolean copySupported = (COPY & support.getSourceDropActions()) == COPY;
+
+                if (!copySupported) {
+                    return false;
+                }
+
+                support.setDropAction(COPY);
+            }
+
+            return true;
+        }
+
+        public boolean importData(TransferHandler.TransferSupport support) {
+            if (!canImport(support)) {
+                return false;
+            }
+            
+            Transferable t = support.getTransferable();
+
+            try {
+                java.util.List<File> l =
+                    (java.util.List<File>)t.getTransferData(DataFlavor.javaFileListFlavor);
+
+                for (File f : l) {
+                    new Doc(f);
+                }
+            } catch (UnsupportedFlavorException e) {
+                return false;
+            } catch (IOException e) {
+                return false;
+            }
+
+            return true;
+        }
+    };
+    
+     */
     /**
      * Creates new form TextEditor
      */

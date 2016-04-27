@@ -30,6 +30,12 @@ public final class InMemoryFile {
         this.lines = lines;
     }
 
+    public InMemoryFile(String[] lines) {
+        for(String line: lines){
+            this.lines.add(line);
+        }
+    }
+
     public InMemoryFile(File file) {
         setFile(file);
     }
