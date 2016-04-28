@@ -56,6 +56,8 @@ public class GCodeLine {
 //<editor-fold defaultstate="collapsed" desc="Extended Properties">
     public static final String T0_IDENTIFIER = "T0";
     public static final String M6_IDENTIFIER = "M6";
+    public static final String M06_IDENTIFIER = "M06";
+    public static final String TOOL_IDENTIFIER = "T";
     public static final String NEW_TOOL_IDENTIFIER = "N";
     public static final String COMMENT_IDENTIFIER = "(";
     public static final String M300_IDENTIFIER = "M300";
@@ -65,6 +67,31 @@ public class GCodeLine {
     public static final int NOT_FOUND = -1;
 //    public static final String NOT_COMPLETE = "<NOT COMPLETE>";
 
+    
+    public static boolean isToolChangeLine(String line){
+        // line must contain an M6 or M06 identifier, as well as a Tn[nn] where 
+        // n is an integer 0-9. Note that the "M[0]6" and "Tn[nn]" can come in 
+        // any order, and can be separated by spaces or other characters.
+        
+        if (line.contains(M06_IDENTIFIER) || line.contains(M6_IDENTIFIER)){
+            // split the string into parts that are separated by the letter "T", 
+            // as this will give us strings that be assessed to see if they 
+            // contain numbers that follow.  We are going to assume here that if
+            // the character in the FIRST spot is a number, then we have a tool
+            // identifier, e.g. if the pattern shows a T2, we don't need to check
+            // beyond the 2...
+            String[] tParts = line.split(TOOL_IDENTIFIER);
+            
+            for (String tPart : tParts){
+                if (safeIsNumeric(tPart, 0)) {
+                    return true;
+                }
+            }
+        } 
+        
+        return false;     
+    }
+    
 //<editor-fold defaultstate="collapsed" desc="New Tool Code">
 //        'This section finds the line number (index in array) of each new tool beginning.
 //        For Each NewTool As String In LinesContent
